@@ -6,10 +6,16 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
   view_second: {
-    margin: 5,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    borderColor: '#5167A4',
+    borderWidth: 2,
+    height: 50,
+    margin: 20,
   },
   text_first: {
     textAlign: 'center',
+    color: '#5167A4',
     margin: 5,
     marginTop: 8,
     fontSize: 20,

@@ -18,7 +18,7 @@ export default class App extends React.Component {
       },
     })
       .then(res => res.json())
-      .then((data) => {
+      .then(data => {
         config.token = data.token
         fetch(`${server.address}me`, {
           method: 'GET',
@@ -28,7 +28,7 @@ export default class App extends React.Component {
           },
         })
           .then(res => res.json())
-          .then((data) => {
+          .then(data => {
             config._id = data._id
           })
       })

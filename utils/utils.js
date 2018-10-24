@@ -16,7 +16,7 @@ export const sendToServ = (ctx, json) => {
     ctx.state.fname !== "" &&
     ctx.state.id !== "" &&
     ctx.state.place !== "" &&
-    ctx.state.historical !== ""
+    ctx.state.historical !== []
   ) {
     const { name, fname, id, place, historical } = ctx.state;
     ctx = ctx || window;
@@ -28,7 +28,6 @@ export const sendToServ = (ctx, json) => {
       id_place: place,
       historical
     };
-
     fetch(server.address, {
       method: "POST",
       body: JSON.stringify(payload),

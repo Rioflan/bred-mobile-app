@@ -25,11 +25,18 @@ const NavigationApp = createStackNavigator({
         swipeEnabled: true,
         tabBarOptions: {
             labelStyle: {
-    fontSize: 14
-  },
+            fontSize: 10,
+            },
           showLabel: true,
           showIcon: true,
-          activeTintColor: "#5167A4"
+          activeTintColor: "#5167A4",
+          activeBackgroundColor: 'rgba(143, 158, 201, 0.4)',
+          style: {
+            backgroundColor: '#ffffff',
+          },
+          indicatorStyle: {
+            backgroundColor: 'white'
+          }
         }
       }
     ),

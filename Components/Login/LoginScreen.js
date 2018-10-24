@@ -31,7 +31,7 @@ class LoginScreen extends React.Component<Props, State> {
       id: "",
       place: "",
       debug: "",
-      historical: ""
+      historical: []
     };
   }
 
@@ -73,7 +73,6 @@ class LoginScreen extends React.Component<Props, State> {
               "USER",
               JSON.stringify(omit("debug", this.state))
             );
-            console.log("REDIRECT Profile");
             navigation.goBack();
             navigation.navigate("Profile");
           }

@@ -21,13 +21,19 @@ import styles from '../ProfileScreenStyles';
 import picProfile from '../../../assets/place.png';
 import { getPlaces, goTo } from '../../../utils/utils';
 
+type Historical = {
+  place_id: string,
+  begin: string,
+  end: string,
+};
+
 type State = {
   name: string,
   fname: string,
   id: string,
   place: string,
-  search: string,
-  historical: Array<object> | string,
+  search?: string,
+  historical: Array<Historical>,
   debug: Array<any> | string
 };
 
@@ -46,6 +52,7 @@ class ProfileScreen extends React.Component<Props, State> {
       />
     )
   };
+  _isMounted = false;
 
   constructor() {
     super()
@@ -56,18 +63,17 @@ class ProfileScreen extends React.Component<Props, State> {
       place: '',
       debug: '',
       search: '',
-      historical: '',
-      users: [],
+      historical: [],
     }
   }
 
   componentDidMount() {
     const { id } = this.state
+    this._isMounted = true;
     AsyncStorage.getItem('USER', (err, result) => {
       if (err || result === null) goTo(this, 'Login');
       else {
-        console.log(result);
-        this.setState(JSON.parse(result))
+        if (this._isMounted) this.setState(JSON.parse(result))
         const userId = JSON.parse(result).id
         fetch(`${server.address}users/${userId}`, {
           method: 'GET',
@@ -78,14 +84,18 @@ class ProfileScreen extends React.Component<Props, State> {
         })
           .then(res => res.json()) // transform data to json
           .then((data) => {
-            this.setState({ historical: data[0].historical })
+            if (this._isMounted) this.setState({ historical: data[0].historical })
           });
       }
     })
     getPlaces(this, this.setPlaces);
+  };
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
-  async setPlaces(ctx, json) {
+  async setPlaces(ctx: State, json) {
     const result = json.filter(
       element => element !== null && element.using === false,
     )
@@ -114,7 +124,7 @@ class ProfileScreen extends React.Component<Props, State> {
   };
 
   /** This function is used to attach the current user to a place  */
-  getUser(ctx, element: object) {
+  getUser(ctx, element) {
     if (
       ctx.state.name !== '' &&
       ctx.state.fname !== '' &&
@@ -167,7 +177,7 @@ class ProfileScreen extends React.Component<Props, State> {
 
   render() {
     const navigation = this.props.navigation
-    const { fname, name, id, debug, users } = this.state
+    const { fname, name, id, debug } = this.state
 
     return (
       <ScrollView style={styles.view}>
@@ -200,11 +210,11 @@ class ProfileScreen extends React.Component<Props, State> {
           {debug !== '' && debug ? (
             <List containerStyle={{ marginBottom: 20 }}>
               {this._handleList().map(
-                item => (item ? (
+                place => (place ? (
                     <ListItem
-                      onPress={() => getPlaces(this, this.getUser, item)}
-                      key={item.id}
-                      title={item.id}
+                      onPress={() => getPlaces(this, this.getUser, place)}
+                      key={place.id}
+                      title={place.id}
                     />
                   ) : 'There is no free place for the moment !'),
               )}

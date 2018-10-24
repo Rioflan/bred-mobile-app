@@ -52,23 +52,23 @@ Make sure you have filled the config files with your API :
 (Follow these steps to have your server working :
 [flex-rn-server](https://github.com/ayshiff/flex-server)) 
 
-For `api.js`:
+For `api.json`:
 
 ```
-module.exports = {
-  'email': '',
-  'password': '',
-  'token': '',
-  '_id': ''
-};
+{
+  "email": "",
+  "password': "",
+  "token': "",
+  "_id': ""
+}
 ```
 
-And for `server.js`:
+And for `server.json`:
 
 ```
-module.exports = {
-  'address': ''
-};
+{
+  "address": ""
+}
 ```
 
 You can also add a `.env` file at the root of the project and pass variables as environment variables.
@@ -110,6 +110,8 @@ See the **[current doc](https://facebook.github.io/react-native/docs/signed-apk-
 │       └── ScanScreenStyles.js
 ├── Navigation
 │   └── NavigationApp.js
+├── utils
+│   └── utils.js
 ├── README.md
 ├── android
 ├── app.json
@@ -143,7 +145,7 @@ The project also use [ESlint](https://eslint.org/) and [Prettier](https://pretti
 | Screen components | State                                                                | Props      | API routes         | Flow support |
 | ------------------ | -------------------------------------------------------------------- | ---------- | ------------------ | ------------ |
 | Home               |                                                                      | navigation |                    | [x]           |
-| Login              | `name:string ,fname:string, id: string, place: string, search: Array<object> debug: Array<any>` | navigation | /login_user        | [x]           |
-| Profile            | `name:string ,fname:string, id: string, place: string, search: Array<object> debug: Array<any>` | navigation | GET /places POST / | [x]           |
-| Scan               | `name:string ,fname:string, id: string, place: string, search: Array<object> debug: Array<any>` | navigation | GET /places        | []           |
-| Leave              | `name:string ,fname:string, id: string, place: string, search: Array<object> debug: Array<any>` | navigation | POST /             | [x]           |
+| Login              | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | /login_user        | [x]           |
+| Profile            | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | GET /places POST / | [x]           |
+| Scan               | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | GET /places        | []           |
+| Leave              | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | POST /             | [x]           |

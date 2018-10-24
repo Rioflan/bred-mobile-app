@@ -10,19 +10,27 @@ import styles from "./LeaveScreenStyles";
 import type { State, Props } from "./LeaveScreenType";
 import { getPlaces, goTo } from '../../utils/utils';
 
+type Historical = {
+  place_id: string,
+  begin: string,
+  end: string,
+};
 
 type Payload = {
   name: string,
   fname: string,
   id_user: string,
   id_place: string,
-  historical: string | Array<object>
+  historical: Array<Historical>
 };
 
 class LeaveScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: "Leave"
+    title: "Leave",
+    headerTintColor: 'black',
   };
+
+  _isMounted = false;
 
   constructor() {
     super();
@@ -32,7 +40,7 @@ class LeaveScreen extends React.Component<Props, State> {
       id: "",
       place: "",
       debug: "",
-      historical: ""
+      historical: [],
     };
   }
 
@@ -68,11 +76,11 @@ class LeaveScreen extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     AsyncStorage.getItem("USER", (err, result) => {
       if (err || result == null) goTo(this, "Login");
       else {
-        console.log(result)
-        this.setState(JSON.parse(result));
+        if (this._isMounted) this.setState(JSON.parse(result));
         const userId: string = JSON.parse(result).id;
         fetch(`${server.address}users/${userId}`, {
           method: "GET",
@@ -83,22 +91,28 @@ class LeaveScreen extends React.Component<Props, State> {
         })
           .then(res => res.json()) // transform data to json
           .then(data => {
-            this.setState({ historical: data[0].historical });
+            if (this._isMounted) this.setState({ historical: data[0].historical });
           })
       }
     });
+  };
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
     const { fname, name, id, place } = this.state;
     return (
-      <Card style={styles.view}>
-        <Text>
+      <View>
+      <View style={styles.user_view}>
+        <Text style={styles.user}>
           {fname}
-          {name}[{id}
-          ]:
-          {place}
+          {name}[{id}]
         </Text>
+      </View>
+      <Card style={styles.place_view}>
+        <Text style={styles.place}>Place : {place}</Text>
         <Button
           style={styles.button}
           fontWeight="bold"
@@ -109,6 +123,7 @@ class LeaveScreen extends React.Component<Props, State> {
           onPress={() => this.leavePlace(this)}
         />
       </Card>
+      </View>
     );
   }
 }

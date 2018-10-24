@@ -7,7 +7,6 @@ import {
   Text,
   List,
   ListItem,
-  SearchBar,
 } from 'react-native-elements';
 
 import {
@@ -31,10 +30,12 @@ type Props = {
 class ProfileScreen extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'Users',
-        tabBarIcon: ({ focused, tintColor }) => {
+        tabBarIcon: ({}) => {
       return <Image source={picUser} resizeMode="contain" style={{width: 20, height: 20}} />;
     }
   };
+
+  _isMounted = false;
 
   constructor() {
     super()
@@ -45,6 +46,7 @@ class ProfileScreen extends React.Component<Props, State> {
 
   componentDidMount() {
     const { id } = this.state
+    this._isMounted = true;
     this.getUsers();
   }
 
@@ -58,15 +60,17 @@ getUsers() {
     })
       .then(res => res.json()) // transform data to json
       .then((users) => {
-        this.setState({ users })
+        if (this._isMounted) this.setState({ users })
       })
+  };
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
     const navigation = this.props.navigation
-    const {
- fname, name, id, debug, users
-} = this.state
+    const { users } = this.state
 
     return (
       <ScrollView style={styles.view}>
@@ -86,7 +90,7 @@ getUsers() {
           {users !== [] ? (
             <List containerStyle={{ marginBottom: 20 }}>
               {users.map(
-                item => item ? (
+                item => item  ? (
                     <ListItem
                       key={item.id}
                       title={`${item.name} / ${item.fname}`}

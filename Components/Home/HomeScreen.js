@@ -30,12 +30,14 @@ class HomeScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.view}>
+      <View style={styles.button_wrapper}>
         <Button
           style={styles.button}
           title="Main Page"
-          color="#000"
+          color="#5167A4"
           onPress={() => this.componentDidMount()}
         />
+        </View>
       </View>
     )
   }

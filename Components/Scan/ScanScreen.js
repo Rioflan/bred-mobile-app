@@ -11,12 +11,18 @@ import server from '../../config/server';
 import styles from './ScanScreenStyles';
 import { sendToServ, getPlaces, goTo } from '../../utils/utils';
 
+type Historical = {
+  place_id: string,
+  begin: string,
+  end: string,
+};
+
 type State = {
   name: string,
   fname: string,
   id: string,
   place: string,
-  historical: Array<object> | string,
+  historical: Array<Historical>,
   debug: Array<any> | string
 };
 
@@ -24,9 +30,10 @@ type Props = {
   navigation: NavigationScreenProp<{}>
 };
 
-class ScanScreen extends Component {
+class ScanScreen extends Component<Props, State> {
   static navigationOptions = {
-    title: 'Scan'
+    title: 'Scan',
+    headerTintColor: 'black',
   };
 
   constructor() {
@@ -37,7 +44,7 @@ class ScanScreen extends Component {
       id: '',
       place: '',
       debug: '',
-      historical: ''
+      historical: [],
     }
   }
 
