@@ -2,6 +2,7 @@
 import React from 'react';
 import {
 AsyncStorage,
+Alert,
 } from 'react-native';
 
 import { filter, find, propEq } from 'ramda';
@@ -39,6 +40,8 @@ export const sendToServ = (ctx, json) => {
       .then(res => res.json())
       .then(data => {
         let redirect = true;
+        console.log(data)
+        if (data.body) Alert.alert(`Place already used`, `Place used by : ${data.body}`)
         json.map(
           element =>
             payload.id_place == element.id && element.using

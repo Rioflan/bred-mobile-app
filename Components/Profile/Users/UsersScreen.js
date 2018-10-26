@@ -30,7 +30,7 @@ type Props = {
 class ProfileScreen extends React.Component<Props, State> {
   static navigationOptions = {
     title: 'Users',
-        tabBarIcon: ({}) => {
+        tabBarIcon: () => {
       return <Image source={picUser} resizeMode="contain" style={{width: 20, height: 20}} />;
     }
   };

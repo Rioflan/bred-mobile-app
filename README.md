@@ -80,6 +80,19 @@ For Android deployment:
 
 See the **[current doc](https://facebook.github.io/react-native/docs/signed-apk-android)**
 
+Note: the current version of `react-native` is not patched and you need to add :
+
+```
+classpath 'com.android.tools.build:gradle:3.0.0'
+distributionUrl=https://services.gradle.org/distributions/gradle-4.1-all.zip
+android.enableAapt2=false
+```
+
+It will fix the issue with `uncompiled PNG file passed as argument. Must be compiled first into .flat file.. error`.
+
+Inside `gradle.properties`. 
+(This is a temporaly fix and it will be fixed in the most recents versions of react-native !)
+
 
 # Project Structure
 
