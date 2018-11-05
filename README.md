@@ -1,5 +1,6 @@
 # **flex-rn-client** [![Build Status](https://app.bitrise.io/app/8ba0832124e4cdf2/status.svg?token=HTfEgn2kTcAN_FI2qXEqeQ&branch=feature/refactoring)](https://app.bitrise.io/app/8ba0832124e4cdf2)
 [![Coverage Status](https://coveralls.io/repos/github/ayshiff/flex-rn-client/badge.svg?branch=feature%2Fadd-test-coverage)](https://coveralls.io/github/ayshiff/flex-rn-client?branch=feature%2Fadd-test-coverage)
+[![CircleCI](https://circleci.com/gh/ayshiff/flex-rn-client.svg?style=svg)](https://circleci.com/gh/ayshiff/flex-rn-client)
 
 Simple mobile client in React-Native for **flex-server** project
 
