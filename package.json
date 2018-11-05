@@ -8,7 +8,8 @@
     "lint": "eslint Components",
     "pretty": "prettier --semi false --print-width 100 --single-quote--trailing-comma all --write \"Components/**/*.js\"",
     "flow": "flow",
-    "lint:fix": "eslint Components/ --fix"
+    "lint:fix": "eslint Components/ --fix",
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "lint-staged": {
     "*.js": [
@@ -77,6 +78,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-react-native": "^4.0.1",
     "babel-runtime": "^7.0.0-beta",
+    "coveralls": "^3.0.2",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-flowtype": "^3.0.0",
