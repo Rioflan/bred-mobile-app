@@ -10,6 +10,7 @@ import {
   SearchBar,
   CheckBox,
   ButtonGroup,
+  FormLabel,
 } from 'react-native-elements';
 
 import {
@@ -211,17 +212,13 @@ class ProfileScreen extends React.Component<Props, State> {
               onPress={() => getPlaces(this, this.setPlaces)}
             />
           </View>
-          <SearchBar
+          <FormLabel>{I18n.t('places.find')}</FormLabel>
+          <FormInput
             onChangeText={this._handleSearch}
-            round
-            lightTheme
-            platform="ios"
-            containerStyle={{
+            style={{
               backgroundColor: "white",
-              borderWidth: 0,
               marginTop: 10
             }}
-            searchIcon={{ size: 24 }}
             placeholder={I18n.t('places.search_place')}
           />
         </Card>

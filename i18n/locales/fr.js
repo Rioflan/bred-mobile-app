@@ -11,7 +11,8 @@ export default {
     title: "S'identifier",
     name: "Nom",
     surname: "Prénom",
-    id: "ID"
+    id: "ID",
+    debug: "Problème d'authentification"
   },
   places: {
     title: "Places",
@@ -21,12 +22,14 @@ export default {
     free_places: "Places libres",
     search_place: "Chercher une place...",
     floor: "Étage",
-    zone: "Zone"
+    zone: "Zone",
+    find: "RECHERCHE"
   },
   users: {
     title: "Utilisateurs",
     users: "Utilisateurs",
-    search_user: "Chercher un utilisateur..."
+    search_user: "Chercher un utilisateur...",
+    find: "RECHERCHE"
   },
   profile: {
     title: "Profile",
@@ -37,6 +40,6 @@ export default {
     place: "Place"
   },
   navigation: {
-      logOut: "Déconnection"
+      logOut: "Déconnexion"
   }
 };

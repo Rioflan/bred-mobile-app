@@ -11,7 +11,8 @@ export default {
     title: "Login",
     name: "Name",
     surname: "Surname",
-    id: "ID"
+    id: "ID",
+    debug: "Authentification issue"
   },
   places: {
     title: "Places",
@@ -21,12 +22,14 @@ export default {
     free_places: "Free places",
     search_place: "Search place...",
     floor: "Floor",
-    zone: "Zone"
+    zone: "Zone",
+    find: "FIND"
   },
   users: {
     title: "Users",
     users: "Users",
-    search_user: "Search User..."
+    search_user: "Search User...",
+    find: "FIND"
   },
   profile: {
     title: "Profile",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, AsyncStorage } from 'react-native';
+import { Button, AsyncStorage, Image, TouchableHighlight } from 'react-native';
 import { createStackNavigator, createTabNavigator } from 'react-navigation'
 import HomeScreen from '../Components/Home/HomeScreen'
 import LoginScreen from '../Components/Login/LoginScreen'
@@ -46,14 +46,16 @@ const NavigationApp = createStackNavigator({
       return {
       title: "Flex-Office",
       headerTintColor: 'black',
-      headerRight: <Button
-        title={I18n.t('navigation.logOut')}
-        color= "#5167A4"
-        onPress={() => {
+      headerRight: 
+        <TouchableHighlight onPress={() => {
           AsyncStorage.removeItem('USER');
           navigation.popToTop();
           navigation.navigate('Login');
-        }} />
+        }}>
+        <Image
+        source={require('../assets/logout.png')}
+        style={{width: 22, height: 22, margin: 10, resizeMode: "contain"}} />
+        </TouchableHighlight>
       }
     }
   },

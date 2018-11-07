@@ -86,7 +86,7 @@ class LoginScreen extends React.Component<Props, State> {
           }
         });
     } else {
-      this.setState({ debugField: "Fill all inputs" });
+      this.setState({ debugField: I18n.t('login.debug') });
     }
   }
 
@@ -124,7 +124,7 @@ class LoginScreen extends React.Component<Props, State> {
             />
           </View>
 
-          <Text>{debugField}</Text>
+          <Text style={styles.debug}>{debugField}</Text>
         </View>
       </View>
     );

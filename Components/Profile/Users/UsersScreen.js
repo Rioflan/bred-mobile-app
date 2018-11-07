@@ -8,10 +8,11 @@ import {
   List,
   ListItem,
   SearchBar,
+  FormLabel
 } from 'react-native-elements';
 
 import {
- View, TextInput, AsyncStorage, ScrollView, Image
+ View, TextInput, AsyncStorage, ScrollView, Image,
 } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import { filter, find, propEq } from 'ramda';
@@ -132,17 +133,13 @@ getUsers() {
               onPress={this.getUsers.bind(this)}
             />
           </View>
-            <SearchBar
+            <FormLabel>{I18n.t('users.find')}</FormLabel>
+            <FormInput
             onChangeText={this._handleSearch}
-            round
-            lightTheme
-            platform="ios"
-            containerStyle={{
-              backgroundColor: 'white',
-              borderWidth: 0,
-              marginTop: 10,
+            style={{
+              backgroundColor: "white",
+              marginTop: 10
             }}
-            searchIcon={{ size: 24 }}
             placeholder={I18n.t('users.search_user')}
           />
           {users !== [] && users ? (

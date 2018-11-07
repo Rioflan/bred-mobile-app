@@ -18,4 +18,9 @@ export default StyleSheet.create({
   button_container: {
     marginTop: 10,
   },
+  debug: {
+    textAlign: "center",
+    color: "#5167A4",
+    margin: 10
+  }
 })

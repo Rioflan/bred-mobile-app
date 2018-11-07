@@ -51,7 +51,6 @@ export default StyleSheet.create({
     borderWidth: 0.5,
   },
   emptyPlaces_container: {
-    marginTop: 20,
     marginLeft: 50,
     marginRight: 50,
   },
