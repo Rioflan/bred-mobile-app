@@ -5,13 +5,15 @@ import { View, Button, AsyncStorage } from 'react-native';
 import { NavigationScreenProp } from "react-navigation";
 import styles from "./HomeScreenStyles";
 
+import I18n from '../../i18n/i18n';
+
 type Props = {
   navigation: NavigationScreenProp<{}>
 };
 
 class HomeScreen extends React.Component<Props> {
   static navigationOptions = {
-    title: 'Home'
+    title: I18n.t('home.title')
   };
 
   componentDidMount() {
@@ -33,7 +35,7 @@ class HomeScreen extends React.Component<Props> {
       <View style={styles.button_wrapper}>
         <Button
           style={styles.button}
-          title="Main Page"
+          title={I18n.t('home.main_page')}
           color="#5167A4"
           onPress={() => this.componentDidMount()}
         />

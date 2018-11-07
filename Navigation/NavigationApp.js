@@ -9,6 +9,8 @@ import ScanScreen from '../Components/Scan/ScanScreen'
 import PlacesScreen from '../Components/Profile/Places/PlacesScreen'
 import UsersScreen from '../Components/Profile/Users/UsersScreen'
 
+import I18n from '../i18n/i18n';
+
 const NavigationApp = createStackNavigator({
   Home: { screen: HomeScreen },
   Login: { screen: LoginScreen },
@@ -45,7 +47,7 @@ const NavigationApp = createStackNavigator({
       title: "Flex-Office",
       headerTintColor: 'black',
       headerRight: <Button
-        title="Log Out"
+        title={I18n.t('navigation.logOut')}
         color= "#5167A4"
         onPress={() => {
           AsyncStorage.removeItem('USER');

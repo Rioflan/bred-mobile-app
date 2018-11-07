@@ -18,9 +18,13 @@ import server from '../../config/server';
 import config from '../../config/api';
 import type { State, Props } from './LoginScreenType';
 
+import { config_regex } from '../../config/regex.json';
+
+import I18n from '../../i18n/i18n';
+console.log(I18n.t())
 class LoginScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: "Login"
+    title: I18n.t('login.title')
   };
 
   constructor() {
@@ -31,6 +35,7 @@ class LoginScreen extends React.Component<Props, State> {
       id: "",
       place: "",
       debug: "",
+      debugField: "",
       historical: []
     };
   }
@@ -42,10 +47,12 @@ class LoginScreen extends React.Component<Props, State> {
   /** This function handle the user login */
   logIn() {
     const { navigation } = this.props;
+
     if (
       this.state.name !== "" &&
       this.state.fname !== "" &&
-      this.state.id !== ""
+      this.state.id !== "" &&
+      this.state.id.match(config_regex) !== null
     ) {
       const payload = {
         name: this.state.name,
@@ -64,6 +71,7 @@ class LoginScreen extends React.Component<Props, State> {
           "x-access-token": config.token
         }
       })
+        .catch(err => console.log(err))
         .then(res => res.json())
         .then(data => {
           const redirect: boolean = true;
@@ -71,37 +79,37 @@ class LoginScreen extends React.Component<Props, State> {
           if (redirect) {
             AsyncStorage.setItem(
               "USER",
-              JSON.stringify(omit("debug", this.state))
+              JSON.stringify(omit("debugField", this.state))
             );
             navigation.goBack();
             navigation.navigate("Profile");
           }
         });
     } else {
-      this.setState({ debug: "Fill all inputs" });
+      this.setState({ debugField: "Fill all inputs" });
     }
   }
 
   render() {
-    const { debug } = this.state;
+    const { debugField } = this.state;
     return (
       <View style={styles.view}>
         <View style={styles.view_second}>
           <FormInput
             style={styles.textInput}
-            placeholder="Nom"
+            placeholder={I18n.t('login.name')}
             onChangeText={text => this.setState({ name: text })}
           />
 
           <FormInput
             style={styles.textInput}
-            placeholder="Prénom"
+            placeholder={I18n.t('login.surname')}
             onChangeText={text => this.setState({ fname: text })}
           />
 
           <FormInput
             style={styles.textInput}
-            placeholder="ID"
+            placeholder={I18n.t('login.id')}
             onChangeText={text => this.setState({ id: text })}
           />
           <View style={styles.button_container}>
@@ -111,17 +119,16 @@ class LoginScreen extends React.Component<Props, State> {
               borderRadius={15}
               backgroundColor="#5167A4"
               color="#fff"
-              title="Login"
+              title={I18n.t('login.title')}
               onPress={() => this.logIn()}
             />
           </View>
 
-          <Text>{debug}</Text>
+          <Text>{debugField}</Text>
         </View>
       </View>
     );
   }
 }
-/* <Button title='Log out'
-onPress={() => this.logOut()}/> */
+
 export default LoginScreen;

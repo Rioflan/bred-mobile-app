@@ -10,6 +10,8 @@ import styles from "./LeaveScreenStyles";
 import type { State, Props } from "./LeaveScreenType";
 import { getPlaces, goTo } from '../../utils/utils';
 
+import I18n from '../../i18n/i18n';
+
 type Historical = {
   place_id: string,
   begin: string,
@@ -26,7 +28,7 @@ type Payload = {
 
 class LeaveScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: "Leave",
+    title: I18n.t('leave.title'),
     headerTintColor: 'black',
   };
 
@@ -119,7 +121,7 @@ class LeaveScreen extends React.Component<Props, State> {
           borderRadius={15}
           backgroundColor="#5167A4"
           color="#fff"
-          title="Leave place"
+          title={I18n.t('leave.leave_place')}
           onPress={() => this.leavePlace(this)}
         />
       </Card>

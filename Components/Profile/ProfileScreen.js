@@ -18,6 +18,8 @@ import styles from "./ProfileScreenStyles";
 import picProfile from "../../assets/profile.png";
 import { sendToServ, getPlaces, goTo } from "../../utils/utils";
 
+import I18n from '../../i18n/i18n';
+
 type Historical = {
   place_id: string,
   begin: string,
@@ -41,7 +43,7 @@ const profilePic = <Image source={require("../../assets/profile.png")} />;
 
 class ProfileScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: "Profile",
+    title: I18n.t('profile.title'),
     tabBarIcon: ({ focused, tintColor }) => (
       <Image
         source={picProfile}
@@ -82,7 +84,7 @@ class ProfileScreen extends React.Component<Props, State> {
           .then(res => res.json()) // transform data to json
           .then(data => {
             if (this._isMounted)
-              this.setState({ historical: data[0].historical });
+              this.setState({ historical: data[0].historical || [] });
           });
       }
     });
@@ -104,10 +106,10 @@ class ProfileScreen extends React.Component<Props, State> {
           </Text>
         </View>
 
-        <Card title="Manual insertion">
+        <Card title={I18n.t('profile.manual_insertion')}>
           <FormInput
             style={styles.place}
-            placeholder="Place"
+            placeholder={I18n.t('profile.place')}
             onChangeText={text => this.setState({ place: text })}
           />
 
@@ -118,13 +120,13 @@ class ProfileScreen extends React.Component<Props, State> {
               backgroundColor="#5167A4"
               color="#fff"
               style={styles.send}
-              title="Send"
+              title={I18n.t('profile.send')}
               onPress={() => getPlaces(this, sendToServ)}
             />
           </View>
         </Card>
 
-        <Card title="Scan QR code">
+        <Card title={I18n.t('profile.scan_qr_code')}>
           <View style={styles.scan_container}>
             <Button
               fontWeight="bold"
@@ -132,7 +134,7 @@ class ProfileScreen extends React.Component<Props, State> {
               backgroundColor="#5167A4"
               color="#fff"
               style={styles.scan}
-              title="Scan"
+              title={I18n.t('profile.scan')}
               onPress={() => navigation.navigate("Scan")}
             />
           </View>
