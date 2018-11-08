@@ -14,7 +14,7 @@ import {
 } from 'react-native-elements';
 
 import {
- View, TextInput, AsyncStorage, ScrollView, Image 
+ View, TextInput, AsyncStorage, ScrollView, Image, ActivityIndicator
 } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import { filter, find, propEq } from 'ramda';
@@ -72,7 +72,8 @@ class ProfileScreen extends React.Component<Props, State> {
       BlueZonechecked: false,
       RedZonechecked: false,
       GreenZonechecked: false,
-      selectedFloorIndex: 0
+      selectedFloorIndex: 0,
+      loading: false,
     };
   }
 
@@ -193,39 +194,19 @@ class ProfileScreen extends React.Component<Props, State> {
 
   render() {
     const navigation = this.props.navigation;
-    const { fname, name, id, debug, selectedFloorIndex } = this.state;
+    const { fname, name, id, debug, selectedFloorIndex, loading } = this.state;
     const FloorIndex = [3, 4];
 
     return (
       <ScrollView style={styles.view}>
         <Card>
-          <View style={styles.emptyPlaces_container}>
-            <Button
-              iconRight={{ name: 'spinner', type: 'font-awesome' }}
-              fontWeight="bold"
-              large={false}
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              style={styles.free_places}
-              title={I18n.t('places.free_places')}
-              onPress={() => getPlaces(this, this.setPlaces)}
-            />
-          </View>
           <FormLabel>{I18n.t('places.find')}</FormLabel>
           <FormInput
             onChangeText={this._handleSearch}
-            style={{
-              backgroundColor: "white",
-              marginTop: 10
-            }}
             placeholder={I18n.t('places.search_place')}
           />
         </Card>
         <Card>
-          <Text h4 style={{ textAlign: "center", fontSize: 16 }}>
-            {I18n.t('places.zone')}
-          </Text>
           <CheckBox
             center
             title={I18n.t('places.blue_zone')}
@@ -269,9 +250,22 @@ class ProfileScreen extends React.Component<Props, State> {
             selectedIndex={selectedFloorIndex}
             buttons={FloorIndex}
           />
+                    <View style={styles.emptyPlaces_container}>
+            <Button
+              iconRight={{ name: 'spinner', type: 'font-awesome' }}
+              fontWeight="bold"
+              large={false}
+              borderRadius={15}
+              backgroundColor="#5167A4"
+              color="#fff"
+              style={styles.free_places}
+              title={I18n.t('places.free_places')}
+              onPress={() => getPlaces(this, this.setPlaces, null, loader = true)}
+            />
+          </View>
         </Card>
         <Card>
-          {debug !== "" && debug ? (
+          {debug !== "" && debug && !loading ? (
             <List containerStyle={{ marginBottom: 20 }}>
               {this._handleList().map(
                 place =>
@@ -286,7 +280,7 @@ class ProfileScreen extends React.Component<Props, State> {
                   )
               )}
             </List>
-          ) : null}
+          ) : <ActivityIndicator style={{marginTop: 20}} size="large" color="#5167A4" />}
         </Card>
       </ScrollView>
     );

@@ -21,7 +21,7 @@ import type { State, Props } from './LoginScreenType';
 import { config_regex } from '../../config/regex.json';
 
 import I18n from '../../i18n/i18n';
-console.log(I18n.t())
+
 class LoginScreen extends React.Component<Props, State> {
   static navigationOptions = {
     title: I18n.t('login.title')

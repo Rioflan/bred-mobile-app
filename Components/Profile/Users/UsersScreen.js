@@ -12,7 +12,7 @@ import {
 } from 'react-native-elements';
 
 import {
- View, TextInput, AsyncStorage, ScrollView, Image,
+ View, TextInput, AsyncStorage, ScrollView, Image, ActivityIndicator
 } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import { filter, find, propEq } from 'ramda';
@@ -47,6 +47,7 @@ class ProfileScreen extends React.Component<Props, State> {
       users: [],
       search: "",
       userName: null,
+      loading: false,
     }
   }
 
@@ -65,6 +66,7 @@ componentDidMount() {
 }
 
 getUsers() {
+    this.setState({ loading: true })
     fetch(`${server.address}users/`, {
       method: 'GET',
       headers: {
@@ -75,6 +77,7 @@ getUsers() {
       .then(res => res.json()) // transform data to json
       .then((users) => {
         if (this._isMounted) this.setState({ users })
+        this.setState({ loading: false })
       })
   };
 
@@ -115,11 +118,11 @@ getUsers() {
 
   render() {
     const navigation = this.props.navigation
-    const { users } = this.state
+    const { users, loading } = this.state
 
     return (
       <ScrollView style={styles.view}>
-                <Card>
+        <Card>
           <View style={styles.emptyPlaces_container}>
             <Button
               fontWeight="bold"
@@ -142,7 +145,7 @@ getUsers() {
             }}
             placeholder={I18n.t('users.search_user')}
           />
-          {users !== [] && users ? (
+          {users !== [] && users && !loading ? (
             <List containerStyle={{ marginBottom: 20 }}>
               {this._handleList().map(
                 item => item && `${item.name}/${item.fname}` !== this.state.userName  ? 
@@ -155,7 +158,7 @@ getUsers() {
                   ) : null
               )}
             </List>
-          ) : null}
+          ): <ActivityIndicator style={{marginTop: 20}} size="large" color="#5167A4" />}
         </Card>
       </ScrollView>
     );

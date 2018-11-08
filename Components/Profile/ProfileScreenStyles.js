@@ -57,7 +57,9 @@ export default StyleSheet.create({
   send: {},
   scan: {},
   logOut: {},
-  free_places: {},
+  free_places: {
+    marginTop: 20,
+  },
   places: {
     fontSize: 15,
   }
