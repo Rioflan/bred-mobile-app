@@ -41,5 +41,8 @@ export default {
   },
     navigation: {
       logOut: "Log Out"
+  },
+  scan: {
+    scan_qr_code: "Scan the QR Code"
   }
 };

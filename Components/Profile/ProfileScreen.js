@@ -1,24 +1,18 @@
 // @flow
-import React from "react";
-import {
-  Button,
-  Card,
-  FormInput,
-  Text,
-  List,
-  ListItem
-} from "react-native-elements";
+import React from 'react'
 
-import { View, TextInput, AsyncStorage, ScrollView, Image } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
-import { filter, find, propEq } from "ramda";
-import config from "../../config/api";
-import server from "../../config/server";
-import styles from "./ProfileScreenStyles";
-import picProfile from "../../assets/profile.png";
-import { sendToServ, getPlaces, goTo } from "../../utils/utils";
+import { AsyncStorage, Image, ScrollView, TextInput, View } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
+import config from '../../config/api'
+import server from '../../config/server'
+import styles from './ProfileScreenStyles'
+import picProfile from '../../assets/profile.png'
+import { getPlaces, goTo, sendToServ } from '../../utils/utils'
 
-import I18n from '../../i18n/i18n';
+import I18n from '../../i18n/i18n'
+import ManualInsertionCard from './components/ManualInsertionCard'
+import QRCodeCard from './components/QRCodeCard'
+import HeaderCard from './components/HeaderCard'
 
 type Historical = {
   place_id: string,
@@ -100,45 +94,12 @@ class ProfileScreen extends React.Component<Props, State> {
 
     return (
       <ScrollView style={styles.view}>
-        <View style={styles.view_second}>
-          <Text h4 style={styles.text_first}>
-            {fname} {name} [{id}]
-          </Text>
-        </View>
+        <HeaderCard fname={fname} name={name} id={id}/>
 
-        <Card title={I18n.t('profile.manual_insertion')}>
-          <FormInput
-            style={styles.place}
-            placeholder={I18n.t('profile.place')}
-            onChangeText={text => this.setState({ place: text })}
-          />
+        <ManualInsertionCard onChangeText={text => this.setState({ place: text })}
+                             onPress={() => getPlaces(this, sendToServ)}/>
 
-          <View style={styles.sendContainer}>
-            <Button
-              fontWeight="bold"
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              style={styles.send}
-              title={I18n.t('profile.send')}
-              onPress={() => getPlaces(this, sendToServ)}
-            />
-          </View>
-        </Card>
-
-        <Card title={I18n.t('profile.scan_qr_code')}>
-          <View style={styles.scan_container}>
-            <Button
-              fontWeight="bold"
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              style={styles.scan}
-              title={I18n.t('profile.scan')}
-              onPress={() => navigation.navigate("Scan")}
-            />
-          </View>
-        </Card>
+        <QRCodeCard onPress={() => navigation.navigate("Scan")}/>
       </ScrollView>
     );
   }

@@ -65,9 +65,10 @@ export const goTo = (ctx, str: string) => {
 
 /** This function is used to get the places from the server */
 
-export const getPlaces = (ctx, fn, element = null) => {
+export const getPlaces = (ctx, fn, element = null, loader = false) => {
     ctx = ctx || window;
-
+    if (loader) ctx.setState({ loading: true })
+    
     fetch(`${server.address}places/`, {
       method: "GET",
       headers: {
@@ -77,6 +78,7 @@ export const getPlaces = (ctx, fn, element = null) => {
     })
       .then(res => res.json()) // transform data to json
       .then(data => {
+        if (loader) ctx.setState({ loading: false })
         if (element) {
           fn(ctx, element);
         } else {

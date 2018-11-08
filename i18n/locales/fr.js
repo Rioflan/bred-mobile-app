@@ -41,5 +41,8 @@ export default {
   },
   navigation: {
       logOut: "Déconnexion"
+  },
+  scan: {
+    scan_qr_code: "Scannez le QR Code"
   }
 };

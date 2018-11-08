@@ -1,27 +1,17 @@
 // @flow
-import React from 'react';
-import {
-  Button,
-  Card,
-  FormInput,
-  Text,
-  List,
-  ListItem,
-  SearchBar,
-  FormLabel
-} from 'react-native-elements';
+import React from 'react'
+import { Card, FormInput, FormLabel, ListItem } from 'react-native-elements'
 
-import {
- View, TextInput, AsyncStorage, ScrollView, Image, ActivityIndicator
-} from 'react-native';
-import { NavigationScreenProp } from 'react-navigation';
-import { filter, find, propEq } from 'ramda';
-import config from '../../../config/api';
-import server from '../../../config/server';
-import styles from '../ProfileScreenStyles';
-import picUser from '../../../assets/users.png';
+import { ActivityIndicator, AsyncStorage, Image, ScrollView, TextInput, View } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
+import config from '../../../config/api'
+import server from '../../../config/server'
+import styles from '../ProfileScreenStyles'
+import picUser from '../../../assets/users.png'
 
-import I18n from 'react-native-i18n';
+import I18n from 'react-native-i18n'
+import FindPlacesCard from './components/FindPlacesCard'
+import ListPlaces from './components/ListPlaces'
 
 type State = {
   users: Array<any> | string
@@ -31,48 +21,52 @@ type Props = {
   navigation: NavigationScreenProp<{}>
 };
 
-class ProfileScreen extends React.Component<Props, State> {
+class UsersScreen extends React.Component<Props, State> {
   static navigationOptions = {
     title: I18n.t('users.title'),
-        tabBarIcon: () => {
-      return <Image source={picUser} resizeMode="contain" style={{width: 20, height: 20}} />;
+    tabBarIcon: () => {
+      return <Image source={picUser} resizeMode="contain" style={{
+        width: 20,
+        height: 20
+      }}/>
     }
-  };
+  }
 
-  _isMounted = false;
+  _isMounted = false
 
   constructor() {
     super()
     this.state = {
       users: [],
-      search: "",
+      search: '',
       userName: null,
-      loading: false,
+      loading: false
     }
   }
 
-componentDidMount() {
-  const { id } = this.state
-  AsyncStorage.getItem("USER", (err, result) => {
-      if (err || result === null) goTo(this, "Login");
-      else {
-        const userName = JSON.parse(result).name;
-        const userFName = JSON.parse(result).fname;
-        this.setState({ userName: `${userName}/${userFName}` });
+  componentDidMount() {
+    const { id } = this.state
+    AsyncStorage.getItem('USER', (err, result) => {
+      if (err || result === null) {
+        goTo(this, 'Login')
+      } else {
+        const userName = JSON.parse(result).name
+        const userFName = JSON.parse(result).fname
+        this.setState({ userName: `${userName}/${userFName}` })
       }
-  });
-  this._isMounted = true;
-  this.getUsers();
-}
+    })
+    this._isMounted = true
+    this.getUsers()
+  }
 
-getUsers() {
+  getUsers() {
     this.setState({ loading: true })
     fetch(`${server.address}users/`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'x-access-token': config.token,
-      },
+        'x-access-token': config.token
+      }
     })
       .then(res => res.json()) // transform data to json
       .then((users) => {
@@ -82,15 +76,15 @@ getUsers() {
   };
 
   componentWillUnmount() {
-    this._isMounted = false;
+    this._isMounted = false
   }
 
   _handleSearch = (search) => {
     this.setState({ search })
-  };
+  }
 
   _handleList = () => {
-    const { users , search } = this.state
+    const { users, search } = this.state
 
     const newT: string | Array<object> = users !== []
       ? users.filter((e) => {
@@ -99,22 +93,22 @@ getUsers() {
           if (search[element] !== e.name[element]) {
             finalResult = false
           }
-            }
+        }
         return finalResult
       })
       : users
     newT.sort((a, b) => {
-      if(a.name < b.name) return -1; 
-      if(a.name > b.name) return 1; 
-      return 0;
+      if (a.name < b.name) return -1
+      if (a.name > b.name) return 1
+      return 0
     })
     users.sort((a, b) => {
-      if(a.name < b.name) return -1;
-      if(a.name > b.name) return 1;
-      return 0;
+      if (a.name < b.name) return -1
+      if (a.name > b.name) return 1
+      return 0
     })
     return search === '' ? users : newT
-  };
+  }
 
   render() {
     const navigation = this.props.navigation
@@ -123,47 +117,35 @@ getUsers() {
     return (
       <ScrollView style={styles.view}>
         <Card>
-          <View style={styles.emptyPlaces_container}>
-            <Button
-              fontWeight="bold"
-              iconRight={{ name: 'sync', type: 'font-awesome5' }}
-              large={false}
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              style={styles.free_places}
-              title={I18n.t('users.users')}
-              onPress={this.getUsers.bind(this)}
-            />
-          </View>
-            <FormLabel>{I18n.t('users.find')}</FormLabel>
-            <FormInput
+          <FindPlacesCard users={this.getUsers.bind(this)}/>
+          <FormLabel>{I18n.t('users.find')}</FormLabel>
+          <FormInput
             onChangeText={this._handleSearch}
             style={{
-              backgroundColor: "white",
+              backgroundColor: 'white',
               marginTop: 10
             }}
             placeholder={I18n.t('users.search_user')}
           />
           {users !== [] && users && !loading ? (
-            <List containerStyle={{ marginBottom: 20 }}>
-              {this._handleList().map(
-                item => item && `${item.name}/${item.fname}` !== this.state.userName  ? 
-                (
-                    <ListItem
-                      rightIcon={{name: item.id_place ? 'toggle-on' : 'toggle-off', type: 'font-awesome'}}
-                      key={item.id}
-                      title={`${item.name} / ${item.fname}`}
-                      subtitle={item.id_place}
-                    />
-                  ) : null
-              )}
-            </List>
-          ): <ActivityIndicator style={{marginTop: 20}} size="large" color="#5167A4" />}
+            <ListPlaces handleList={this._handleList()}
+                        prop1={item => item && `${item.name}/${item.fname}` !== this.state.userName ?
+                          (
+                            <ListItem
+                              rightIcon={{
+                                name: item.id_place ? 'toggle-on' : 'toggle-off',
+                                type: 'font-awesome'
+                              }}
+                              key={item.id}
+                              title={`${item.name} / ${item.fname}`}
+                              subtitle={item.id_place}
+                            />
+                          ) : null}/>
+          ) : <ActivityIndicator style={{ marginTop: 20 }} size="large" color="#5167A4"/>}
         </Card>
       </ScrollView>
-    );
+    )
   }
 }
 
-export default ProfileScreen
+export default UsersScreen

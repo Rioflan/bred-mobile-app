@@ -1,11 +1,12 @@
 // @flow
 
-import React from 'react';
-import { View, Button, AsyncStorage } from 'react-native';
-import { NavigationScreenProp } from "react-navigation";
-import styles from "./HomeScreenStyles";
+import React from 'react'
+import { AsyncStorage, Button, View } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
+import styles from './HomeScreenStyles'
 
-import I18n from '../../i18n/i18n';
+import I18n from '../../i18n/i18n'
+import HomeButton from './components/HomeButton'
 
 type Props = {
   navigation: NavigationScreenProp<{}>
@@ -14,17 +15,21 @@ type Props = {
 class HomeScreen extends React.Component<Props> {
   static navigationOptions = {
     title: I18n.t('home.title')
-  };
+  }
 
   componentDidMount() {
-    const { navigate } = this.props.navigation;
+    const { navigate } = this.props.navigation
 
     AsyncStorage.getItem('USER', (err, result) => {
-      if (err || result == null) navigate('Login');
-      else {
+      if (err || result == null) {
+        navigate('Login')
+      } else {
         const jsonres = JSON.parse(result)
-        if (jsonres.place === null || jsonres.place === '') navigate('Profile');
-        else navigate('Leave');
+        if (jsonres.place === null || jsonres.place === '') {
+          navigate('Profile')
+        } else {
+          navigate('Leave')
+        }
       }
     })
   }
@@ -32,14 +37,7 @@ class HomeScreen extends React.Component<Props> {
   render() {
     return (
       <View style={styles.view}>
-      <View style={styles.button_wrapper}>
-        <Button
-          style={styles.button}
-          title={I18n.t('home.main_page')}
-          color="#5167A4"
-          onPress={() => this.componentDidMount()}
-        />
-        </View>
+        <HomeButton onPress={() => this.componentDidMount()}/>
       </View>
     )
   }
