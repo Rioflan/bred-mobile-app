@@ -126,7 +126,7 @@ getUsers() {
           <View style={styles.emptyPlaces_container}>
             <Button
               fontWeight="bold"
-              iconRight={{ name: 'spinner', type: 'font-awesome' }}
+              iconRight={{ name: 'sync', type: 'font-awesome5' }}
               large={false}
               borderRadius={15}
               backgroundColor="#5167A4"
@@ -151,6 +151,7 @@ getUsers() {
                 item => item && `${item.name}/${item.fname}` !== this.state.userName  ? 
                 (
                     <ListItem
+                      rightIcon={{name: item.id_place ? 'toggle-on' : 'toggle-off', type: 'font-awesome'}}
                       key={item.id}
                       title={`${item.name} / ${item.fname}`}
                       subtitle={item.id_place}

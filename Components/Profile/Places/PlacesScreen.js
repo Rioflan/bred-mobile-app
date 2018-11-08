@@ -252,7 +252,7 @@ class ProfileScreen extends React.Component<Props, State> {
           />
                     <View style={styles.emptyPlaces_container}>
             <Button
-              iconRight={{ name: 'spinner', type: 'font-awesome' }}
+              iconRight={{ name: 'sync', type: 'font-awesome5' }}
               fontWeight="bold"
               large={false}
               borderRadius={15}

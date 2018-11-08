@@ -11,6 +11,8 @@ import server from '../../config/server';
 import styles from './ScanScreenStyles';
 import { sendToServ, getPlaces, goTo } from '../../utils/utils';
 
+import I18n from '../../i18n/i18n';
+
 type Historical = {
   place_id: string,
   begin: string,
@@ -79,7 +81,7 @@ class ScanScreen extends Component<Props, State> {
     return (
       <QRCodeScanner
         onRead={this.onSuccess.bind(this)}
-        topContent={<Text style={styles.centerText}>Scan the QR code.</Text>}
+        topContent={<Text style={styles.centerText}>{I18n.t('scan.scan_qr_code')}</Text>}
       />
     )
   }
