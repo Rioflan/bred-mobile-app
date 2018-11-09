@@ -18,107 +18,109 @@ exports[`renders correctly 1`] = `
       }
     }
   >
-    <View
-      style={
-        Object {
-          "borderBottomColor": "#bdc6cf",
-          "borderBottomWidth": 1,
-          "marginLeft": 20,
-          "marginRight": 20,
-          "transform": Array [
-            Object {
-              "translateX": 0,
-            },
-          ],
-        }
-      }
-    >
-      <TextInput
-        allowFontScaling={true}
-        onChangeText={[Function]}
-        placeholder="Nom"
+    <View>
+      <View
         style={
-          Array [
-            Object {
-              "color": "#86939e",
-              "minHeight": 36,
-              "width": 750,
-            },
-            Object {
-              "fontSize": 17.5,
-            },
-            undefined,
-          ]
+          Object {
+            "borderBottomColor": "#bdc6cf",
+            "borderBottomWidth": 1,
+            "marginLeft": 20,
+            "marginRight": 20,
+            "transform": Array [
+              Object {
+                "translateX": 0,
+              },
+            ],
+          }
         }
-      />
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomColor": "#bdc6cf",
-          "borderBottomWidth": 1,
-          "marginLeft": 20,
-          "marginRight": 20,
-          "transform": Array [
-            Object {
-              "translateX": 0,
-            },
-          ],
-        }
-      }
-    >
-      <TextInput
-        allowFontScaling={true}
-        onChangeText={[Function]}
-        placeholder="Prénom"
+      >
+        <TextInput
+          allowFontScaling={true}
+          onChangeText={[Function]}
+          placeholder="Nom"
+          style={
+            Array [
+              Object {
+                "color": "#86939e",
+                "minHeight": 36,
+                "width": 750,
+              },
+              Object {
+                "fontSize": 17.5,
+              },
+              undefined,
+            ]
+          }
+        />
+      </View>
+      <View
         style={
-          Array [
-            Object {
-              "color": "#86939e",
-              "minHeight": 36,
-              "width": 750,
-            },
-            Object {
-              "fontSize": 17.5,
-            },
-            undefined,
-          ]
+          Object {
+            "borderBottomColor": "#bdc6cf",
+            "borderBottomWidth": 1,
+            "marginLeft": 20,
+            "marginRight": 20,
+            "transform": Array [
+              Object {
+                "translateX": 0,
+              },
+            ],
+          }
         }
-      />
-    </View>
-    <View
-      style={
-        Object {
-          "borderBottomColor": "#bdc6cf",
-          "borderBottomWidth": 1,
-          "marginLeft": 20,
-          "marginRight": 20,
-          "transform": Array [
-            Object {
-              "translateX": 0,
-            },
-          ],
-        }
-      }
-    >
-      <TextInput
-        allowFontScaling={true}
-        onChangeText={[Function]}
-        placeholder="ID"
+      >
+        <TextInput
+          allowFontScaling={true}
+          onChangeText={[Function]}
+          placeholder="Prénom"
+          style={
+            Array [
+              Object {
+                "color": "#86939e",
+                "minHeight": 36,
+                "width": 750,
+              },
+              Object {
+                "fontSize": 17.5,
+              },
+              undefined,
+            ]
+          }
+        />
+      </View>
+      <View
         style={
-          Array [
-            Object {
-              "color": "#86939e",
-              "minHeight": 36,
-              "width": 750,
-            },
-            Object {
-              "fontSize": 17.5,
-            },
-            undefined,
-          ]
+          Object {
+            "borderBottomColor": "#bdc6cf",
+            "borderBottomWidth": 1,
+            "marginLeft": 20,
+            "marginRight": 20,
+            "transform": Array [
+              Object {
+                "translateX": 0,
+              },
+            ],
+          }
         }
-      />
+      >
+        <TextInput
+          allowFontScaling={true}
+          onChangeText={[Function]}
+          placeholder="ID"
+          style={
+            Array [
+              Object {
+                "color": "#86939e",
+                "minHeight": 36,
+                "width": 750,
+              },
+              Object {
+                "fontSize": 17.5,
+              },
+              undefined,
+            ]
+          }
+        />
+      </View>
     </View>
     <View
       style={
@@ -225,7 +227,7 @@ exports[`renders correctly 1`] = `
                 ]
               }
             >
-              Login
+              S'identifier
             </Text>
           </View>
         </View>
@@ -247,7 +249,11 @@ exports[`renders correctly 1`] = `
           undefined,
           undefined,
           undefined,
-          undefined,
+          Object {
+            "color": "#5167A4",
+            "margin": 10,
+            "textAlign": "center",
+          },
         ]
       }
     >

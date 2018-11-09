@@ -124,7 +124,7 @@ exports[`renders correctly 1`] = `
               ]
             }
           >
-            Manual insertion
+            Insertion manuelle
           </Text>
           <View
             style={
@@ -284,7 +284,7 @@ exports[`renders correctly 1`] = `
                     ]
                   }
                 >
-                  Send
+                  Envoyer
                 </Text>
               </View>
             </View>
@@ -358,7 +358,7 @@ exports[`renders correctly 1`] = `
               ]
             }
           >
-            Scan QR code
+            Scanner le QR Code
           </Text>
           <View
             style={
@@ -485,7 +485,7 @@ exports[`renders correctly 1`] = `
                     ]
                   }
                 >
-                  Scan
+                  Scanner
                 </Text>
               </View>
             </View>
