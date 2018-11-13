@@ -19,6 +19,10 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
+    "setupFiles": [
+      "enzyme-react-16-adapter-setup"
+    ],
     "haste": {
       "defaultPlatform": "android",
       "platforms": [
@@ -50,6 +54,7 @@
     "querystring-es3": "^0.2.1",
     "ramda": "^0.25.0",
     "react": "16.5.1",
+    "react-dom": "^16.6.1",
     "react-native": "0.55.3",
     "react-native-camera": "^1.2.0",
     "react-native-crypto": "^2.1.2",
@@ -80,6 +85,9 @@
     "babel-preset-react-native": "^4.0.1",
     "babel-runtime": "^7.0.0-beta",
     "coveralls": "^3.0.2",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "enzyme-react-16-adapter-setup": "^0.1.0",
     "eslint": "^5.6.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-flowtype": "^3.0.0",
@@ -91,8 +99,11 @@
     "husky": "^1.0.1",
     "jest": "23.6.0",
     "jest-cli": "^23.6.0",
+    "jest-enzyme": "^7.0.1",
+    "jest-serializer-enzyme": "^1.0.0",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",
+    "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "16.5.2",
     "rn-nodeify": "github:tradle/rn-nodeify",
     "schedule": "0.4.0"

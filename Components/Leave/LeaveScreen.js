@@ -75,6 +75,8 @@ class LeaveScreen extends React.Component<Props, State> {
       .then(data => {
         ctx.state.debug = '';
         ctx.state.place = '';
+        ctx.state.isWrongFormatPlace = false;
+        ctx.state.isRemote = false;
         AsyncStorage.setItem('USER', JSON.stringify(ctx.state))
         goTo(ctx, 'Profile');
       })

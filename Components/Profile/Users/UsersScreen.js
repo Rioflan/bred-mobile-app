@@ -9,6 +9,10 @@ import server from '../../../config/server'
 import styles from '../ProfileScreenStyles'
 import picUser from '../../../assets/users.png'
 
+import {  goTo } from '../../../utils/utils';
+
+import { append } from 'ramda';
+
 import I18n from 'react-native-i18n'
 import FindPlacesCard from './components/FindPlacesCard'
 import ListPlaces from './components/ListPlaces'
@@ -52,7 +56,15 @@ class UsersScreen extends React.Component<Props, State> {
       } else {
         const userName = JSON.parse(result).name
         const userFName = JSON.parse(result).fname
-        this.setState({ userName: `${userName}/${userFName}` })
+        const isRemote = JSON.parse(result).isRemote
+        const historical = JSON.parse(result).historical
+        const id = JSON.parse(result).id
+        this.setState({ userName: `${userName}/${userFName}`,
+        isRemote,
+        name: JSON.parse(result).name,
+        fname: JSON.parse(result).fname,
+        historical,
+        id })
       }
     })
     this._isMounted = true
@@ -110,6 +122,40 @@ class UsersScreen extends React.Component<Props, State> {
     return search === '' ? users : newT
   }
 
+  // async getFriends (item) {
+  //  const value = await AsyncStorage.getItem('friend');
+  //  JSON.parse(value).push({name: item.name, fname: item.fname})
+  //  AsyncStorage.setItem("friend", JSON.stringify(value))
+  //   const payload = {
+  //     isRemote: this.state.isRemote,
+  //     name: this.state.name,
+  //     fname: this.state.fname,
+  //     historical: this.state.historical,
+  //     id_user: this.state.id,
+  //     id_place: "",
+  //     friends: append({name: item.name, fname: item.fname}, this.state.friends)
+  //   }
+
+  //   fetch(`${server.address}`, {
+  //     method: 'POST',
+  //     body: JSON.stringify(payload),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'x-access-token': config.token
+  //     }
+  //   })
+  //     .then(res => res.json())
+  //     .then(data => {
+  //        AsyncStorage.getItem('USER', (err, result) => {
+  //          const res = JSON.parse(result);
+  //          const friends = append({name: item.name, fname: item.fname}, result.friends)
+  //          this.state["friends"] = friends;
+  //         AsyncStorage.setItem('USER', JSON.stringify(this.state))
+  //         goTo(this, 'FriendScreen')
+  //        })
+  //     })
+  // }
+
   render() {
     const navigation = this.props.navigation
     const { users, loading } = this.state
@@ -133,7 +179,7 @@ class UsersScreen extends React.Component<Props, State> {
                           (
                             <ListItem
                               rightIcon={{
-                                name: item.id_place ? 'toggle-on' : 'toggle-off',
+                                name: item.id_place ? 'toggle-on' : item.isRemote ? 'home' :'toggle-off',
                                 type: 'font-awesome'
                               }}
                               key={item.id}
