@@ -69,9 +69,10 @@ class PlacesScreen extends React.Component<Props, State> {
       debug: '',
       search: '',
       historical: [],
-      BlueZonechecked: false,
-      RedZonechecked: false,
-      GreenZonechecked: false,
+      RERZonechecked: false,
+      ForestZonechecked: false,
+      MiddleZonechecked: false,
+      SouthZonechecked: false,
       selectedFloorIndex: 0,
       loading: false
     }
@@ -120,14 +121,32 @@ class PlacesScreen extends React.Component<Props, State> {
   }
 
   _handleList = () => {
-    const { debug, search, selectedFloorIndex } = this.state
+    const { 
+    debug,
+    search,
+    selectedFloorIndex,
+    RERZonechecked,
+    ForestZonechecked,
+    MiddleZonechecked,
+    SouthZonechecked
+    } = this.state
 
     const floor = selectedFloorIndex === 0 ? 3 : 4
 
     const newT: string | Array<object> = debug !== ''
       ? debug.filter((e) => {
         let finalResult = true
+
+      // Check the current selected floor
         if (e.id[0] != floor) finalResult = false
+
+      // Check the current selected zone
+        if (
+          (RERZonechecked && e.id[1] != 3) || 
+          (ForestZonechecked && e.id[1] != 1) || 
+          (MiddleZonechecked && e.id[1] != 5) || 
+          (SouthZonechecked && e.id[1] != 4)) finalResult = false
+
         for (const element in search) {
           if (search[element] !== e.id[element]) {
             finalResult = false
@@ -186,7 +205,7 @@ class PlacesScreen extends React.Component<Props, State> {
                 id: payload.id_user,
                 place: payload.id_place,
                 debug: ctx.state.debug,
-                historical: ctx.state.historical
+                historical: ctx.state.historical,
               })
             )
             goTo(ctx, 'Leave')
@@ -204,9 +223,11 @@ class PlacesScreen extends React.Component<Props, State> {
       debug,
       selectedFloorIndex,
       loading,
-      BlueZonechecked,
-      RedZonechecked,
-      GreenZonechecked,
+      RERZonechecked,
+      ForestZonechecked,
+      SouthZonechecked,
+      MiddleZonechecked,
+      isRemote
     } = this.state
     const FloorIndex = [3, 4]
 
@@ -220,12 +241,14 @@ class PlacesScreen extends React.Component<Props, State> {
           />
         </Card>
         <ZoneCard
-          checked={BlueZonechecked}
-          onPress={() => this.setState({ BlueZonechecked: !BlueZonechecked })}
-          checked1={RedZonechecked}
-          onPress1={() => this.setState({ RedZonechecked: !RedZonechecked })}
-          checked2={GreenZonechecked}
-          onPress2={() => this.setState({ GreenZonechecked: !GreenZonechecked })}
+          checked={RERZonechecked}
+          onPress={() => this.setState({ RERZonechecked: !RERZonechecked })}
+          checked1={ForestZonechecked}
+          onPress1={() => this.setState({ ForestZonechecked: !ForestZonechecked })}
+          checked2={SouthZonechecked}
+          onPress2={() => this.setState({ SouthZonechecked: !SouthZonechecked })}
+          checked3={MiddleZonechecked}
+          onPress3={() => this.setState({ MiddleZonechecked: !MiddleZonechecked })}
         />
         <Card>
           <Text
@@ -254,7 +277,10 @@ class PlacesScreen extends React.Component<Props, State> {
                 .map(
                   place => (place ? (
                       <ListItem
-                        onPress={() => getPlaces(this, this.getUser, place)}
+                        onPress={() => 
+                          AsyncStorage.getItem('USER', (err, result) => {
+                            if (JSON.parse(result).isRemote === false) return getPlaces(this, this.getUser, place)
+                          })}
                         key={place.id}
                         title={place.id}
                       />

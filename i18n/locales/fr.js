@@ -16,9 +16,10 @@ export default {
   },
   places: {
     title: "Places",
-    green_zone: "Zone verte",
-    blue_zone: "Zone bleue",
-    red_zone: "Zone Rouge",
+    middle_zone: "Milieu",
+    rer_zone: "Côté RER",
+    south_zone: "Côté sud",
+    forest_zone: "Côté forêt",
     free_places: "Places libres",
     search_place: "Chercher une place...",
     floor: "Étage",
@@ -37,7 +38,9 @@ export default {
     scan_qr_code: "Scanner le QR Code",
     scan: "Scanner",
     send: "Envoyer",
-    place: "Place"
+    place: "Place",
+    format: "Mauvais format de place",
+    remote: "Télétravail"
   },
   navigation: {
       logOut: "Déconnexion"
