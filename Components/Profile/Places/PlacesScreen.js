@@ -10,7 +10,7 @@ import {
   Text
 } from 'react-native-elements'
 
-import { ActivityIndicator, AsyncStorage, Image, ScrollView, TextInput, View } from 'react-native'
+import { ActivityIndicator, AsyncStorage, Image, ScrollView, TextInput, View, TouchableOpacity } from 'react-native'
 import { NavigationScreenProp } from 'react-navigation'
 import config from '../../../config/api'
 import server from '../../../config/server'
@@ -276,14 +276,15 @@ class PlacesScreen extends React.Component<Props, State> {
               {this._handleList()
                 .map(
                   place => (place ? (
+                    <TouchableOpacity onPress={() => 
+                    AsyncStorage.getItem('USER', (err, result) => {
+                      if (JSON.parse(result).isRemote === false) return getPlaces(this, this.getUser, place)
+                    })}>
                       <ListItem
-                        onPress={() => 
-                          AsyncStorage.getItem('USER', (err, result) => {
-                            if (JSON.parse(result).isRemote === false) return getPlaces(this, this.getUser, place)
-                          })}
                         key={place.id}
                         title={place.id}
                       />
+                      </TouchableOpacity>
                     ) : (
                       'There is no free place for the moment !'
                     )

@@ -56,8 +56,8 @@ class LoginScreen extends React.Component<Props, State> {
         historical: this.state.historical
       }
 
-      AsyncStorage.setItem('USER', JSON.stringify(this.state))
-      fetch(`${server.address}/login_user`, {
+      
+      fetch(`${server.address}login_user`, {
         method: 'POST',
         body: JSON.stringify(payload),
         headers: {
@@ -69,8 +69,8 @@ class LoginScreen extends React.Component<Props, State> {
         .then(res => res.json())
         .then(data => {
           const redirect: boolean = true
-
           if (redirect) {
+            if (data.user) this.setState({ isRemote: data.user.isRemote })
             AsyncStorage.setItem(
               'USER',
               JSON.stringify(omit('debugField', this.state))
