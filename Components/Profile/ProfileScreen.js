@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
 
-import { AsyncStorage, Image, ScrollView, TextInput, View } from 'react-native'
+import { AsyncStorage, Image, ScrollView, TextInput, View, Text } from 'react-native'
 import { NavigationScreenProp } from 'react-navigation'
+import { CheckBox } from 'react-native-elements';
 import config from '../../config/api'
 import server from '../../config/server'
 import styles from './ProfileScreenStyles'
@@ -13,6 +14,8 @@ import I18n from '../../i18n/i18n'
 import ManualInsertionCard from './components/ManualInsertionCard'
 import QRCodeCard from './components/QRCodeCard'
 import HeaderCard from './components/HeaderCard'
+
+import { place_regex } from '../../config/regex';
 
 type Historical = {
   place_id: string,
@@ -26,7 +29,9 @@ type State = {
   id: string,
   place: string,
   historical: Array<Historical>,
-  debug: Array<any> | string
+  debug: Array<any> | string,
+  isWrongFormatPlace: boolean,
+  isRemote: boolean,
 };
 
 type Props = {
@@ -56,7 +61,9 @@ class ProfileScreen extends React.Component<Props, State> {
       id: "",
       place: "",
       debug: "",
-      historical: []
+      historical: [],
+      isRemote: false,
+      isWrongFormatPlace: false,
     };
   }
 
@@ -88,18 +95,39 @@ class ProfileScreen extends React.Component<Props, State> {
     this._isMounted = false;
   }
 
+  _handleRemote = async () => {
+    await this.setState({ isRemote: !this.state.isRemote})
+    return getPlaces(this, sendToServ)
+  }
+
+
   render() {
     const navigation = this.props.navigation;
-    const { fname, name, id } = this.state;
+    const { fname, name, id, place, isRemote } = this.state;
 
     return (
       <ScrollView style={styles.view}>
         <HeaderCard fname={fname} name={name} id={id}/>
-
+        <CheckBox
+          title={I18n.t('profile.remote')}
+          checked={isRemote}
+          onPress={this._handleRemote}
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          checkedColor='#5167A4'
+          center
+        />
+        {!isRemote ? (<View>
         <ManualInsertionCard onChangeText={text => this.setState({ place: text })}
-                             onPress={() => getPlaces(this, sendToServ)}/>
-
+                             onPress={() => 
+                             { 
+                              if (place !== "" && place.match(place_regex) !== null) getPlaces(this, sendToServ)
+                              else this.setState({ isWrongFormatPlace: true })
+                             }
+                             }/>
+        {this.state.isWrongFormatPlace ? <Text style={styles.debug}>{I18n.t('profile.format')}</Text> : null}
         <QRCodeCard onPress={() => navigation.navigate("Scan")}/>
+         </View>): null}
       </ScrollView>
     );
   }

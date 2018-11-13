@@ -16,9 +16,10 @@ export default {
   },
   places: {
     title: "Places",
-    green_zone: "Green zone",
-    blue_zone: "Blue zone",
-    red_zone: "Red zone",
+    middle_zone: "Middle zone",
+    rer_zone: "RER zone",
+    south_zone: "South zone",
+    forest_zone: "Forest zone",
     free_places: "Free places",
     search_place: "Search place...",
     floor: "Floor",
@@ -37,7 +38,9 @@ export default {
     scan_qr_code: "Scan QR Code",
     scan: "Scan",
     send: "Send",
-    place: "Place"
+    place: "Place",
+    format : "Wrong format of place",
+    remote: "Remote work",
   },
     navigation: {
       logOut: "Log Out"

@@ -18,8 +18,9 @@ export const sendToServ = (ctx, json) => {
     ctx.state.id !== "" &&
     ctx.state.place !== "" &&
     ctx.state.historical !== []
+    || typeof ctx.state.isRemote != "undefined"
   ) {
-    const { name, fname, id, place, historical } = ctx.state;
+    const { name, fname, id, place, historical, isRemote } = ctx.state;
     ctx = ctx || window;
 
     const payload = {
@@ -27,8 +28,10 @@ export const sendToServ = (ctx, json) => {
       fname,
       id_user: id,
       id_place: place,
-      historical
+      historical,
+      isRemote
     };
+
     fetch(server.address, {
       method: "POST",
       body: JSON.stringify(payload),
@@ -39,8 +42,8 @@ export const sendToServ = (ctx, json) => {
     })
       .then(res => res.json())
       .then(data => {
+        if (ctx.state.place !== "") {
         let redirect = true;
-        console.log(data)
         if (data.body) Alert.alert(`Place already used`, `Place used by : ${data.body}`)
         json.map(
           element =>
@@ -49,10 +52,10 @@ export const sendToServ = (ctx, json) => {
               : null
         );
         if (redirect) {
-          AsyncStorage.setItem("USER", JSON.stringify(ctx.state));
-
           goTo(ctx, "Leave");
         }
+        }
+        AsyncStorage.setItem("USER", JSON.stringify(ctx.state));
       });
   }
 };
@@ -68,7 +71,6 @@ export const goTo = (ctx, str: string) => {
 export const getPlaces = (ctx, fn, element = null, loader = false) => {
     ctx = ctx || window;
     if (loader) ctx.setState({ loading: true })
-    
     fetch(`${server.address}places/`, {
       method: "GET",
       headers: {
