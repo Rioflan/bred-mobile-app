@@ -1,4 +1,4 @@
-package com.app;
+package com.flexoffice;
 
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
@@ -12,7 +12,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "App";
+        return "FlexOffice";
     }
 
     @Override

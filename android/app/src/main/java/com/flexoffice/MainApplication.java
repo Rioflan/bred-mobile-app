@@ -1,4 +1,4 @@
-package com.app;
+package com.flexoffice;
 
 import android.app.Application;
 

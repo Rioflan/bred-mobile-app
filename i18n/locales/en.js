@@ -47,5 +47,8 @@ export default {
   },
   scan: {
     scan_qr_code: "Scan the QR Code"
+  },
+  offline: {
+    connection: "No Internet Connection"
   }
 };

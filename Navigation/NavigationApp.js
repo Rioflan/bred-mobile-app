@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, AsyncStorage, Image, TouchableHighlight } from 'react-native';
+import { Button, AsyncStorage, Image, TouchableHighlight, View } from 'react-native';
 import { createStackNavigator, createTabNavigator } from 'react-navigation'
 import HomeScreen from '../Components/Home/HomeScreen'
 import LoginScreen from '../Components/Login/LoginScreen'
@@ -8,6 +8,7 @@ import LeaveScreen from '../Components/Leave/LeaveScreen'
 import ScanScreen from '../Components/Scan/ScanScreen'
 import PlacesScreen from '../Components/Profile/Places/PlacesScreen'
 import UsersScreen from '../Components/Profile/Users/UsersScreen'
+import OfflineNotice from '../utils/OfflineNotice';
 
 import I18n from '../i18n/i18n';
 
@@ -63,4 +64,11 @@ const NavigationApp = createStackNavigator({
   Scan: { screen: ScanScreen }
 });
 
-export default NavigationApp
+const NetInfoWrapper = () => (
+  <View style={{flex: 1}}>
+  <OfflineNotice/>
+  <NavigationApp/>
+  </View>
+)
+
+export default NetInfoWrapper

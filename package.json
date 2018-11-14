@@ -1,5 +1,5 @@
 {
-  "name": "App",
+  "name": "FlexOffice",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -39,6 +39,7 @@
     ]
   },
   "dependencies": {
+    "@babel/runtime": "^7.1.5",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.4.1",
     "browserify-zlib": "^0.2.0",

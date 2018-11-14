@@ -7,10 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AppDelegate.h"
+@interface FlexOfficeDelegate : UIResponder <UIApplicationDelegate>
 
-int main(int argc, char * argv[]) {
-  @autoreleasepool {
-    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-  }
-}
+@property (nonatomic, strong) UIWindow *window;
+
+@end
