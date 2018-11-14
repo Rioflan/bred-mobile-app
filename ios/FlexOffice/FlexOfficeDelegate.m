@@ -12,7 +12,7 @@
 
 @implementation FlexOfficeDelegate
 
-- (BOOL)application:(UIFlexOfficelication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
 
