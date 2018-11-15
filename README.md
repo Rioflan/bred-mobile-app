@@ -78,7 +78,8 @@ And for `regex.json`:
 ```
 {
     "config_regex": "",
-    "place_regex": ""
+    "place_regex": "",
+    "wifi_regex": "" // => Used to know when the user is near the building
 }
 ```
 
@@ -113,35 +114,67 @@ Inside `gradle.properties`.
 ├── Components
 │   ├── Home
 │   │   ├── HomeScreen.js
-│   │   └── HomeScreenStyles.js
+│   │   ├── HomeScreenStyles.js
+│   │   └── components
+│   │       └── HomeButton.js
 │   ├── Leave
 │   │   ├── LeaveScreen.js
 │   │   ├── LeaveScreenStyles.js
-│   │   └── LeaveScreenType.js
+│   │   ├── LeaveScreenType.js
+│   │   └── components
+│   │       └── LeaveButton.js
 │   ├── Login
 │   │   ├── LoginScreen.js
 │   │   ├── LoginScreenStyles.js
-│   │   └── LoginScreenType.js
+│   │   ├── LoginScreenType.js
+│   │   └── components
+│   │       ├── InputLogin.js
+│   │       └── LoginButton.js
 │   ├── Profile
 │   │   ├── Places
-│   │   │   └── PlacesScreen.js
+│   │   │   ├── PlacesScreen.js
+│   │   │   └── components
+│   │   │       ├── FetchPlacesButton.js
+│   │   │       └── ZoneCard.js
 │   │   ├── ProfileScreen.js
 │   │   ├── ProfileScreenStyles.js
-│   │   └── Users
-│   │       └── UsersScreen.js
+│   │   ├── Users
+│   │   │   ├── UsersScreen.js
+│   │   │   └── components
+│   │   │       ├── FindPlacesCard.js
+│   │   │       └── ListPlaces.js
+│   │   └── components
+│   │       ├── HeaderCard.js
+│   │       ├── ManualInsertionCard.js
+│   │       └── QRCodeCard.js
 │   └── Scan
 │       ├── ScanScreen.js
 │       └── ScanScreenStyles.js
 ├── Navigation
 │   └── NavigationApp.js
-├── utils
-│   └── utils.js
 ├── README.md
+├── __tests__
+│   ├── Home
+│   │   └── Home_test.js
+│   ├── Leave
+│   │   └──Leave_test.js
+│   ├── Login
+│   │   └── Login_test.js
+│   └── Profile
+│       └── Profile_test.js
+├── utils
+│   ├── LocationNotice.js
+│   ├── OfflineNotice.js
+│   ├── services
+│   │   ├── index.js
+│   │   └── pushNotification.js
+│   └── utils.js
 ├── android
 ├── app.json
 ├── config
-│   ├── api.js
-│   └── server.js
+│   ├── api.json
+│   ├── regex.json
+│   └── server.json
 ├── index.js
 ├── ios
 ├── package-lock.json

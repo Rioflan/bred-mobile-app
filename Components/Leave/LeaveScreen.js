@@ -47,15 +47,15 @@ class LeaveScreen extends React.Component<Props, State> {
   }
 
   leavePlace(ctx) {
-    const { name, fname, id, place, historical } = ctx.state
+    const { name, fname, id, place, historical, isRemote } = ctx.state
     ctx = ctx || window
-
     const payload = {
       name,
       fname,
       id_user: id,
       id_place: place,
-      historical
+      historical,
+      isRemote
     }
     fetch(server.address, {
       method: 'POST',
@@ -80,7 +80,7 @@ class LeaveScreen extends React.Component<Props, State> {
         AsyncStorage.setItem('USER', JSON.stringify(ctx.state))
         goTo(ctx, 'Profile');
       })
-  }
+    }
 
   componentDidMount() {
     this._isMounted = true
@@ -89,6 +89,7 @@ class LeaveScreen extends React.Component<Props, State> {
         goTo(this, 'Login');
       } else {
         if (this._isMounted) this.setState(JSON.parse(result))
+        console.log(JSON.parse(result))
         const userId: string = JSON.parse(result).id
         fetch(`${server.address}users/${userId}`, {
           method: 'GET',

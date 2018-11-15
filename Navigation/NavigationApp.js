@@ -9,6 +9,7 @@ import ScanScreen from '../Components/Scan/ScanScreen'
 import PlacesScreen from '../Components/Profile/Places/PlacesScreen'
 import UsersScreen from '../Components/Profile/Users/UsersScreen'
 import OfflineNotice from '../utils/OfflineNotice';
+import LocationNotice from '../utils/LocationNotice';
 
 import I18n from '../i18n/i18n';
 
@@ -66,8 +67,9 @@ const NavigationApp = createStackNavigator({
 
 const NetInfoWrapper = () => (
   <View style={{flex: 1}}>
-  <OfflineNotice/>
+  <OfflineNotice />
   <NavigationApp/>
+  <LocationNotice />
   </View>
 )
 

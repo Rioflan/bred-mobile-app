@@ -2,9 +2,15 @@ import React from 'react'
 import NavigationApp from './Navigation/NavigationApp'
 import config from './config/api'
 import server from './config/server'
+import wifi from 'react-native-android-wifi'
+import { pushNotifications } from './utils/services/index'
+import { Platform } from 'react-native';
+
+pushNotifications.configure();
 
 export default class App extends React.Component {
   componentWillMount() {
+    if (Platform.OS === 'android') wifi.setEnabled(true);
     const payload = {
       email: config.email,
       password: config.password,

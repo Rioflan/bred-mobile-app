@@ -92,8 +92,8 @@ class PlacesScreen extends React.Component<Props, State> {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'x-access-token': config.token
-          }
-        })
+      }
+    })
           .then(res => res.json()) // transform data to json
           .then((data) => {
             if (this._isMounted) {
@@ -171,7 +171,7 @@ class PlacesScreen extends React.Component<Props, State> {
       element.id !== ''
     ) {
       const {
-        name, fname, id, historical
+        name, fname, id, historical, isRemote
       } = ctx.state
       ctx = ctx || window
 
@@ -180,7 +180,8 @@ class PlacesScreen extends React.Component<Props, State> {
         fname,
         id_user: id,
         id_place: element.id,
-        historical
+        historical,
+        isRemote
       }
       fetch(server.address, {
         method: 'POST',
@@ -206,6 +207,7 @@ class PlacesScreen extends React.Component<Props, State> {
                 place: payload.id_place,
                 debug: ctx.state.debug,
                 historical: ctx.state.historical,
+                isRemote: ctx.state.isRemote
               })
             )
             goTo(ctx, 'Leave')

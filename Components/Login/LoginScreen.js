@@ -18,86 +18,89 @@ import InputLogin from './components/InputLogin'
 
 class LoginScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: I18n.t('login.title')
-  }
+    title: I18n.t("login.title")
+  };
 
   constructor() {
-    super()
+    super();
     this.state = {
-      name: '',
-      fname: '',
-      id: '',
-      place: '',
-      debug: '',
-      debugField: '',
-      historical: []
-    }
+      name: "",
+      fname: "",
+      id: "",
+      place: "",
+      debug: "",
+      debugField: "",
+      isRemote: false,
+      historical: [],
+    };
   }
 
   logOut() {
-    AsyncStorage.removeItem('USER')
+    AsyncStorage.removeItem("USER");
   }
 
   /** This function handle the user login */
   logIn() {
-    const { navigation } = this.props
+    const { navigation } = this.props;
 
     if (
-      this.state.name !== '' &&
-      this.state.fname !== '' &&
-      this.state.id !== '' &&
+      this.state.name !== "" &&
+      this.state.fname !== "" &&
+      this.state.id !== "" &&
       this.state.id.match(config_regex) !== null
     ) {
       const payload = {
         name: this.state.name,
         fname: this.state.fname,
         id_user: this.state.id,
-        id_place: '',
+        id_place: "",
         historical: this.state.historical
-      }
+      };
 
-      
       fetch(`${server.address}login_user`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(payload),
         headers: {
-          'Content-Type': 'application/json',
-          'x-access-token': config.token
+          "Content-Type": "application/json",
+          "x-access-token": config.token
         }
       })
         .catch(err => console.log(err))
         .then(res => res.json())
         .then(data => {
-          const redirect: boolean = true
+          const redirect: boolean = true;
           if (redirect) {
-            if (data.user) this.setState({ isRemote: data.user.isRemote })
+            if (data.user) this.setState({ isRemote: data.user.isRemote });
             AsyncStorage.setItem(
-              'USER',
-              JSON.stringify(omit('debugField', this.state))
-            )
-            navigation.goBack()
-            navigation.navigate('Profile')
+              "USER",
+              JSON.stringify(omit(["debugField"], this.state))
+            );
+            console.log(JSON.stringify(omit(["debugField"], this.state)))
+            navigation.goBack();
+            navigation.navigate("Profile");
           }
-        })
+        });
     } else {
-      this.setState({ debugField: I18n.t('login.debug') })
+      this.setState({ debugField: I18n.t("login.debug") });
     }
   }
 
+
   render() {
-    const { debugField } = this.state
+    const { debugField } = this.state;
     return (
       <View style={styles.view}>
         <View style={styles.view_second}>
-          <InputLogin onChangeText={text => this.setState({ name: text })}
-                      onChangeText1={text => this.setState({ fname: text })}
-                      onChangeText2={text => this.setState({ id: text })}/>
-          <LoginButton onPress={() => this.logIn()}/>
-
+          <InputLogin
+            onChangeText={text => this.setState({ name: text })}
+            onChangeText1={text => this.setState({ fname: text })}
+            onChangeText2={text => this.setState({ id: text })}
+          />
+          <LoginButton onPress={() => this.logIn()} />
           <Text style={styles.debug}>{debugField}</Text>
         </View>
       </View>
-    )
+    );
   }
 }
 
