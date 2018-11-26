@@ -1,27 +1,29 @@
-import { View } from 'react-native'
-import styles from '../../ProfileScreenStyles'
-import { Button } from 'react-native-elements'
-import I18n from 'react-native-i18n'
-import React from 'react'
-import ListPlaces from './ListPlaces'
+import { View } from "react-native";
+import { Button } from "react-native-elements";
+import I18n from "react-native-i18n";
+import React from "react";
+import styles from "../../ProfileScreenStyles";
 
 const FindPlacesCard = (props: { users: any }) => {
-  return <View style={styles.emptyPlaces_container}>
-    <Button
-      fontWeight="bold"
-      iconRight={{
-        name: 'sync',
-        type: 'font-awesome5'
-      }}
-      large={false}
-      borderRadius={15}
-      backgroundColor="#5167A4"
-      color="#fff"
-      style={styles.free_places}
-      title={I18n.t('users.users')}
-      onPress={props.users}
-    />
-  </View>
-}
+  const { users } = props;
+  return (
+    <View style={styles.emptyPlaces_container}>
+      <Button
+        fontWeight="bold"
+        iconRight={{
+          name: "sync",
+          type: "font-awesome5"
+        }}
+        large={false}
+        borderRadius={15}
+        backgroundColor="#5167A4"
+        color="#fff"
+        style={styles.free_places}
+        title={I18n.t("users.users")}
+        onPress={users}
+      />
+    </View>
+  );
+};
 
-export default FindPlacesCard
+export default FindPlacesCard;

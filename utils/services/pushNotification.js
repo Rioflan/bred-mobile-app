@@ -1,33 +1,27 @@
-import PushNotification from 'react-native-push-notification';
+import PushNotification from "react-native-push-notification";
 // import { PushNotificationIOS } from 'react-native';
 
 const configure = () => {
- PushNotification.configure({
+  PushNotification.configure({
+    onRegister() {
+      // process token
+    },
 
-   onRegister: function(token) {
-     //process token
-   },
+    onNotification() {
+      // process the notification
+      // required on iOS only
+      //  notification.finish(PushNotificationIOS.FetchResult.NoData);
+    },
 
-   onNotification: function(notification) {
-     // process the notification
-     // required on iOS only
-    //  notification.finish(PushNotificationIOS.FetchResult.NoData);
-   },
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true
+    },
 
-   permissions: {
-     alert: true,
-     badge: true,
-     sound: true
-   },
-
-   popInitialNotification: true,
-   requestPermissions: true,
-
- });
+    popInitialNotification: true,
+    requestPermissions: true
+  });
 };
 
-
-
-export {
- configure,
-};
+export { configure };

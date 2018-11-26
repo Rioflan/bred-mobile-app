@@ -1,7 +1,7 @@
-import { Card, CheckBox } from 'react-native-elements'
-import I18n from '../../../../i18n/i18n'
-import React from 'react'
-import FetchPlacesButton from './FetchPlacesButton'
+import { Card, CheckBox } from "react-native-elements";
+import React from "react";
+import I18n from "../../../../i18n/i18n";
+import FetchPlacesButton from "./FetchPlacesButton";
 
 const ZoneCard = (props: {
   checked: any,
@@ -11,46 +11,58 @@ const ZoneCard = (props: {
   checked2: any,
   onPress2: () => void,
   checked3: any,
-  onPress3: () => void,
-}) => (
-  <Card>
-    <CheckBox
-      center
-      title={I18n.t('places.rer_zone')}
-      checkedIcon="dot-circle-o"
-      checkedColor="#5167A4"
-      uncheckedIcon="circle-o"
-      checked={props.checked}
-      onPress={props.onPress}
-    />
-    <CheckBox
-      center
-      title={I18n.t('places.forest_zone')}
-      checkedIcon="dot-circle-o"
-      checkedColor="#5167A4"
-      uncheckedIcon="circle-o"
-      checked={props.checked1}
-      onPress={props.onPress1}
-    />
-    <CheckBox
-      center
-      title={I18n.t('places.south_zone')}
-      checkedIcon="dot-circle-o"
-      checkedColor="#5167A4"
-      uncheckedIcon="circle-o"
-      checked={props.checked2}
-      onPress={props.onPress2}
-    />
-    <CheckBox
-      center
-      title={I18n.t('places.middle_zone')}
-      checkedIcon="dot-circle-o"
-      checkedColor="#5167A4"
-      uncheckedIcon="circle-o"
-      checked={props.checked3}
-      onPress={props.onPress3}
-    />
-  </Card>
-)
+  onPress3: () => void
+}) => {
+  const {
+    checked,
+    onPress,
+    checked1,
+    onPress1,
+    checked2,
+    onPress2,
+    checked3,
+    onPress3
+  } = props;
+  return (
+    <Card>
+      <CheckBox
+        center
+        title={I18n.t("places.rer_zone")}
+        checkedIcon="dot-circle-o"
+        checkedColor="#5167A4"
+        uncheckedIcon="circle-o"
+        checked={checked}
+        onPress={onPress}
+      />
+      <CheckBox
+        center
+        title={I18n.t("places.forest_zone")}
+        checkedIcon="dot-circle-o"
+        checkedColor="#5167A4"
+        uncheckedIcon="circle-o"
+        checked={checked1}
+        onPress={onPress1}
+      />
+      <CheckBox
+        center
+        title={I18n.t("places.south_zone")}
+        checkedIcon="dot-circle-o"
+        checkedColor="#5167A4"
+        uncheckedIcon="circle-o"
+        checked={checked2}
+        onPress={onPress2}
+      />
+      <CheckBox
+        center
+        title={I18n.t("places.middle_zone")}
+        checkedIcon="dot-circle-o"
+        checkedColor="#5167A4"
+        uncheckedIcon="circle-o"
+        checked={checked3}
+        onPress={onPress3}
+      />
+    </Card>
+  );
+};
 
-export default ZoneCard
+export default ZoneCard;

@@ -1,20 +1,20 @@
 // @flow
 
-import React from 'react'
-import { AsyncStorage, View } from 'react-native'
+import React from "react";
+import { AsyncStorage, View } from "react-native";
 
-import { Text } from 'react-native-elements'
-import { omit } from 'ramda'
-import styles from './LoginScreenStyles'
-import server from '../../config/server'
-import config from '../../config/api'
-import type { Props, State } from './LoginScreenType'
+import { Text } from "react-native-elements";
+import { omit } from "ramda";
+import styles from "./LoginScreenStyles";
+import server from "../../config/server";
+import config from "../../config/api";
+import type { Props, State } from "./LoginScreenType";
 
-import { config_regex } from '../../config/regex.json'
+import I18n from "../../i18n/i18n";
+import LoginButton from "./components/LoginButton";
+import InputLogin from "./components/InputLogin";
 
-import I18n from '../../i18n/i18n'
-import LoginButton from './components/LoginButton'
-import InputLogin from './components/InputLogin'
+import { checkNavigation } from "../../utils/utils";
 
 class LoginScreen extends React.Component<Props, State> {
   static navigationOptions = {
@@ -31,13 +31,43 @@ class LoginScreen extends React.Component<Props, State> {
       debug: "",
       debugField: "",
       isRemote: false,
-      historical: [],
+      historical: []
     };
   }
 
-  logOut() {
-    AsyncStorage.removeItem("USER");
+  componentWillMount() {
+    fetch(`${server.address}environment`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const { LOGIN_REGEX, PLACE_REGEX, WIFI_REGEX } = data;
+        const environmentVariable = {
+          LOGIN_REGEX,
+          PLACE_REGEX,
+          WIFI_REGEX
+        };
+        this.setState({ LOGIN_REGEX });
+        AsyncStorage.setItem(
+          "environment",
+          JSON.stringify(environmentVariable)
+        );
+      });
+    checkNavigation(this);
   }
+
+  fetchLoginRegex = async () => {
+    const regex = await AsyncStorage.getItem("environment");
+    return regex.LOGIN_REGEX;
+  };
+
+  logOut = () => {
+    AsyncStorage.removeItem("USER");
+  };
 
   /** This function handle the user login */
   logIn() {
@@ -47,7 +77,7 @@ class LoginScreen extends React.Component<Props, State> {
       this.state.name !== "" &&
       this.state.fname !== "" &&
       this.state.id !== "" &&
-      this.state.id.match(config_regex) !== null
+      this.state.id.match(this.state.LOGIN_REGEX) !== null
     ) {
       const payload = {
         name: this.state.name,
@@ -65,7 +95,6 @@ class LoginScreen extends React.Component<Props, State> {
           "x-access-token": config.token
         }
       })
-        .catch(err => console.log(err))
         .then(res => res.json())
         .then(data => {
           const redirect: boolean = true;
@@ -75,7 +104,6 @@ class LoginScreen extends React.Component<Props, State> {
               "USER",
               JSON.stringify(omit(["debugField"], this.state))
             );
-            console.log(JSON.stringify(omit(["debugField"], this.state)))
             navigation.goBack();
             navigation.navigate("Profile");
           }
@@ -84,7 +112,6 @@ class LoginScreen extends React.Component<Props, State> {
       this.setState({ debugField: I18n.t("login.debug") });
     }
   }
-
 
   render() {
     const { debugField } = this.state;
@@ -104,4 +131,4 @@ class LoginScreen extends React.Component<Props, State> {
   }
 }
 
-export default LoginScreen
+export default LoginScreen;

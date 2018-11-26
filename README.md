@@ -75,16 +75,9 @@ For `server.json`:
 
 And for `regex.json`:
 
-```
-{
-    "config_regex": "",
-    "place_regex": "",
-    "wifi_regex": "" // => Used to know when the user is near the building
-}
-```
+You also have to configure environment variables of the *flex server* project.
 
-You can also add a `.env` file at the root of the project and pass variables as environment variables.
-
+`CONFIG_REGEX`, `PLACE_REGEX`, `WIFI_REGEX`
 
 ## Generating Signed APK
 

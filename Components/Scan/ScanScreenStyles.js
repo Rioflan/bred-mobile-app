@@ -1,21 +1,21 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
   centerText: {
     flex: 1,
     fontSize: 18,
     padding: 32,
-    color: '#777'
+    color: "#777"
   },
   textBold: {
-    fontWeight: '500',
-    color: '#000'
+    fontWeight: "500",
+    color: "#000"
   },
   buttonText: {
     fontSize: 21,
-    color: 'rgb(0,122,255)'
+    color: "rgb(0,122,255)"
   },
   buttonTouchable: {
-    padding: 16,
-  },
-})
+    padding: 16
+  }
+});
