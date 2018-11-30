@@ -33,17 +33,17 @@ export default {
     find: "FIND"
   },
   profile: {
-    title: "Profile",
+    title: "Scan",
     manual_insertion: "Manual insertion",
     scan_qr_code: "Scan QR Code",
     scan: "Scan",
     send: "Send",
     place: "Place",
-    format : "Wrong format of place",
-    remote: "Remote work",
+    format: "Wrong format of place",
+    remote: "Remote work"
   },
-    navigation: {
-      logOut: "Log Out"
+  navigation: {
+    logOut: "Log Out"
   },
   scan: {
     scan_qr_code: "Scan the QR Code"

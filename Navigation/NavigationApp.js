@@ -5,7 +5,7 @@ import HomeScreen from "../Components/Home/HomeScreen";
 import LoginScreen from "../Components/Login/LoginScreen";
 import ProfileScreen from "../Components/Profile/ProfileScreen";
 import LeaveScreen from "../Components/Leave/LeaveScreen";
-import ScanScreen from "../Components/Scan/ScanScreen";
+import SettingsScreen from "../Components/Settings/SettingsScreen";
 import PlacesScreen from "../Components/Profile/Places/PlacesScreen";
 import UsersScreen from "../Components/Profile/Users/UsersScreen";
 import OfflineNotice from "../utils/OfflineNotice";
@@ -22,7 +22,8 @@ const NavigationApp = createStackNavigator({
       {
         ProfileScreen,
         PlacesScreen,
-        UsersScreen
+        UsersScreen,
+        SettingsScreen
       },
       {
         title: "Places",
@@ -30,7 +31,9 @@ const NavigationApp = createStackNavigator({
         swipeEnabled: true,
         tabBarOptions: {
           labelStyle: {
-            fontSize: 10
+            fontSize: 10,
+            margin: 0,
+            padding: 0
           },
           showLabel: true,
           showIcon: true,
@@ -70,8 +73,7 @@ const NavigationApp = createStackNavigator({
       )
     })
   },
-  Leave: { screen: LeaveScreen },
-  Scan: { screen: ScanScreen }
+  Leave: { screen: LeaveScreen }
 });
 
 const NetInfoWrapper = () => (

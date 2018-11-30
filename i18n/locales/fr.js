@@ -33,7 +33,7 @@ export default {
     find: "RECHERCHE"
   },
   profile: {
-    title: "Profile",
+    title: "Scan",
     manual_insertion: "Insertion manuelle",
     scan_qr_code: "Scanner le QR Code",
     scan: "Scanner",
@@ -43,7 +43,7 @@ export default {
     remote: "Télétravail"
   },
   navigation: {
-      logOut: "Déconnexion"
+    logOut: "Déconnexion"
   },
   scan: {
     scan_qr_code: "Scannez le QR Code"
