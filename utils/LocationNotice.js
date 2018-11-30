@@ -6,10 +6,13 @@ import {
   StyleSheet,
   Platform,
   PermissionsAndroid,
-  AsyncStorage
+  AsyncStorage,
+  PushNotificationIOS,
+  geolocation
 } from "react-native";
+import Permissions from "react-native-permissions";
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
-import wifi from "react-native-android-wifi";
+import { NetworkInfo } from "react-native-network-info";
 import BackgroundTimer from "react-native-background-timer";
 import PushNotification from "react-native-push-notification";
 
@@ -48,9 +51,17 @@ class OfflineNotice extends PureComponent {
   }
 
   componentDidMount() {
-    BackgroundTimer.runBackgroundTimer(() => {
-      this.fetchWifiList();
-    }, 120000);
+    //
+    Permissions.request("location").then(() => {
+      // Returns once the user has chosen to 'allow' or to 'not allow' access
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      NetworkInfo.getBroadcast(address => {
+        console.log(address);
+      });
+    });
+    // BackgroundTimer.runBackgroundTimer(() => {
+    this.fetchWifiList();
+    // }, 5000);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -80,40 +91,7 @@ class OfflineNotice extends PureComponent {
     }
   };
 
-  fetchWifiList = () => {
-    wifi.isEnabled(isEnabled => {
-      if (isEnabled) {
-        wifi.loadWifiList(
-          wifiStringList => {
-            const wifiArray = JSON.parse(wifiStringList);
-            let wifiLocation = false;
-            wifiArray.map(element => {
-              if (element.SSID.match(this.fetchWifiRegex) !== null) {
-                wifiLocation = true;
-              }
-            });
-            this.setState({ wifiLocation });
-            if (wifiLocation === true)
-              PushNotification.localNotification({
-                foreground: false, // BOOLEAN: If the notification was received in foreground or not
-                userInteraction: false, // BOOLEAN: If the notification was opened by the user from the notification area or not
-                message: "My Notification Message", // STRING: The notification message
-                data: {} // OBJECT: The push data
-              });
-            // After 1s we want to hide the notification
-            setTimeout(() => {
-              this.setState({ wifiLocation: false });
-            }, 4000);
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      } else {
-        this.setState({ wifiLocation: false });
-      }
-    });
-  };
+  fetchWifiList = () => {};
 
   requestLocationPermission = async () => {
     const granted = await PermissionsAndroid.request(
@@ -125,8 +103,6 @@ class OfflineNotice extends PureComponent {
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       this.fetchWifiList();
-    } else {
-      console.log("You will not able to retrieve wifi available networks list");
     }
   };
 
