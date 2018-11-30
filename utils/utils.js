@@ -38,9 +38,9 @@ export const sendToServ = (ctx, json) => {
       ctx.state.id !== "" &&
       ctx.state.place !== "" &&
       ctx.state.historical !== []) ||
-    typeof ctx.state.isRemote !== "undefined"
+    typeof ctx.state.remoteDay !== "undefined"
   ) {
-    const { name, fname, id, place, historical, isRemote } = ctx.state;
+    const { name, fname, id, place, historical, remoteDay, photo } = ctx.state;
     ctx = ctx || window;
 
     const payload = {
@@ -49,7 +49,8 @@ export const sendToServ = (ctx, json) => {
       id_user: id,
       id_place: place,
       historical,
-      isRemote
+      remoteDay,
+      photo
     };
 
     fetch(server.address, {

@@ -10,8 +10,16 @@ const ManualInsertionCard = (props: {
 }) => {
   const { onChangeText, onPress } = props;
   return (
-    <Card title={I18n.t("profile.manual_insertion")}>
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
       <FormInput
+        containerStyle={{ width: 100 }}
         style={styles.place}
         placeholder={I18n.t("profile.place")}
         onChangeText={onChangeText}
@@ -28,7 +36,7 @@ const ManualInsertionCard = (props: {
           onPress={onPress}
         />
       </View>
-    </Card>
+    </View>
   );
 };
 

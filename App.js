@@ -1,5 +1,4 @@
 import React from "react";
-import wifi from "react-native-android-wifi";
 import NavigationApp from "./Navigation/NavigationApp";
 import config from "./config/api";
 import server from "./config/server";

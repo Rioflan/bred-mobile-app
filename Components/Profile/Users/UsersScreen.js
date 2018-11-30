@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   AsyncStorage,
   Image,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import I18n from "react-native-i18n";
@@ -63,12 +64,12 @@ class UsersScreen extends React.Component<Props, State> {
       } else {
         const userName = JSON.parse(result).name;
         const userFName = JSON.parse(result).fname;
-        const isRemote = JSON.parse(result).isRemote;
+        const remoteDay = JSON.parse(result).remoteDay;
         const historical = JSON.parse(result).historical;
         const id = JSON.parse(result).id;
         this.setState({
           userName: `${userName}/${userFName}`,
-          isRemote,
+          remoteDay,
           name: JSON.parse(result).name,
           fname: JSON.parse(result).fname,
           historical,
@@ -82,6 +83,31 @@ class UsersScreen extends React.Component<Props, State> {
 
   componentWillUnmount = () => {
     this._isMounted = false;
+  };
+
+  addFriend = item => {
+    const { navigation } = this.props;
+    const payload = {
+      id_user: this.state.id,
+      id: item.id,
+      name: item.name,
+      fname: item.fname,
+      id_place: item.id_place,
+      photo: item.photo
+    };
+
+    fetch(`${server.address}add_friend`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json()) // transform data to json
+      .then(friend =>
+        navigation.navigate("SettingsScreen", { friend: friend.user.friend })
+      );
   };
 
   getUsers = () => {
@@ -137,7 +163,7 @@ class UsersScreen extends React.Component<Props, State> {
   //  JSON.parse(value).push({name: item.name, fname: item.fname})
   //  AsyncStorage.setItem("friend", JSON.stringify(value))
   //   const payload = {
-  //     isRemote: this.state.isRemote,
+  //     remoteDay: this.state.remoteDay,
   //     name: this.state.name,
   //     fname: this.state.fname,
   //     historical: this.state.historical,
@@ -173,10 +199,10 @@ class UsersScreen extends React.Component<Props, State> {
     return (
       <ScrollView style={styles.view}>
         <Card>
-          <FindPlacesCard users={this.getUsers} />
+          <FindPlacesCard users={() => this.getUsers} />
           <FormLabel>{I18n.t("users.find")}</FormLabel>
           <FormInput
-            onChangeText={this._handleSearch}
+            onChangeText={() => this._handleSearch}
             style={{
               backgroundColor: "white",
               marginTop: 10
@@ -188,19 +214,24 @@ class UsersScreen extends React.Component<Props, State> {
               handleList={this._handleList()}
               prop1={item =>
                 item && `${item.name}/${item.fname}` !== this.state.userName ? (
-                  <ListItem
-                    rightIcon={{
-                      name: item.id_place
-                        ? "toggle-on"
-                        : item.isRemote
-                          ? "home"
-                          : "toggle-off",
-                      type: "font-awesome"
-                    }}
+                  <TouchableOpacity
                     key={item.id}
-                    title={`${item.name} / ${item.fname}`}
-                    subtitle={item.id_place}
-                  />
+                    onPress={() => this.addFriend(item)}
+                  >
+                    <ListItem
+                      onPress={() => this.addFriend(item)}
+                      title={`${item.name} / ${item.fname}`}
+                      subtitle={item.id_place}
+                      roundAvatar
+                      rightIcon={{ name: "add" }}
+                      avatar={{
+                        uri:
+                          item.photo === ""
+                            ? "https://www.drupal.org/files/issues/default-avatar.png"
+                            : item.photo
+                      }}
+                    />
+                  </TouchableOpacity>
                 ) : null
               }
             />

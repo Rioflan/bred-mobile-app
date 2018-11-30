@@ -108,7 +108,6 @@ class PlacesScreen extends React.Component<Props, State> {
           });
       }
     });
-    console.log(this.state);
     getPlaces(this, this.setPlaces);
   }
 
@@ -135,7 +134,7 @@ class PlacesScreen extends React.Component<Props, State> {
       ctx.state.id !== "" &&
       element.id !== ""
     ) {
-      const { name, fname, id, historical, isRemote } = ctx.state;
+      const { name, fname, id, historical, remoteDay } = ctx.state;
       ctx = ctx || window;
 
       const payload = {
@@ -144,7 +143,7 @@ class PlacesScreen extends React.Component<Props, State> {
         id_user: id,
         id_place: element.id,
         historical,
-        isRemote
+        remoteDay
       };
       fetch(server.address, {
         method: "POST",
@@ -170,7 +169,7 @@ class PlacesScreen extends React.Component<Props, State> {
                 place: payload.id_place,
                 debug: ctx.state.debug,
                 historical: ctx.state.historical,
-                isRemote: ctx.state.isRemote
+                remoteDay: ctx.state.remoteDay
               })
             );
             goTo(ctx, "Leave");
@@ -290,10 +289,10 @@ class PlacesScreen extends React.Component<Props, State> {
                     <TouchableOpacity
                       key={place.id}
                       onPress={() =>
-                        AsyncStorage.getItem("USER", (err, result) => {
-                          if (JSON.parse(result).isRemote === false)
-                            return getPlaces(this, this.getUser, place);
-                        })
+                        AsyncStorage.getItem("USER", (err, result) =>
+                          // if (JSON.parse(result).remoteDay === false)
+                          getPlaces(this, this.getUser, place)
+                        )
                       }
                     >
                       <ListItem key={place.id} title={place.id} />

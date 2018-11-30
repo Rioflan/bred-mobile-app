@@ -3,10 +3,13 @@ package com.flexoffice;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.pusherman.networkinfo.RNNetworkInfoPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
-import com.devstepbcn.wifi.AndroidWifiPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import org.reactnative.camera.RNCameraPackage;
@@ -31,10 +34,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
+            new ImageResizerPackage(),
+            new ImagePickerPackage(),
+            new RNNetworkInfoPackage(),
             new ReactNativePushNotificationPackage(),
             new BackgroundTimerPackage(),
             new LocationServicesDialogBoxPackage(),
-            new AndroidWifiPackage(),
             new RNI18nPackage(),
             new VectorIconsPackage(),
             new RNCameraPackage(),

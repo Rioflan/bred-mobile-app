@@ -3,11 +3,11 @@ import React from "react";
 
 import { AsyncStorage, Image, ScrollView, View, Text } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { CheckBox } from "react-native-elements";
+import QRCodeScanner from "react-native-qrcode-scanner";
 import config from "../../config/api";
 import server from "../../config/server";
 import styles from "./ProfileScreenStyles";
-import picProfile from "../../assets/profile.png";
+import picProfile from "../../assets/scan.png";
 import { getPlaces, goTo, sendToServ } from "../../utils/utils";
 
 import I18n from "../../i18n/i18n";
@@ -28,8 +28,7 @@ type State = {
   place: string,
   historical: Array<Historical>,
   debug: Array<any> | string,
-  isWrongFormatPlace: boolean,
-  isRemote: boolean
+  isWrongFormatPlace: boolean
 };
 
 type Props = {
@@ -59,7 +58,6 @@ class ProfileScreen extends React.Component<Props, State> {
       fname: "",
       id: "",
       place: "",
-      isRemote: false,
       isWrongFormatPlace: false
     };
   }
@@ -73,6 +71,7 @@ class ProfileScreen extends React.Component<Props, State> {
       else {
         if (this._isMounted) {
           this.setState(JSON.parse(result));
+          console.log(JSON.parse(result));
         }
         const userId = JSON.parse(result).id;
         fetch(`${server.address}users/${userId}`, {
@@ -96,26 +95,29 @@ class ProfileScreen extends React.Component<Props, State> {
     this._isMounted = false;
   }
 
+  onSuccess = e => {
+    this.setState({ place: e.data });
+    getPlaces(this, sendToServ);
+  };
+
   fetchAppMode = async () => {
     const environment = await AsyncStorage.getItem("environment");
     this.setState({
-      PLACE_REGEX: environment.PLACE_REGEX
+      PLACE_REGEX: JSON.parse(environment).PLACE_REGEX
     });
   };
 
-  _handleRemote = async () => {
-    await this.setState(prevState => ({ isRemote: !prevState.isRemote }));
-    return getPlaces(this, sendToServ);
-  };
+  // _handleRemote = async () => {
+  //   await this.setState(prevState => ({ isRemote: !prevState.isRemote }));
+  //   return getPlaces(this, sendToServ);
+  // };
 
   render() {
-    const { navigation } = this.props;
     const {
       fname,
       name,
       id,
       place,
-      isRemote,
       PLACE_REGEX,
       isWrongFormatPlace
     } = this.state;
@@ -123,7 +125,7 @@ class ProfileScreen extends React.Component<Props, State> {
     return (
       <ScrollView style={styles.view}>
         <HeaderCard fname={fname} name={name} id={id} />
-        <CheckBox
+        {/* <CheckBox
           title={I18n.t("profile.remote")}
           checked={isRemote}
           onPress={this._handleRemote}
@@ -131,8 +133,29 @@ class ProfileScreen extends React.Component<Props, State> {
           uncheckedIcon="circle-o"
           checkedColor="#5167A4"
           center
-        />
-        {!isRemote ? (
+        /> */}
+        {/* {!isRemote ? ( */}
+        <View>
+          {/* <ManualInsertionCard
+              onChangeText={text => this.setState({ place: text })}
+              onPress={() => {
+                if (place !== "" && place.match(PLACE_REGEX) !== null) {
+                  getPlaces(this, sendToServ);
+                } else this.setState({ isWrongFormatPlace: true });
+              }}
+            />
+            {isWrongFormatPlace ? (
+              <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
+            ) : null}
+            <QRCodeCard onPress={() => navigation.navigate("Scan")} /> */}
+          <QRCodeScanner
+            onRead={this.onSuccess}
+            topContent={
+              <Text style={styles.centerText}>
+                {I18n.t("scan.scan_qr_code")}
+              </Text>
+            }
+          />
           <View>
             <ManualInsertionCard
               onChangeText={text => this.setState({ place: text })}
@@ -145,9 +168,9 @@ class ProfileScreen extends React.Component<Props, State> {
             {isWrongFormatPlace ? (
               <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
             ) : null}
-            <QRCodeCard onPress={() => navigation.navigate("Scan")} />
           </View>
-        ) : null}
+        </View>
+        {/* ) : null} */}
       </ScrollView>
     );
   }

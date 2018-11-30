@@ -6,25 +6,21 @@ export default StyleSheet.create({
     flexDirection: "column"
   },
   view_second: {
-    backgroundColor: "white",
-    borderRadius: 5,
-    borderColor: "#5167A4",
-    borderWidth: 2,
-    height: 50,
     margin: 20
   },
   text_first: {
     textAlign: "center",
-    color: "#5167A4",
-    margin: 5,
-    marginTop: 8,
-    fontSize: 20
+    color: "black",
+    margin: 2,
+    fontSize: 18
   },
   view_third: {
     borderRadius: 4,
     borderWidth: 0.5
   },
-  place: {},
+  place: {
+    width: 50
+  },
   sendContainer: {
     marginRight: 50,
     marginLeft: 50,
@@ -54,7 +50,9 @@ export default StyleSheet.create({
     marginLeft: 50,
     marginRight: 50
   },
-  send: {},
+  send: {
+    width: 100
+  },
   scan: {},
   logOut: {},
   free_places: {

@@ -1,9 +1,9 @@
-import { View } from "react-native";
+import { View, Image } from "react-native";
 import { Text } from "react-native-elements";
 import React from "react";
 import styles from "../ProfileScreenStyles";
 
-const HeaderCard = (props: { fname: any, name: any, id: any }) => {
+const HeaderCard = (props: { fname: string, name: string, id: string }) => {
   const { fname, name, id } = props;
   return (
     <View style={styles.view_second}>

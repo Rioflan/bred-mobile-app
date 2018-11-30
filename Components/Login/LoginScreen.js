@@ -30,8 +30,9 @@ class LoginScreen extends React.Component<Props, State> {
       place: "",
       debug: "",
       debugField: "",
-      isRemote: false,
-      historical: []
+      remoteDay: "",
+      historical: [],
+      photo: ""
     };
   }
 
@@ -72,19 +73,20 @@ class LoginScreen extends React.Component<Props, State> {
   /** This function handle the user login */
   logIn() {
     const { navigation } = this.props;
+    const { name, fname, id, LOGIN_REGEX, historical } = this.state;
 
     if (
-      this.state.name !== "" &&
-      this.state.fname !== "" &&
-      this.state.id !== "" &&
-      this.state.id.match(this.state.LOGIN_REGEX) !== null
+      name !== "" &&
+      fname !== "" &&
+      id !== "" &&
+      id.match(LOGIN_REGEX) !== null
     ) {
       const payload = {
-        name: this.state.name,
-        fname: this.state.fname,
-        id_user: this.state.id,
+        name,
+        fname,
+        id_user: id,
         id_place: "",
-        historical: this.state.historical
+        historical
       };
 
       fetch(`${server.address}login_user`, {
@@ -99,12 +101,16 @@ class LoginScreen extends React.Component<Props, State> {
         .then(data => {
           const redirect: boolean = true;
           if (redirect) {
-            if (data.user) this.setState({ isRemote: data.user.isRemote });
+            console.log(data);
+            if (data.user)
+              this.setState({
+                remoteDay: data.user.remoteDay,
+                photo: data.user.photo
+              });
             AsyncStorage.setItem(
               "USER",
               JSON.stringify(omit(["debugField"], this.state))
             );
-            navigation.goBack();
             navigation.navigate("Profile");
           }
         });

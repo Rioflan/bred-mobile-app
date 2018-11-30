@@ -24,7 +24,7 @@ type Payload = {
   id_user: string,
   id_place: string,
   historical: Array<Historical>,
-  isRemote: boolean
+  remoteDay: string
 };
 
 class LeaveScreen extends React.Component<Props, State> {
@@ -76,7 +76,7 @@ class LeaveScreen extends React.Component<Props, State> {
   }
 
   leavePlace(ctx) {
-    const { name, fname, id, place, historical, isRemote } = ctx.state;
+    const { name, fname, id, place, historical, remoteDay } = ctx.state;
     ctx = ctx || window;
     const payload: Payload = {
       name,
@@ -84,7 +84,7 @@ class LeaveScreen extends React.Component<Props, State> {
       id_user: id,
       id_place: place,
       historical,
-      isRemote
+      remoteDay
     };
     fetch(server.address, {
       method: "POST",
@@ -104,7 +104,7 @@ class LeaveScreen extends React.Component<Props, State> {
         ctx.state.debug = "";
         ctx.state.place = "";
         ctx.state.isWrongFormatPlace = false;
-        ctx.state.isRemote = false;
+        // ctx.state.remoteDay = false;
         AsyncStorage.setItem("USER", JSON.stringify(ctx.state));
         goTo(ctx, "Profile");
       });

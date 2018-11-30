@@ -148,10 +148,13 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fs')
+    compile project(':react-native-image-resizer')
+    compile project(':react-native-image-picker')
+    compile project(':react-native-network-info')
     compile project(':react-native-push-notification')
     compile project(':react-native-background-timer')
     compile project(':react-native-android-location-services-dialog-box')
-    compile project(':react-native-android-wifi')
     compile project(':react-native-i18n')
     compile project(':react-native-vector-icons')
     implementation project(':react-native-vector-icons')
