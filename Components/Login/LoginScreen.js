@@ -101,7 +101,6 @@ class LoginScreen extends React.Component<Props, State> {
         .then(data => {
           const redirect: boolean = true;
           if (redirect) {
-            console.log(data);
             if (data.user)
               this.setState({
                 remoteDay: data.user.remoteDay,

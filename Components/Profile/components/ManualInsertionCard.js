@@ -1,4 +1,4 @@
-import { Button, Card, FormInput } from "react-native-elements";
+import { Button, FormInput } from "react-native-elements";
 import { View } from "react-native";
 import React from "react";
 import I18n from "../../../i18n/i18n";

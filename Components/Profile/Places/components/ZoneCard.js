@@ -1,7 +1,6 @@
 import { Card, CheckBox } from "react-native-elements";
 import React from "react";
 import I18n from "../../../../i18n/i18n";
-import FetchPlacesButton from "./FetchPlacesButton";
 
 const ZoneCard = (props: {
   checked: any,

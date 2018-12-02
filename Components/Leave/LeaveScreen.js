@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import React from "react";
 
 import { AsyncStorage, View } from "react-native";

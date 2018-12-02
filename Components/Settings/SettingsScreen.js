@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 
 import React, { Component } from "react";
 import { AsyncStorage, Text, View, Image, ScrollView } from "react-native";
@@ -8,11 +9,8 @@ import { assoc, filter } from "ramda";
 import PhotoUpload from "react-native-photo-upload";
 import config from "../../config/api";
 import server from "../../config/server";
-import styles from "./SettingsScreenStyles";
 import { sendToServ, getPlaces, goTo } from "../../utils/utils";
 import picProfile from "../../assets/profile.png";
-
-import I18n from "../../i18n/i18n";
 
 const WEEK_DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 

@@ -1,7 +1,6 @@
 import React from "react";
 import { AsyncStorage, Image, TouchableHighlight, View } from "react-native";
 import { createStackNavigator, createTabNavigator } from "react-navigation";
-import HomeScreen from "../Components/Home/HomeScreen";
 import LoginScreen from "../Components/Login/LoginScreen";
 import ProfileScreen from "../Components/Profile/ProfileScreen";
 import LeaveScreen from "../Components/Leave/LeaveScreen";
@@ -12,10 +11,7 @@ import OfflineNotice from "../utils/OfflineNotice";
 import logOutPicture from "../assets/logout.png";
 // import LocationNotice from "../utils/LocationNotice";
 
-import I18n from "../i18n/i18n";
-
 const NavigationApp = createStackNavigator({
-  // Home: { screen: HomeScreen },
   Login: { screen: LoginScreen },
   Profile: {
     screen: createTabNavigator(

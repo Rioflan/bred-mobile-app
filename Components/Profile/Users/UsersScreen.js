@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import React from "react";
 import { Card, FormInput, FormLabel, ListItem } from "react-native-elements";
 
@@ -193,8 +194,7 @@ class UsersScreen extends React.Component<Props, State> {
   // }
 
   render() {
-    const { navigation } = this.props;
-    const { users, loading } = this.state;
+    const { users, loading, userName } = this.state;
 
     return (
       <ScrollView style={styles.view}>
@@ -213,7 +213,7 @@ class UsersScreen extends React.Component<Props, State> {
             <ListPlaces
               handleList={this._handleList()}
               prop1={item =>
-                item && `${item.name}/${item.fname}` !== this.state.userName ? (
+                item && `${item.name}/${item.fname}` !== userName ? (
                   <TouchableOpacity
                     key={item.id}
                     onPress={() => this.addFriend(item)}

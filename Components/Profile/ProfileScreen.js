@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable */
 import React from "react";
 
 import { AsyncStorage, Image, ScrollView, View, Text } from "react-native";
@@ -12,7 +13,6 @@ import { getPlaces, goTo, sendToServ } from "../../utils/utils";
 
 import I18n from "../../i18n/i18n";
 import ManualInsertionCard from "./components/ManualInsertionCard";
-import QRCodeCard from "./components/QRCodeCard";
 import HeaderCard from "./components/HeaderCard";
 
 type Historical = {
@@ -34,8 +34,6 @@ type State = {
 type Props = {
   navigation: NavigationScreenProp<{}>
 };
-
-const profilePic = <Image source={require("../../assets/profile.png")} />;
 
 class ProfileScreen extends React.Component<Props, State> {
   static navigationOptions = {

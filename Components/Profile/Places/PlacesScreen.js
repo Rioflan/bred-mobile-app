@@ -1,4 +1,6 @@
 // @flow
+/* eslint-disable */
+
 import React from "react";
 import {
   ButtonGroup,
@@ -68,13 +70,9 @@ class PlacesScreen extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      name: "",
-      fname: "",
       id: "",
-      place: "",
       debug: "",
       search: "",
-      historical: [],
       RERZonechecked: false,
       ForestZonechecked: false,
       MiddleZonechecked: false,
@@ -155,10 +153,7 @@ class PlacesScreen extends React.Component<Props, State> {
       })
         .then(res => res.json())
         .then(data => {
-          let redirect: boolean = true;
-          payload.id_place == element.id && element.using
-            ? (redirect = false)
-            : null;
+          const redirect = !(payload.id_place == element.id && element.using);
           if (redirect) {
             AsyncStorage.setItem(
               "USER",
@@ -288,12 +283,7 @@ class PlacesScreen extends React.Component<Props, State> {
                   place ? (
                     <TouchableOpacity
                       key={place.id}
-                      onPress={() =>
-                        AsyncStorage.getItem("USER", (err, result) =>
-                          // if (JSON.parse(result).remoteDay === false)
-                          getPlaces(this, this.getUser, place)
-                        )
-                      }
+                      onPress={() => getPlaces(this, this.getUser, place)}
                     >
                       <ListItem key={place.id} title={place.id} />
                     </TouchableOpacity>
