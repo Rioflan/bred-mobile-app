@@ -1,62 +1,83 @@
-import React from 'react'
-import { Button, AsyncStorage } from 'react-native';
-import { createStackNavigator, createTabNavigator } from 'react-navigation'
-import HomeScreen from '../Components/Home/HomeScreen'
-import LoginScreen from '../Components/Login/LoginScreen'
-import ProfileScreen from '../Components/Profile/ProfileScreen'
-import LeaveScreen from '../Components/Leave/LeaveScreen'
-import ScanScreen from '../Components/Scan/ScanScreen'
-import PlacesScreen from '../Components/Profile/Places/PlacesScreen'
-import UsersScreen from '../Components/Profile/Users/UsersScreen'
+import React from "react";
+import { AsyncStorage, Image, TouchableHighlight, View } from "react-native";
+import { createStackNavigator, createTabNavigator } from "react-navigation";
+import LoginScreen from "../Components/Login/LoginScreen";
+import ProfileScreen from "../Components/Profile/ProfileScreen";
+import LeaveScreen from "../Components/Leave/LeaveScreen";
+import SettingsScreen from "../Components/Settings/SettingsScreen";
+import PlacesScreen from "../Components/Profile/Places/PlacesScreen";
+import UsersScreen from "../Components/Profile/Users/UsersScreen";
+import OfflineNotice from "../utils/OfflineNotice";
+import logOutPicture from "../assets/logout.png";
+// import LocationNotice from "../utils/LocationNotice";
 
 const NavigationApp = createStackNavigator({
-  Home: { screen: HomeScreen },
   Login: { screen: LoginScreen },
   Profile: {
     screen: createTabNavigator(
       {
         ProfileScreen,
         PlacesScreen,
-        UsersScreen
+        UsersScreen,
+        SettingsScreen
       },
       {
         title: "Places",
         tabBarPosition: "bottom",
         swipeEnabled: true,
         tabBarOptions: {
-            labelStyle: {
+          labelStyle: {
             fontSize: 10,
-            },
+            margin: 0,
+            padding: 0
+          },
           showLabel: true,
           showIcon: true,
           activeTintColor: "#5167A4",
-          activeBackgroundColor: 'rgba(143, 158, 201, 0.4)',
+          activeBackgroundColor: "rgba(143, 158, 201, 0.4)",
           style: {
-            backgroundColor: '#ffffff',
+            backgroundColor: "#ffffff"
           },
           indicatorStyle: {
-            backgroundColor: 'white'
+            backgroundColor: "white"
           }
         }
       }
     ),
-    navigationOptions: ({ navigation }) => {
-      return {
+    navigationOptions: ({ navigation }) => ({
       title: "Flex-Office",
-      headerTintColor: 'black',
-      headerRight: <Button
-        title="Log Out"
-        color= "#5167A4"
-        onPress={() => {
-          AsyncStorage.removeItem('USER');
-          navigation.popToTop();
-          navigation.navigate('Login');
-        }} />
-      }
-    }
+      headerTintColor: "black",
+      headerLeft: null,
+      headerRight: (
+        <TouchableHighlight
+          onPress={() => {
+            AsyncStorage.removeItem("USER");
+            navigation.popToTop();
+            navigation.navigate("Login");
+          }}
+        >
+          <Image
+            source={logOutPicture}
+            style={{
+              width: 22,
+              height: 22,
+              margin: 10,
+              resizeMode: "contain"
+            }}
+          />
+        </TouchableHighlight>
+      )
+    })
   },
-  Leave: { screen: LeaveScreen },
-  Scan: { screen: ScanScreen }
+  Leave: { screen: LeaveScreen }
 });
 
-export default NavigationApp
+const NetInfoWrapper = () => (
+  <View style={{ flex: 1 }}>
+    <OfflineNotice />
+    <NavigationApp />
+    {/* <LocationNotice /> */}
+  </View>
+);
+
+export default NetInfoWrapper;

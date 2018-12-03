@@ -1,4 +1,6 @@
 # **flex-rn-client** [![Build Status](https://app.bitrise.io/app/8ba0832124e4cdf2/status.svg?token=HTfEgn2kTcAN_FI2qXEqeQ&branch=feature/refactoring)](https://app.bitrise.io/app/8ba0832124e4cdf2)
+[![Coverage Status](https://coveralls.io/repos/github/ayshiff/flex-rn-client/badge.svg?branch=master)](https://coveralls.io/github/ayshiff/flex-rn-client?branch=master)
+[![CircleCI](https://circleci.com/gh/ayshiff/flex-rn-client.svg?style=svg)](https://circleci.com/gh/ayshiff/flex-rn-client)
 
 Simple mobile client in React-Native for **flex-server** project
 
@@ -63,7 +65,7 @@ For `api.json`:
 }
 ```
 
-And for `server.json`:
+For `server.json`:
 
 ```
 {
@@ -71,8 +73,11 @@ And for `server.json`:
 }
 ```
 
-You can also add a `.env` file at the root of the project and pass variables as environment variables.
+And for `regex.json`:
 
+You also have to configure environment variables of the *flex server* project.
+
+`CONFIG_REGEX`, `PLACE_REGEX`, `WIFI_REGEX`
 
 ## Generating Signed APK
 
@@ -102,35 +107,67 @@ Inside `gradle.properties`.
 ├── Components
 │   ├── Home
 │   │   ├── HomeScreen.js
-│   │   └── HomeScreenStyles.js
+│   │   ├── HomeScreenStyles.js
+│   │   └── components
+│   │       └── HomeButton.js
 │   ├── Leave
 │   │   ├── LeaveScreen.js
 │   │   ├── LeaveScreenStyles.js
-│   │   └── LeaveScreenType.js
+│   │   ├── LeaveScreenType.js
+│   │   └── components
+│   │       └── LeaveButton.js
 │   ├── Login
 │   │   ├── LoginScreen.js
 │   │   ├── LoginScreenStyles.js
-│   │   └── LoginScreenType.js
+│   │   ├── LoginScreenType.js
+│   │   └── components
+│   │       ├── InputLogin.js
+│   │       └── LoginButton.js
 │   ├── Profile
 │   │   ├── Places
-│   │   │   └── PlacesScreen.js
+│   │   │   ├── PlacesScreen.js
+│   │   │   └── components
+│   │   │       ├── FetchPlacesButton.js
+│   │   │       └── ZoneCard.js
 │   │   ├── ProfileScreen.js
 │   │   ├── ProfileScreenStyles.js
-│   │   └── Users
-│   │       └── UsersScreen.js
+│   │   ├── Users
+│   │   │   ├── UsersScreen.js
+│   │   │   └── components
+│   │   │       ├── FindPlacesCard.js
+│   │   │       └── ListPlaces.js
+│   │   └── components
+│   │       ├── HeaderCard.js
+│   │       ├── ManualInsertionCard.js
+│   │       └── QRCodeCard.js
 │   └── Scan
 │       ├── ScanScreen.js
 │       └── ScanScreenStyles.js
 ├── Navigation
 │   └── NavigationApp.js
-├── utils
-│   └── utils.js
 ├── README.md
+├── __tests__
+│   ├── Home
+│   │   └── Home_test.js
+│   ├── Leave
+│   │   └──Leave_test.js
+│   ├── Login
+│   │   └── Login_test.js
+│   └── Profile
+│       └── Profile_test.js
+├── utils
+│   ├── LocationNotice.js
+│   ├── OfflineNotice.js
+│   ├── services
+│   │   ├── index.js
+│   │   └── pushNotification.js
+│   └── utils.js
 ├── android
 ├── app.json
 ├── config
-│   ├── api.js
-│   └── server.js
+│   ├── api.json
+│   ├── regex.json
+│   └── server.json
 ├── index.js
 ├── ios
 ├── package-lock.json

@@ -1,26 +1,24 @@
 // @flow
 
 import React from "react";
-import { View, AsyncStorage } from "react-native";
+import { AsyncStorage, View } from "react-native";
 
-import {
-  Button,
-  Card,
-  FormInput,
-  Text,
-  List,
-  ListItem,
-  SearchBar
-} from "react-native-elements";
+import { Text } from "react-native-elements";
 import { omit } from "ramda";
-import styles from './LoginScreenStyles';
-import server from '../../config/server';
-import config from '../../config/api';
-import type { State, Props } from './LoginScreenType';
+import styles from "./LoginScreenStyles";
+import server from "../../config/server";
+import config from "../../config/api";
+import type { Props, State } from "./LoginScreenType";
+
+import I18n from "../../i18n/i18n";
+import LoginButton from "./components/LoginButton";
+import InputLogin from "./components/InputLogin";
+
+import { checkNavigation } from "../../utils/utils";
 
 class LoginScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: "Login"
+    title: I18n.t("login.title")
   };
 
   constructor() {
@@ -31,32 +29,67 @@ class LoginScreen extends React.Component<Props, State> {
       id: "",
       place: "",
       debug: "",
-      historical: []
+      debugField: "",
+      remoteDay: "",
+      historical: [],
+      photo: ""
     };
   }
 
-  logOut() {
-    AsyncStorage.removeItem("USER");
+  componentWillMount() {
+    fetch(`${server.address}environment`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        const { LOGIN_REGEX, PLACE_REGEX, WIFI_REGEX } = data;
+        const environmentVariable = {
+          LOGIN_REGEX,
+          PLACE_REGEX,
+          WIFI_REGEX
+        };
+        this.setState({ LOGIN_REGEX });
+        AsyncStorage.setItem(
+          "environment",
+          JSON.stringify(environmentVariable)
+        );
+      });
+    checkNavigation(this);
   }
+
+  fetchLoginRegex = async () => {
+    const regex = await AsyncStorage.getItem("environment");
+    return regex.LOGIN_REGEX;
+  };
+
+  logOut = () => {
+    AsyncStorage.removeItem("USER");
+  };
 
   /** This function handle the user login */
   logIn() {
     const { navigation } = this.props;
+    const { name, fname, id, LOGIN_REGEX, historical } = this.state;
+
     if (
-      this.state.name !== "" &&
-      this.state.fname !== "" &&
-      this.state.id !== ""
+      name !== "" &&
+      fname !== "" &&
+      id !== "" &&
+      id.match(LOGIN_REGEX) !== null
     ) {
       const payload = {
-        name: this.state.name,
-        fname: this.state.fname,
-        id_user: this.state.id,
-        id_place: '',
-        historical: this.state.historical,
+        name,
+        fname,
+        id_user: id,
+        id_place: "",
+        historical
       };
 
-      AsyncStorage.setItem("USER", JSON.stringify(this.state));
-      fetch(`${server.address}/login_user`, {
+      fetch(`${server.address}login_user`, {
         method: "POST",
         body: JSON.stringify(payload),
         headers: {
@@ -67,61 +100,42 @@ class LoginScreen extends React.Component<Props, State> {
         .then(res => res.json())
         .then(data => {
           const redirect: boolean = true;
-
           if (redirect) {
+            if (data.user)
+              this.setState({
+                remoteDay: data.user.remoteDay,
+                photo: data.user.photo,
+                friend: data.user.friend
+              });
+            else this.setState({ friend: [] });
             AsyncStorage.setItem(
               "USER",
-              JSON.stringify(omit("debug", this.state))
+              JSON.stringify(omit(["debugField"], this.state))
             );
-            navigation.goBack();
             navigation.navigate("Profile");
           }
         });
     } else {
-      this.setState({ debug: "Fill all inputs" });
+      this.setState({ debugField: I18n.t("login.debug") });
     }
   }
 
   render() {
-    const { debug } = this.state;
+    const { debugField } = this.state;
     return (
       <View style={styles.view}>
         <View style={styles.view_second}>
-          <FormInput
-            style={styles.textInput}
-            placeholder="Nom"
+          <InputLogin
             onChangeText={text => this.setState({ name: text })}
+            onChangeText1={text => this.setState({ fname: text })}
+            onChangeText2={text => this.setState({ id: text })}
           />
-
-          <FormInput
-            style={styles.textInput}
-            placeholder="Prénom"
-            onChangeText={text => this.setState({ fname: text })}
-          />
-
-          <FormInput
-            style={styles.textInput}
-            placeholder="ID"
-            onChangeText={text => this.setState({ id: text })}
-          />
-          <View style={styles.button_container}>
-            <Button
-              style={styles.button_login}
-              fontWeight="bold"
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              title="Login"
-              onPress={() => this.logIn()}
-            />
-          </View>
-
-          <Text>{debug}</Text>
+          <LoginButton onPress={() => this.logIn()} />
+          <Text style={styles.debug}>{debugField}</Text>
         </View>
       </View>
     );
   }
 }
-/* <Button title='Log out'
-onPress={() => this.logOut()}/> */
+
 export default LoginScreen;

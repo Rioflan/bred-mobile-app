@@ -1,22 +1,19 @@
 // @flow
+/* eslint-disable */
 import React from "react";
-import {
-  Button,
-  Card,
-  FormInput,
-  Text,
-  List,
-  ListItem
-} from "react-native-elements";
 
-import { View, TextInput, AsyncStorage, ScrollView, Image } from "react-native";
+import { AsyncStorage, Image, ScrollView, View, Text } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { filter, find, propEq } from "ramda";
+import QRCodeScanner from "react-native-qrcode-scanner";
 import config from "../../config/api";
 import server from "../../config/server";
 import styles from "./ProfileScreenStyles";
-import picProfile from "../../assets/profile.png";
-import { sendToServ, getPlaces, goTo } from "../../utils/utils";
+import picProfile from "../../assets/scan.png";
+import { getPlaces, goTo, sendToServ } from "../../utils/utils";
+
+import I18n from "../../i18n/i18n";
+import ManualInsertionCard from "./components/ManualInsertionCard";
+import HeaderCard from "./components/HeaderCard";
 
 type Historical = {
   place_id: string,
@@ -30,19 +27,18 @@ type State = {
   id: string,
   place: string,
   historical: Array<Historical>,
-  debug: Array<any> | string
+  debug: Array<any> | string,
+  isWrongFormatPlace: boolean
 };
 
 type Props = {
   navigation: NavigationScreenProp<{}>
 };
 
-const profilePic = <Image source={require("../../assets/profile.png")} />;
-
 class ProfileScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: "Profile",
-    tabBarIcon: ({ focused, tintColor }) => (
+    title: I18n.t("profile.title"),
+    tabBarIcon: () => (
       <Image
         source={picProfile}
         resizeMode="contain"
@@ -50,6 +46,7 @@ class ProfileScreen extends React.Component<Props, State> {
       />
     )
   };
+
   _isMounted = false;
 
   constructor() {
@@ -59,18 +56,21 @@ class ProfileScreen extends React.Component<Props, State> {
       fname: "",
       id: "",
       place: "",
-      debug: "",
-      historical: []
+      isWrongFormatPlace: false
     };
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this._isMounted = true;
-    const { id } = this.state;
+    // Fetch environment variables
+    this.fetchAppMode();
     AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) goTo(this, "Login");
       else {
-        if (this._isMounted) this.setState(JSON.parse(result));
+        if (this._isMounted) {
+          this.setState(JSON.parse(result));
+          console.log(JSON.parse(result));
+        }
         const userId = JSON.parse(result).id;
         fetch(`${server.address}users/${userId}`, {
           method: "GET",
@@ -81,62 +81,94 @@ class ProfileScreen extends React.Component<Props, State> {
         })
           .then(res => res.json()) // transform data to json
           .then(data => {
-            if (this._isMounted)
-              this.setState({ historical: data[0].historical });
+            if (this._isMounted) {
+              this.setState({ historical: data[0].historical || [] });
+            }
           });
       }
     });
-  }
+  };
 
   componentWillUnmount() {
     this._isMounted = false;
   }
 
+  onSuccess = e => {
+    this.setState({ place: e.data });
+    getPlaces(this, sendToServ);
+  };
+
+  fetchAppMode = async () => {
+    const environment = await AsyncStorage.getItem("environment");
+    this.setState({
+      PLACE_REGEX: JSON.parse(environment).PLACE_REGEX
+    });
+  };
+
+  // _handleRemote = async () => {
+  //   await this.setState(prevState => ({ isRemote: !prevState.isRemote }));
+  //   return getPlaces(this, sendToServ);
+  // };
+
   render() {
-    const navigation = this.props.navigation;
-    const { fname, name, id } = this.state;
+    const {
+      fname,
+      name,
+      id,
+      place,
+      PLACE_REGEX,
+      isWrongFormatPlace
+    } = this.state;
 
     return (
       <ScrollView style={styles.view}>
-        <View style={styles.view_second}>
-          <Text h4 style={styles.text_first}>
-            {fname} {name} [{id}]
-          </Text>
-        </View>
-
-        <Card title="Manual insertion">
-          <FormInput
-            style={styles.place}
-            placeholder="Place"
-            onChangeText={text => this.setState({ place: text })}
+        <HeaderCard fname={fname} name={name} id={id} />
+        {/* <CheckBox
+          title={I18n.t("profile.remote")}
+          checked={isRemote}
+          onPress={this._handleRemote}
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="circle-o"
+          checkedColor="#5167A4"
+          center
+        /> */}
+        {/* {!isRemote ? ( */}
+        <View>
+          {/* <ManualInsertionCard
+              onChangeText={text => this.setState({ place: text })}
+              onPress={() => {
+                if (place !== "" && place.match(PLACE_REGEX) !== null) {
+                  getPlaces(this, sendToServ);
+                } else this.setState({ isWrongFormatPlace: true });
+              }}
+            />
+            {isWrongFormatPlace ? (
+              <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
+            ) : null}
+            <QRCodeCard onPress={() => navigation.navigate("Scan")} /> */}
+          <QRCodeScanner
+            onRead={this.onSuccess}
+            topContent={
+              <Text style={styles.centerText}>
+                {I18n.t("scan.scan_qr_code")}
+              </Text>
+            }
           />
-
-          <View style={styles.sendContainer}>
-            <Button
-              fontWeight="bold"
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              style={styles.send}
-              title="Send"
-              onPress={() => getPlaces(this, sendToServ)}
+          <View>
+            <ManualInsertionCard
+              onChangeText={text => this.setState({ place: text })}
+              onPress={() => {
+                if (place !== "" && place.match(PLACE_REGEX) !== null) {
+                  getPlaces(this, sendToServ);
+                } else this.setState({ isWrongFormatPlace: true });
+              }}
             />
+            {isWrongFormatPlace ? (
+              <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
+            ) : null}
           </View>
-        </Card>
-
-        <Card title="Scan QR code">
-          <View style={styles.scan_container}>
-            <Button
-              fontWeight="bold"
-              borderRadius={15}
-              backgroundColor="#5167A4"
-              color="#fff"
-              style={styles.scan}
-              title="Scan"
-              onPress={() => navigation.navigate("Scan")}
-            />
-          </View>
-        </Card>
+        </View>
+        {/* ) : null} */}
       </ScrollView>
     );
   }

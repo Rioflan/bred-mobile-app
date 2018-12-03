@@ -1,10 +1,10 @@
 // @flow
-import { NavigationScreenProp } from 'react-navigation';
+import { NavigationScreenProp } from "react-navigation";
 
 type Historical = {
   place_id: string,
   begin: string,
-  end: string,
+  end: string
 };
 
 export type State = {
