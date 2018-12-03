@@ -16,7 +16,11 @@ export const checkNavigation = (ctx, str) => {
     } else {
       const jsonres = JSON.parse(result);
       if (str) navigate(str);
-      else if (jsonres.place === null || jsonres.place === "") {
+      else if (
+        !jsonres.place ||
+        jsonres.place === null ||
+        jsonres.place === ""
+      ) {
         navigate("Profile");
       } else {
         navigate("Leave");

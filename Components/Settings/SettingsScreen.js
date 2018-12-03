@@ -5,7 +5,7 @@ import React, { Component } from "react";
 import { AsyncStorage, Text, View, Image, ScrollView } from "react-native";
 
 import { ButtonGroup, Button, ListItem } from "react-native-elements";
-import { assoc, filter } from "ramda";
+import { assoc, filter, omit } from "ramda";
 import PhotoUpload from "react-native-photo-upload";
 import config from "../../config/api";
 import server from "../../config/server";
@@ -143,9 +143,15 @@ class SettingsScreen extends Component<Props, State> {
       .then(friendUser => {
         const isRemovedUser = userFriend => userFriend.id !== friend.id;
         this.setState({
-          arrayOfFriends: filter(isRemovedUser, arrayOfFriends)
+          arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
+          friend: filter(isRemovedUser, this.state.friend)
         });
         navigation.setParams({ friend: null });
+        AsyncStorage.setItem(
+          "USER",
+          JSON.stringify(omit(["arrayOfFriends"], this.state))
+        );
+        navigation.navigate("UsersScreen", { friendBack: friend });
       });
   };
 

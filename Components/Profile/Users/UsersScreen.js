@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity
 } from "react-native";
+import { append } from "ramda";
 import { NavigationScreenProp } from "react-navigation";
 import I18n from "react-native-i18n";
 import config from "../../../config/api";
@@ -59,6 +60,10 @@ class UsersScreen extends React.Component<Props, State> {
 
   componentDidMount() {
     const { id } = this.state;
+    const { navigation } = this.props;
+    this.didFocusListener = navigation.addListener("didFocus", () => {
+      this.refreshFriends();
+    });
     AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) {
         goTo(this, "Login");
@@ -67,6 +72,7 @@ class UsersScreen extends React.Component<Props, State> {
         const userFName = JSON.parse(result).fname;
         const remoteDay = JSON.parse(result).remoteDay;
         const historical = JSON.parse(result).historical;
+        const friend = JSON.parse(result).friend;
         const id = JSON.parse(result).id;
         this.setState({
           userName: `${userName}/${userFName}`,
@@ -74,16 +80,29 @@ class UsersScreen extends React.Component<Props, State> {
           name: JSON.parse(result).name,
           fname: JSON.parse(result).fname,
           historical,
-          id
+          id,
+          friend
         });
       }
     });
+
     this._isMounted = true;
     this.getUsers();
   }
 
   componentWillUnmount = () => {
     this._isMounted = false;
+  };
+
+  refreshFriends = () => {
+    const { users } = this.state;
+    const { navigation } = this.props;
+
+    const listOfFriends = navigation.getParam("friendBack");
+    this.setState({
+      users: listOfFriends ? append(listOfFriends, users) : users
+    });
+    if (listOfFriends) navigation.setParams({ friendBack: null });
   };
 
   addFriend = item => {
@@ -106,9 +125,15 @@ class UsersScreen extends React.Component<Props, State> {
       }
     })
       .then(res => res.json()) // transform data to json
-      .then(friend =>
-        navigation.navigate("SettingsScreen", { friend: friend.user.friend })
-      );
+      .then(friend => {
+        const newListOfUSers = this.state.users.filter(e => e.id !== item.id);
+        this.setState({
+          users: newListOfUSers,
+          friend: append(friend, friend.user.friend)
+        });
+        AsyncStorage.setItem("USER", JSON.stringify(this.state));
+        navigation.navigate("SettingsScreen", { friend: friend.user.friend });
+      });
   };
 
   getUsers = () => {
@@ -122,7 +147,15 @@ class UsersScreen extends React.Component<Props, State> {
     })
       .then(res => res.json()) // transform data to json
       .then(users => {
-        if (this._isMounted) this.setState({ users });
+        if (this._isMounted) {
+          // Here we check if users are in the friend list
+          const filteredUsers = users.filter(
+            word => !this.state.friend.find(e => e.id === word.id)
+          );
+          this.setState({
+            users: this.state.friend.length > 0 ? filteredUsers : users
+          });
+        }
         this.setState({ loading: false });
       });
   };
@@ -133,7 +166,6 @@ class UsersScreen extends React.Component<Props, State> {
 
   _handleList = () => {
     const { users, search } = this.state;
-
     const newT: string | Array<object> =
       users !== []
         ? users.filter(e => {

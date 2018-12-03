@@ -104,8 +104,10 @@ class LoginScreen extends React.Component<Props, State> {
             if (data.user)
               this.setState({
                 remoteDay: data.user.remoteDay,
-                photo: data.user.photo
+                photo: data.user.photo,
+                friend: data.user.friend
               });
+            else this.setState({ friend: [] });
             AsyncStorage.setItem(
               "USER",
               JSON.stringify(omit(["debugField"], this.state))
