@@ -41,14 +41,8 @@ If you have already installed Xcode on your system, make sure it is version 9.4 
 
 You will also need to install the Xcode Command Line Tools. Open Xcode, then choose "Preferences..." from the Xcode menu. Go to the Locations panel and install the tools by selecting the most recent version in the Command Line Tools dropdown.
 
-## Running your React Native application
 
-Run ```react-native run-ios``` inside your React Native project folder:
-```
-cd flex-rn-client
-npm install
-react-native run-ios
-```
+## Configuration
 
 Make sure you have filled the config files with your API :
 (Follow these steps to have your server working :
@@ -78,6 +72,37 @@ And for `regex.json`:
 You also have to configure environment variables of the *flex server* project.
 
 `CONFIG_REGEX`, `PLACE_REGEX`, `WIFI_REGEX`
+
+## Running your React Native application in the Simulator
+
+Run ```react-native run-ios``` inside your React Native project folder:
+```
+cd flex-rn-client
+npm install
+react-native run-ios
+```
+
+## Running your React Native application on a real Device
+
+In the Apple Dev Center
+
+. Declare your app
+
+. Create a provisioning profile
+
+In Xcode
+
+. Use your provisioning profile
+
+. Change the FlexOffice Scheme Run Build Configuration from 'Debug' to 'Release'
+
+. In Xcode, Select File -> Project/Workspace Setting. You will see a Build System option to select the Legacy Build System as shown below
+
+![xcode build setting](https://i.stack.imgur.com/hdaJu.png)
+
+
+Clear your project and "Derived Data" Build and Run your project
+
 
 ## Generating Signed APK
 
