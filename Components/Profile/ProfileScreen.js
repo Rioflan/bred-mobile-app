@@ -61,6 +61,7 @@ class ProfileScreen extends React.Component<Props, State> {
   }
 
   componentDidMount = () => {
+    const { navigation } = this.props;
     this._isMounted = true;
     // Fetch environment variables
     this.fetchAppMode();
@@ -69,7 +70,7 @@ class ProfileScreen extends React.Component<Props, State> {
       else {
         if (this._isMounted) {
           this.setState(JSON.parse(result));
-          console.log(JSON.parse(result));
+          navigation.setParams(JSON.parse(result));
         }
         const userId = JSON.parse(result).id;
         fetch(`${server.address}users/${userId}`, {
@@ -149,7 +150,7 @@ class ProfileScreen extends React.Component<Props, State> {
           <QRCodeScanner
             onRead={this.onSuccess}
             topContent={
-              <Text style={styles.centerText}>
+              <Text style={{ marginBottom: 15 }}>
                 {I18n.t("scan.scan_qr_code")}
               </Text>
             }

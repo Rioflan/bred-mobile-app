@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import { AsyncStorage, View } from "react-native";
+import { AsyncStorage, View, Image } from "react-native";
 
 import { Text } from "react-native-elements";
 import { omit } from "ramda";
@@ -9,6 +9,8 @@ import styles from "./LoginScreenStyles";
 import server from "../../config/server";
 import config from "../../config/api";
 import type { Props, State } from "./LoginScreenType";
+
+import logo from "../../assets/logo.png";
 
 import I18n from "../../i18n/i18n";
 import LoginButton from "./components/LoginButton";
@@ -18,7 +20,13 @@ import { checkNavigation } from "../../utils/utils";
 
 class LoginScreen extends React.Component<Props, State> {
   static navigationOptions = {
-    title: I18n.t("login.title")
+    title: "Flex-Office",
+    headerStyle: {
+      backgroundColor: "white",
+      borderBottomWidth: 8,
+      borderBottomColor: "#2E89AD",
+      height: 60
+    }
   };
 
   constructor() {
@@ -112,7 +120,7 @@ class LoginScreen extends React.Component<Props, State> {
               "USER",
               JSON.stringify(omit(["debugField"], this.state))
             );
-            navigation.navigate("Profile");
+            navigation.navigate("Profile", { photo: data.user.photo });
           }
         });
     } else {
@@ -124,6 +132,7 @@ class LoginScreen extends React.Component<Props, State> {
     const { debugField } = this.state;
     return (
       <View style={styles.view}>
+        <Image source={logo} style={{ height: 120, resizeMode: "contain" }} />
         <View style={styles.view_second}>
           <InputLogin
             onChangeText={text => this.setState({ name: text })}

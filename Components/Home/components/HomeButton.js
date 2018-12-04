@@ -10,7 +10,7 @@ const HomeButton = (props: { onPress: () => void }) => {
       <Button
         style={styles.button}
         title={I18n.t("home.main_page")}
-        color="#5167A4"
+        color="#2E89AD"
         onPress={onPress}
       />
     </View>

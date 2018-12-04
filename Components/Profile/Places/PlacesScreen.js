@@ -4,12 +4,12 @@
 import React from "react";
 import {
   ButtonGroup,
-  Card,
   FormInput,
   FormLabel,
   List,
   ListItem,
-  Text
+  Text,
+  Button
 } from "react-native-elements";
 
 import {
@@ -17,7 +17,8 @@ import {
   AsyncStorage,
   Image,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import config from "../../../config/api";
@@ -29,6 +30,34 @@ import { getPlaces, goTo } from "../../../utils/utils";
 import I18n from "../../../i18n/i18n";
 import ZoneCard from "./components/ZoneCard";
 import FetchPlacesButton from "./components/FetchPlacesButton";
+
+const greenZone = () => (
+  <Button
+    title={`zone verte`}
+    buttonStyle={{
+      backgroundColor: "green"
+    }}
+    containerStyle={{ margin: 20 }}
+  />
+);
+const redZone = () => (
+  <Button
+    title={`zone rouge`}
+    buttonStyle={{
+      backgroundColor: "red"
+    }}
+    containerStyle={{ margin: 20 }}
+  />
+);
+const blueZone = () => (
+  <Button
+    title={`zone bleue`}
+    buttonStyle={{
+      backgroundColor: "blue"
+    }}
+    containerStyle={{ margin: 20 }}
+  />
+);
 
 type Historical = {
   place_id: string,
@@ -78,7 +107,8 @@ class PlacesScreen extends React.Component<Props, State> {
       MiddleZonechecked: false,
       SouthZonechecked: false,
       selectedFloorIndex: 0,
-      loading: false
+      loading: false,
+      selectedZoneIndex: 0
     };
   }
 
@@ -122,6 +152,10 @@ class PlacesScreen extends React.Component<Props, State> {
 
   updateFloorIndex = selectedFloorIndex => {
     this.setState({ selectedFloorIndex });
+  };
+
+  updateZoneIndex = selectedZoneIndex => {
+    this.setState({ selectedZoneIndex });
   };
 
   /** This function is used to attach the current user to a place  */
@@ -228,19 +262,27 @@ class PlacesScreen extends React.Component<Props, State> {
       RERZonechecked,
       ForestZonechecked,
       SouthZonechecked,
-      MiddleZonechecked
+      MiddleZonechecked,
+      selectedZoneIndex
     } = this.state;
-    const FloorIndex = [3, 4];
+    const FloorIndex = ["3ème étage", "4ème étage"];
+
+    const buttonsZone = [
+      { element: greenZone },
+      { element: blueZone },
+      { element: redZone }
+    ];
     return (
       <ScrollView style={styles.view}>
-        <Card>
+        {/* <Card>
           <FormLabel>{I18n.t("places.find")}</FormLabel>
           <FormInput
             onChangeText={this.handleSearch}
             placeholder={I18n.t("places.search_place")}
           />
-        </Card>
-        <ZoneCard
+        </Card> */}
+
+        {/* <ZoneCard
           checked={RERZonechecked}
           onPress={() => this.setState({ RERZonechecked: !RERZonechecked })}
           checked1={ForestZonechecked}
@@ -255,13 +297,16 @@ class PlacesScreen extends React.Component<Props, State> {
           onPress3={() =>
             this.setState({ MiddleZonechecked: !MiddleZonechecked })
           }
-        />
-        <Card>
+        /> */}
+
+        <View style={{ margin: 40 }}>
           <Text
             h4
             style={{
               textAlign: "center",
-              fontSize: 16
+              fontSize: 16,
+              fontWeight: "bold",
+              marginBottom: 20
             }}
           >
             {I18n.t("places.floor")}
@@ -269,13 +314,54 @@ class PlacesScreen extends React.Component<Props, State> {
           <ButtonGroup
             onPress={this.updateFloorIndex}
             selectedIndex={selectedFloorIndex}
+            selectedButtonStyle={{
+              backgroundColor: "#2E89AD"
+            }}
+            buttonStyle={{
+              backgroundColor: "white",
+              borderColor: "#2E89AD",
+              borderWidth: 2,
+              borderRadius: 3
+            }}
+            containerStyle={{
+              height: 30
+            }}
+            selectedTextStyle={{ color: "white" }}
+            textStyle={{ color: "black" }}
             buttons={FloorIndex}
           />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-around"
+            }}
+          >
+            {/* Zone button group */}
+            {/* <ButtonGroup
+              onPress={this.updateZoneIndex}
+              selectedIndex={selectedZoneIndex}
+              selectedTextStyle={{ color: "white", fontWeight: "bold" }}
+              textStyle={{ color: "white" }}
+              buttons={buttonsZone}
+            /> */}
+          </View>
           <FetchPlacesButton
             onPress={() => getPlaces(this, this.setPlaces, null, true)}
           />
-        </Card>
-        <Card>
+        </View>
+        <Text
+          h4
+          style={{
+            textAlign: "center",
+            fontSize: 16,
+            fontWeight: "bold"
+          }}
+        >
+          Places disponibles
+        </Text>
+        <View style={{ margin: 40 }}>
           {debug !== "" && debug && !loading ? (
             <List containerStyle={{ marginBottom: 20 }}>
               {this.handleList().map(
@@ -296,10 +382,10 @@ class PlacesScreen extends React.Component<Props, State> {
             <ActivityIndicator
               style={{ marginTop: 20 }}
               size="large"
-              color="#5167A4"
+              color="#2E89AD"
             />
           )}
-        </Card>
+        </View>
       </ScrollView>
     );
   }

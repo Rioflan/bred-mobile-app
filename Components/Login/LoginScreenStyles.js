@@ -4,19 +4,21 @@ export default StyleSheet.create({
   view: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexDirection: "column",
+    backgroundColor: "white"
   },
   view_second: {
     width: 250,
-    marginBottom: 50
+    marginTop: 50,
+    marginBottom: 30
   },
   textInput: {
     borderRadius: 4,
-    borderWidth: 0.5,
-    margin: 5
+    borderWidth: 0.5
   },
   button_container: {
-    marginTop: 10
+    marginTop: 50
   },
   debug: {
     textAlign: "center",

@@ -3,16 +3,18 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   view: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "column",
+    backgroundColor: "white"
   },
   view_second: {
-    margin: 20
+    margin: 10
   },
   text_first: {
     textAlign: "center",
     color: "black",
     margin: 2,
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: "bold"
   },
   view_third: {
     borderRadius: 4,
@@ -63,7 +65,7 @@ export default StyleSheet.create({
   },
   debug: {
     textAlign: "center",
-    color: "#5167A4",
+    color: "#2E89AD",
     margin: 10
   }
 });

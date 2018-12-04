@@ -16,7 +16,7 @@ const FindPlacesCard = (props: { users: any }) => {
         }}
         large={false}
         borderRadius={15}
-        backgroundColor="#5167A4"
+        backgroundColor="#2E89AD"
         color="#fff"
         style={styles.free_places}
         title={I18n.t("users.users")}

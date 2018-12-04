@@ -28,7 +28,7 @@ const ZoneCard = (props: {
         center
         title={I18n.t("places.rer_zone")}
         checkedIcon="dot-circle-o"
-        checkedColor="#5167A4"
+        checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
         checked={checked}
         onPress={onPress}
@@ -37,7 +37,7 @@ const ZoneCard = (props: {
         center
         title={I18n.t("places.forest_zone")}
         checkedIcon="dot-circle-o"
-        checkedColor="#5167A4"
+        checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
         checked={checked1}
         onPress={onPress1}
@@ -46,7 +46,7 @@ const ZoneCard = (props: {
         center
         title={I18n.t("places.south_zone")}
         checkedIcon="dot-circle-o"
-        checkedColor="#5167A4"
+        checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
         checked={checked2}
         onPress={onPress2}
@@ -55,7 +55,7 @@ const ZoneCard = (props: {
         center
         title={I18n.t("places.middle_zone")}
         checkedIcon="dot-circle-o"
-        checkedColor="#5167A4"
+        checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
         checked={checked3}
         onPress={onPress3}

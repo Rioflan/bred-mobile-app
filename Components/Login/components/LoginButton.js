@@ -12,9 +12,9 @@ const LoginButton = (props: { onPress: () => void }) => {
         style={styles.button_login}
         fontWeight="bold"
         borderRadius={15}
-        backgroundColor="#5167A4"
+        backgroundColor="#2E89AD"
         color="#fff"
-        title={I18n.t("login.title")}
+        title={I18n.t("login.title").toUpperCase()}
         onPress={onPress}
       />
     </View>

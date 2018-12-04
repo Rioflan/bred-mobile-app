@@ -8,9 +8,10 @@ import {
   AsyncStorage,
   Image,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from "react-native";
-import { append } from "ramda";
+import { append, filter, omit } from "ramda";
 import { NavigationScreenProp } from "react-navigation";
 import I18n from "react-native-i18n";
 import config from "../../../config/api";
@@ -54,16 +55,17 @@ class UsersScreen extends React.Component<Props, State> {
       users: [],
       search: "",
       userName: null,
-      loading: false
+      loading: false,
+      arrayOfFriends: []
     };
   }
 
   componentDidMount() {
     const { id } = this.state;
     const { navigation } = this.props;
-    this.didFocusListener = navigation.addListener("didFocus", () => {
-      this.refreshFriends();
-    });
+    // this.didFocusListener = navigation.addListener("didFocus", () => {
+    //   this.refreshFriends();
+    // });
     AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) {
         goTo(this, "Login");
@@ -83,6 +85,7 @@ class UsersScreen extends React.Component<Props, State> {
           id,
           friend
         });
+        this.fetchFriends();
       }
     });
 
@@ -94,16 +97,16 @@ class UsersScreen extends React.Component<Props, State> {
     this._isMounted = false;
   };
 
-  refreshFriends = () => {
-    const { users } = this.state;
-    const { navigation } = this.props;
+  // refreshFriends = () => {
+  //   const { users } = this.state;
+  //   const { navigation } = this.props;
 
-    const listOfFriends = navigation.getParam("friendBack");
-    this.setState({
-      users: listOfFriends ? append(listOfFriends, users) : users
-    });
-    if (listOfFriends) navigation.setParams({ friendBack: null });
-  };
+  //   const listOfFriends = navigation.getParam("friendBack");
+  //   this.setState({
+  //     users: listOfFriends ? append(listOfFriends, users) : users
+  //   });
+  //   if (listOfFriends) navigation.setParams({ friendBack: null });
+  // };
 
   addFriend = item => {
     const { navigation } = this.props;
@@ -129,11 +132,24 @@ class UsersScreen extends React.Component<Props, State> {
         const newListOfUSers = this.state.users.filter(e => e.id !== item.id);
         this.setState({
           users: newListOfUSers,
-          friend: append(friend, friend.user.friend)
+          friend: append(item, friend.user.friend),
+          arrayOfFriends: append(item, this.state.arrayOfFriends)
         });
         AsyncStorage.setItem("USER", JSON.stringify(this.state));
-        navigation.navigate("SettingsScreen", { friend: friend.user.friend });
       });
+  };
+
+  fetchFriends = () => {
+    const { id } = this.state;
+    fetch(`${server.address}users/${id}/friends`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json())
+      .then(arrayOfFriends => this.setState({ arrayOfFriends }));
   };
 
   getUsers = () => {
@@ -191,56 +207,77 @@ class UsersScreen extends React.Component<Props, State> {
     return search === "" ? users : newT;
   };
 
-  // async getFriends (item) {
-  //  const value = await AsyncStorage.getItem('friend');
-  //  JSON.parse(value).push({name: item.name, fname: item.fname})
-  //  AsyncStorage.setItem("friend", JSON.stringify(value))
-  //   const payload = {
-  //     remoteDay: this.state.remoteDay,
-  //     name: this.state.name,
-  //     fname: this.state.fname,
-  //     historical: this.state.historical,
-  //     id_user: this.state.id,
-  //     id_place: "",
-  //     friends: append({name: item.name, fname: item.fname}, this.state.friends)
-  //   }
+  removeFriend = friend => {
+    const { id, arrayOfFriends } = this.state;
+    const { navigation } = this.props;
+    const payload = {
+      id_user: id,
+      id: friend.id
+    };
 
-  //   fetch(`${server.address}`, {
-  //     method: 'POST',
-  //     body: JSON.stringify(payload),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'x-access-token': config.token
-  //     }
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => {
-  //        AsyncStorage.getItem('USER', (err, result) => {
-  //          const res = JSON.parse(result);
-  //          const friends = append({name: item.name, fname: item.fname}, result.friends)
-  //          this.state["friends"] = friends;
-  //         AsyncStorage.setItem('USER', JSON.stringify(this.state))
-  //         goTo(this, 'FriendScreen')
-  //        })
-  //     })
-  // }
+    fetch(`${server.address}remove_friend`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json()) // transform data to json
+      .then(friendUser => {
+        const isRemovedUser = userFriend => userFriend.id !== friend.id;
+        this.setState({
+          arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
+          friend: filter(isRemovedUser, this.state.friend),
+          users: append(friend, this.state.users)
+        });
+        AsyncStorage.setItem(
+          "USER",
+          JSON.stringify(omit(["arrayOfFriends"], this.state))
+        );
+      });
+  };
 
   render() {
-    const { users, loading, userName } = this.state;
+    const { users, loading, userName, arrayOfFriends } = this.state;
 
     return (
       <ScrollView style={styles.view}>
-        <Card>
-          <FindPlacesCard users={() => this.getUsers} />
-          <FormLabel>{I18n.t("users.find")}</FormLabel>
+        <View style={{ marginLeft: 40, marginRight: 40 }}>
+          <FindPlacesCard users={() => this.getUsers()} />
           <FormInput
-            onChangeText={() => this._handleSearch}
+            onChangeText={() => this._handleSearch()}
             style={{
-              backgroundColor: "white",
-              marginTop: 10
+              backgroundColor: "white"
             }}
+            containerStyle={{ marginTop: 20, marginBottom: 20 }}
             placeholder={I18n.t("users.search_user")}
           />
+          <View style={{ marginBottom: -22 }}>
+            {arrayOfFriends.map(friend => {
+              if (friend)
+                return (
+                  <ListItem
+                    onPress={() => this.removeFriend(friend)}
+                    key={friend.id}
+                    title={`${friend.name} / ${friend.fname}`}
+                    subtitle={friend.id_place}
+                    rightIcon={{
+                      name: "star",
+                      color: "#2E89AD"
+                    }}
+                    roundAvatar
+                    avatar={{
+                      uri:
+                        friend.photo === ""
+                          ? "https://www.drupal.org/files/issues/default-avatar.png"
+                          : friend.photo
+                    }}
+                  />
+                );
+              return null;
+            })}
+          </View>
           {users !== [] && users && !loading ? (
             <ListPlaces
               handleList={this._handleList()}
@@ -255,7 +292,10 @@ class UsersScreen extends React.Component<Props, State> {
                       title={`${item.name} / ${item.fname}`}
                       subtitle={item.id_place}
                       roundAvatar
-                      rightIcon={{ name: "add" }}
+                      rightIcon={{
+                        name: "star-border",
+                        color: "#2E89AD"
+                      }}
                       avatar={{
                         uri:
                           item.photo === ""
@@ -271,10 +311,10 @@ class UsersScreen extends React.Component<Props, State> {
             <ActivityIndicator
               style={{ marginTop: 20 }}
               size="large"
-              color="#5167A4"
+              color="#2E89AD"
             />
           )}
-        </Card>
+        </View>
       </ScrollView>
     );
   }

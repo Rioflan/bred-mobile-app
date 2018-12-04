@@ -15,27 +15,25 @@ const ManualInsertionCard = (props: {
         flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "space-between",
+        margin: 15
       }}
     >
       <FormInput
-        containerStyle={{ width: 100 }}
+        inputStyle={{ width: 100 }}
         style={styles.place}
         placeholder={I18n.t("profile.place")}
         onChangeText={onChangeText}
       />
-
-      <View style={styles.sendContainer}>
-        <Button
-          fontWeight="bold"
-          borderRadius={15}
-          backgroundColor="#5167A4"
-          color="#fff"
-          style={styles.send}
-          title={I18n.t("profile.send")}
-          onPress={onPress}
-        />
-      </View>
+      <Button
+        fontWeight="bold"
+        borderRadius={15}
+        backgroundColor="#2E89AD"
+        color="#fff"
+        style={styles.send}
+        title={I18n.t("profile.send")}
+        onPress={onPress}
+      />
     </View>
   );
 };

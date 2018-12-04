@@ -13,18 +13,21 @@ const InputLogin = (props: {
   return (
     <View>
       <FormInput
+        containerStyle={{ marginTop: 10 }}
         style={styles.textInput}
         placeholder={I18n.t("login.name")}
         onChangeText={onChangeText}
       />
 
       <FormInput
+        containerStyle={{ marginTop: 10 }}
         style={styles.textInput}
         placeholder={I18n.t("login.surname")}
         onChangeText={onChangeText1}
       />
 
       <FormInput
+        containerStyle={{ marginTop: 10 }}
         style={styles.textInput}
         placeholder={I18n.t("login.id")}
         onChangeText={onChangeText2}

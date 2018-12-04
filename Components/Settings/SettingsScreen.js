@@ -36,16 +36,19 @@ type Props = {
 };
 
 class SettingsScreen extends Component<Props, State> {
-  static navigationOptions = {
-    title: "Profile",
-    headerTintColor: "black",
-    tabBarIcon: () => (
-      <Image
-        source={picProfile}
-        resizeMode="contain"
-        style={{ width: 20, height: 20 }}
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      title: "Profile",
+      headerTintColor: "black",
+      tabBarIcon: () => (
+        <Image
+          source={picProfile}
+          resizeMode="contain"
+          style={{ width: 20, height: 20 }}
+        />
+      )
+    };
   };
 
   constructor() {
@@ -63,13 +66,12 @@ class SettingsScreen extends Component<Props, State> {
 
   componentDidMount() {
     const { navigation } = this.props;
-    this.didFocusListener = navigation.addListener("didFocus", () => {
-      this.refreshFriends();
-    });
+
     AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) goTo(this, "Login");
       else {
         this.setState(JSON.parse(result));
+        navigation.setParams(JSON.parse(result));
         this.setState({
           // map Trouve index du jour
           selectedIndex: WEEK_DAYS.findIndex(
@@ -90,70 +92,10 @@ class SettingsScreen extends Component<Props, State> {
               historical: data[0].historical,
               loadingSave: false
             });
-            this.fetchFriends();
           });
       }
     });
   }
-
-  componentWillUnmount() {
-    this.didFocusListener.remove();
-  }
-
-  refreshFriends = () => {
-    const { arrayOfFriends } = this.state;
-    const { navigation } = this.props;
-
-    const listOfFriends = navigation.getParam("friend") || arrayOfFriends;
-    this.setState({
-      arrayOfFriends: listOfFriends
-    });
-  };
-
-  fetchFriends = () => {
-    const { id } = this.state;
-    fetch(`${server.address}users/${id}/friends`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": config.token
-      }
-    })
-      .then(res => res.json())
-      .then(arrayOfFriends => this.setState({ arrayOfFriends }));
-  };
-
-  removeFriend = friend => {
-    const { id, arrayOfFriends } = this.state;
-    const { navigation } = this.props;
-    const payload = {
-      id_user: id,
-      id: friend.id
-    };
-
-    fetch(`${server.address}remove_friend`, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": config.token
-      }
-    })
-      .then(res => res.json()) // transform data to json
-      .then(friendUser => {
-        const isRemovedUser = userFriend => userFriend.id !== friend.id;
-        this.setState({
-          arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
-          friend: filter(isRemovedUser, this.state.friend)
-        });
-        navigation.setParams({ friend: null });
-        AsyncStorage.setItem(
-          "USER",
-          JSON.stringify(omit(["arrayOfFriends"], this.state))
-        );
-        navigation.navigate("UsersScreen", { friendBack: friend });
-      });
-  };
 
   updateIndex = selectedIndex => {
     this.setState({ selectedIndex, remoteDay: WEEK_DAYS[selectedIndex] });
@@ -199,16 +141,17 @@ class SettingsScreen extends Component<Props, State> {
       <ScrollView
         style={{
           flex: 1,
-          flexDirection: "column"
+          flexDirection: "column",
+          backgroundColor: "white"
         }}
       >
         <View
           style={{
+            backgroundColor: "#F5F5F5",
             flex: 1,
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            backgroundColor: "white",
             margin: 20,
             height: 100,
             borderRadius: 5
@@ -252,10 +195,49 @@ class SettingsScreen extends Component<Props, State> {
           </PhotoUpload>
         </View>
 
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 40,
+            marginTop: 20
+          }}
+        >
+          <Button
+            title="ME DÉCONNECTER"
+            icon={{
+              name: "power-off",
+              type: "font-awesome",
+              size: 15,
+              color: "white"
+            }}
+            onPress={() => {
+              // LogOut current user
+              const { navigation } = this.props;
+              AsyncStorage.removeItem("USER");
+              navigation.popToTop();
+              navigation.navigate("Login");
+            }}
+            titleStyle={{ fontWeight: "700" }}
+            buttonStyle={{
+              backgroundColor: "#2E89AD",
+              width: 200,
+              height: 45,
+              borderColor: "transparent",
+              marginTop: 10,
+              borderWidth: 0,
+              borderRadius: 5
+            }}
+            containerStyle={{ marginTop: 20 }}
+          />
+        </View>
+
         <Text style={{ fontWeight: "bold", textAlign: "center", margin: 10 }}>
-          Télétravail :{" "}
+          Je suis en télétravail :{" "}
         </Text>
         <ButtonGroup
+          containerStyle={{ backgroundColor: "#F5F5F5" }}
+          selectedTextStyle={{ color: "#2E89AD", fontWeight: "bold" }}
           onPress={this.updateIndex}
           selectedIndex={selectedIndex}
           buttons={WEEK_DAYS}
@@ -272,7 +254,7 @@ class SettingsScreen extends Component<Props, State> {
             onPress={() => this.saveRemote()}
             titleStyle={{ fontWeight: "700" }}
             buttonStyle={{
-              backgroundColor: "#5167A4",
+              backgroundColor: "#2E89AD",
               width: 200,
               height: 45,
               borderColor: "transparent",
@@ -283,29 +265,6 @@ class SettingsScreen extends Component<Props, State> {
             containerStyle={{ marginTop: 20 }}
           />
         </View>
-        <Text style={{ fontWeight: "bold", textAlign: "center", margin: 10 }}>
-          Mon équipe :{" "}
-        </Text>
-        {arrayOfFriends.map(friend => {
-          if (friend)
-            return (
-              <ListItem
-                onPress={() => this.removeFriend(friend)}
-                key={friend.id}
-                title={`${friend.name} / ${friend.fname}`}
-                subtitle={friend.id_place}
-                rightIcon={{ name: "remove" }}
-                roundAvatar
-                avatar={{
-                  uri:
-                    friend.photo === ""
-                      ? "https://www.drupal.org/files/issues/default-avatar.png"
-                      : friend.photo
-                }}
-              />
-            );
-          return null;
-        })}
       </ScrollView>
     );
   }
