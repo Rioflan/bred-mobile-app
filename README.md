@@ -101,7 +101,18 @@ In Xcode
 ![xcode build setting](https://i.stack.imgur.com/hdaJu.png)
 
 
-Clear your project and "Derived Data" Build and Run your project
+. Clear your project and "Derived Data" Build 
+
+. In Terminal, got to ```ios``` subfolder and run :
+
+```node /Users/canatac/RNProjects/flex-rn-client/node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --platform ios --dev false --reset-cache --bundle-output main.jsbundle --assets-dest /```
+
+. Then copy ```ios/main.jsbundle``` file to :
+```/Users/<USERNAME>/Library/Developer/Xcode/DerivedData/FlexOffice-XXX/Build/Products/Release-iphoneos/FlexOffice.app/```
+
+. Run your project :
+
+You should see a new Terminal window appear for Metro Bundler.
 
 
 ## Generating Signed APK
@@ -224,3 +235,12 @@ The project also use [ESlint](https://eslint.org/) and [Prettier](https://pretti
 | Profile            | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | GET /places POST / | [x]           |
 | Scan               | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | GET /places        | []           |
 | Leave              | `name:string ,fname:string, id: string, place: string, search: Array<object>, debug: Array<any>, historical: Array<object>` | navigation | POST /             | [x]           |
+
+
+# TROUBLESHOOTINGS
+iOS On launch :
+"undefined is not an object(evaluating 'RNFSFileTypeRegular')"
+$ react-native link react-native-fs
+
+"Cannot find module './assets/empty-module.js" :
+https://github.com/yarnpkg/yarn/issues/2206 : you may check whether your .yarnclean containing a line assets. If yes, delete that line and do rm -rf node_modules && yarn to see if this fixes your issue. This helped me.
