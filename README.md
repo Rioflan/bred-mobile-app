@@ -238,9 +238,21 @@ The project also use [ESlint](https://eslint.org/) and [Prettier](https://pretti
 
 
 # TROUBLESHOOTINGS
-iOS On launch :
-"undefined is not an object(evaluating 'RNFSFileTypeRegular')"
-$ react-native link react-native-fs
+1. iOS : When running from Xcode, the app crashes just after the launchscreen
 
-"Cannot find module './assets/empty-module.js" :
-https://github.com/yarnpkg/yarn/issues/2206 : you may check whether your .yarnclean containing a line assets. If yes, delete that line and do rm -rf node_modules && yarn to see if this fixes your issue. This helped me.
+```
+"undefined is not an object(evaluating 'RNFSFileTypeRegular')"
+```
+
+RESOLUTION : 
+Run this command on project root in Terminal :
+```
+$ react-native link react-native
+```
+
+2. iOS : When building in Xcode, Metro bundler failed :
+```
+"Cannot find module './assets/empty-module.js"
+```
+
+RESOLUTION : cf. https://github.com/yarnpkg/yarn/issues/2206 : you may check whether your .yarnclean containing a line assets. If yes, delete that line and do ```rm -rf node_modules && yarn``` to see if this fixes your issue. This helped me.
