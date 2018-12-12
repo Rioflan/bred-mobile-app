@@ -105,7 +105,7 @@ In Xcode
 
 . In Terminal, got to ```ios``` subfolder and run :
 
-```node /Users/canatac/RNProjects/flex-rn-client/node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --platform ios --dev false --reset-cache --bundle-output main.jsbundle --assets-dest /```
+```node /<YOUR_FOLDER>/flex-rn-client/node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --platform ios --dev false --reset-cache --bundle-output main.jsbundle --assets-dest /```
 
 . Then copy ```ios/main.jsbundle``` file to :
 ```/Users/<USERNAME>/Library/Developer/Xcode/DerivedData/FlexOffice-XXX/Build/Products/Release-iphoneos/FlexOffice.app/```
@@ -213,14 +213,31 @@ Inside `gradle.properties`.
 
 # List of commands
 
-- start: "node node_modules/react-native/local-cli/cli.js start",
-- test: "jest",
-- lint: "eslint Components",
-- pretty: "prettier --semi false --print-width 100 --single-quote--trailing-comma all --write \"Components/\*_/_.js\"",
-- flow: "flow",
-- lint:fix: "eslint Components/ --fix"
+- start: 
 
-The project uses [FLow](https://flow.org/) for type checking. Feel free to increase the type checking coverage by adding some tests 👍.
+```node node_modules/react-native/local-cli/cli.js start```
+
+- test: 
+
+```jest```
+
+- lint: 
+
+```eslint Components```
+
+- pretty: 
+
+```prettier --semi false --print-width 100 --single-quote--trailing-comma all --write \"Components/\*_/_.js\"```
+
+- flow: 
+
+```flow```
+
+- lint:fix: 
+
+```eslint Components/ --fix```
+
+The project uses [Flow](https://flow.org/) for type checking. Feel free to increase the type checking coverage by adding some tests 👍.
 
 The project also use [ESlint](https://eslint.org/) and [Prettier](https://prettier.io/). You can see lint warnings / errors by running    
 `npm run lint`.
@@ -238,9 +255,21 @@ The project also use [ESlint](https://eslint.org/) and [Prettier](https://pretti
 
 
 # TROUBLESHOOTINGS
-iOS On launch :
-"undefined is not an object(evaluating 'RNFSFileTypeRegular')"
-$ react-native link react-native-fs
+1. iOS : When running from Xcode, the app crashes just after the launchscreen
 
-"Cannot find module './assets/empty-module.js" :
-https://github.com/yarnpkg/yarn/issues/2206 : you may check whether your .yarnclean containing a line assets. If yes, delete that line and do rm -rf node_modules && yarn to see if this fixes your issue. This helped me.
+```
+"undefined is not an object(evaluating 'RNFSFileTypeRegular')"
+```
+
+RESOLUTION : 
+Run this command on project root in Terminal :
+```
+$ react-native link react-native
+```
+
+2. iOS : When building in Xcode, Metro bundler failed :
+```
+"Cannot find module './assets/empty-module.js"
+```
+
+RESOLUTION : cf. https://github.com/yarnpkg/yarn/issues/2206 : you may check whether your .yarnclean containing a line assets. If yes, delete that line and do ```rm -rf node_modules && yarn``` to see if this fixes your issue. This helped me.
