@@ -105,7 +105,7 @@ In Xcode
 
 . In Terminal, got to ```ios``` subfolder and run :
 
-```node /Users/canatac/RNProjects/flex-rn-client/node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --platform ios --dev false --reset-cache --bundle-output main.jsbundle --assets-dest /```
+```node /<YOUR_FOLDER>/flex-rn-client/node_modules/react-native/local-cli/cli.js bundle --entry-file index.js --platform ios --dev false --reset-cache --bundle-output main.jsbundle --assets-dest /```
 
 . Then copy ```ios/main.jsbundle``` file to :
 ```/Users/<USERNAME>/Library/Developer/Xcode/DerivedData/FlexOffice-XXX/Build/Products/Release-iphoneos/FlexOffice.app/```
