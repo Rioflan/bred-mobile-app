@@ -9,6 +9,7 @@ docs
 doc
 website
 images
+# DON'T CLEAN THIS (at least on iOS) 
 # assets
 
 # examples
