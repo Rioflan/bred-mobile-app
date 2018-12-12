@@ -213,14 +213,20 @@ Inside `gradle.properties`.
 
 # List of commands
 
-- start: "node node_modules/react-native/local-cli/cli.js start",
-- test: "jest",
-- lint: "eslint Components",
-- pretty: "prettier --semi false --print-width 100 --single-quote--trailing-comma all --write \"Components/\*_/_.js\"",
-- flow: "flow",
-- lint:fix: "eslint Components/ --fix"
+- start: 
+```node node_modules/react-native/local-cli/cli.js start```
+- test: 
+```jest```
+- lint: 
+```eslint Components```
+- pretty: 
+```prettier --semi false --print-width 100 --single-quote--trailing-comma all --write \"Components/\*_/_.js\"```
+- flow: 
+```flow"```
+- lint:fix: 
+```eslint Components/ --fix```
 
-The project uses [FLow](https://flow.org/) for type checking. Feel free to increase the type checking coverage by adding some tests 👍.
+The project uses [Flow](https://flow.org/) for type checking. Feel free to increase the type checking coverage by adding some tests 👍.
 
 The project also use [ESlint](https://eslint.org/) and [Prettier](https://prettier.io/). You can see lint warnings / errors by running    
 `npm run lint`.
