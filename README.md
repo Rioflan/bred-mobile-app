@@ -44,20 +44,34 @@ You will also need to install the Xcode Command Line Tools. Open Xcode, then cho
 
 ## Configuration
 
-Make sure you have filled the config files with your API :
+Make sure you have filled your API environment files by editing the ```.env```file :
 (Follow these steps to have your server working :
 [flex-rn-server](https://github.com/ayshiff/flex-server)) 
 
-For `api.json`:
+`api.json`:
 
 ```
 {
-  "email": "",
-  "password': "",
-  "token': "",
-  "_id': ""
+  "email": process.env.EMAIL,
+  "password': process.env.PASSWORD,
+  "token': process.env.TOKEN,
+  "_id': process.env._ID
 }
 ```
+
+In ```.env```file, you should put your environment values.
+
+Example for a Heroku and mLab configuration :
+
+```
+DB_URL="https://mydb.herokuapp.com/api/"
+EMAIL="test@test.com"
+PASSWORD="admintest"
+TOKEN="molkujgdvxbcjynk,liu,jlkjhnéàç!è(§'evbfkn,kmlkjhkkjh"
+_ID="oiukhfgdbcjynukykuy"
+```
+
+Be sure that your ```.env``` file is included in ```.gitignore``` file !
 
 For `server.json`:
 
