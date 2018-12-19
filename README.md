@@ -5,6 +5,8 @@
 
 Simple mobile client in React-Native for **flex-server** project
 
+![Flex-Office](assets/flexoffice.png?raw=true)
+
 # Steps to follow
 
 ## Installing dependencies
