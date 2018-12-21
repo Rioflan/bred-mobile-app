@@ -1,6 +1,14 @@
 import React from "react";
-import { Image, TouchableHighlight, View } from "react-native";
+import {
+  Image,
+  TouchableHighlight,
+  View,
+  Text,
+  AsyncStorage
+} from "react-native";
 import { createStackNavigator, createTabNavigator } from "react-navigation";
+import LinearGradient from "react-native-linear-gradient";
+import Icon from "react-native-vector-icons/FontAwesome";
 import LoginScreen from "../Components/Login/LoginScreen";
 import ProfileScreen from "../Components/Profile/ProfileScreen";
 import LeaveScreen from "../Components/Leave/LeaveScreen";
@@ -10,7 +18,84 @@ import UsersScreen from "../Components/Profile/Users/UsersScreen";
 import OfflineNotice from "../utils/OfflineNotice";
 import profilePicture from "../assets/profile.png";
 import logo from "../assets/logo.png";
+import ProfileImage from "./components/ProfileImage";
 // import LocationNotice from "../utils/LocationNotice";
+
+const fetchUserPhoto = async () => {
+  const userPhoto = await AsyncStorage.getItem("USER");
+  console.log("sdffdfds", JSON.parse(userPhoto).photo);
+  return JSON.parse(userPhoto).photo;
+};
+
+export const headerBar = (navigation, goBack = false, rightElement = true) => (
+  <View
+    style={{
+      paddingTop: 20 /* only for IOS to give StatusBar Space */,
+      backgroundColor: "white",
+      height: 80
+    }}
+  >
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between"
+      }}
+    >
+      {/* Header Left */}
+      {goBack ? (
+        <TouchableHighlight onPress={() => navigation.goBack()}>
+          <Icon
+            style={{ marginLeft: 20 }}
+            name="angle-left"
+            size={35}
+            color="#2E89AD"
+          />
+        </TouchableHighlight>
+      ) : (
+        <Image
+          source={logo}
+          style={{
+            width: 30,
+            height: 30,
+            margin: 10,
+            resizeMode: "contain"
+          }}
+        />
+      )}
+
+      <Text
+        style={{
+          color: "black",
+          fontWeight: "bold",
+          fontSize: 20,
+          fontFamily: "Raleway"
+        }}
+      >
+        Flex-Office
+      </Text>
+
+      {/* Header Right */}
+      <TouchableHighlight
+        onPress={() => {
+          if (rightElement) {
+            navigation.navigate("SettingsScreen");
+            fetchUserPhoto();
+          }
+        }}
+      >
+        <ProfileImage />
+      </TouchableHighlight>
+    </View>
+    <LinearGradient
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      colors={["#58C0D0", "#468BB6", "#3662A0"]}
+      style={{ width: "100%", height: 7 }}
+    />
+  </View>
+);
 
 const NavigationApp = createStackNavigator({
   Login: { screen: LoginScreen },
@@ -30,15 +115,18 @@ const NavigationApp = createStackNavigator({
             fontSize: 13,
             margin: 0,
             padding: 0,
-            color: "white"
+            fontFamily: "Raleway"
           },
           showLabel: true,
           showIcon: true,
-          activeTintColor: "white",
-          activeBackgroundColor: "rgba(112, 196, 220, 0.8)",
+          inactiveTintColor: "#3662A0",
+          activeTintColor: "#58C0D0",
+          backgroundColor: "white", // "#58C0D0"
+          // activeBackgroundColor: "white",
           style: {
-            backgroundColor: "#2E89AD",
-            height: 55
+            // backgroundColor: "#2E89AD",
+            backgroundColor: "white",
+            height: 50
           },
           indicatorStyle: {
             backgroundColor: "white"
@@ -47,85 +135,22 @@ const NavigationApp = createStackNavigator({
       }
     ),
     navigationOptions: ({ navigation }) => ({
-      title: "Flex-Office",
-      headerTintColor: "black",
-      headerStyle: {
-        backgroundColor: "white",
-        borderBottomWidth: 8,
-        borderBottomColor: "#2E89AD",
-        height: 60
-      },
-      headerRight: (
-        <TouchableHighlight
-          onPress={() => {
-            navigation.navigate("SettingsScreen");
-          }}
-        >
-          <Image
-            source={
-              navigation.getParam("photo") &&
-              navigation.getParam("photo") !== ""
-                ? { uri: navigation.getParam("photo") }
-                : profilePicture
-            }
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: 15,
-              margin: 8,
-              resizeMode: "contain"
-            }}
-          />
-        </TouchableHighlight>
-      ),
-      headerLeft: (
-        <Image
-          source={logo}
-          style={{
-            width: 30,
-            height: 30,
-            margin: 10,
-            resizeMode: "contain"
-          }}
-        />
-      )
+      /* Custom header */
+      header: headerBar(navigation)
     })
   },
-  Leave: { screen: LeaveScreen },
+  Leave: {
+    screen: LeaveScreen,
+    navigationOptions: ({ navigation }) => ({
+      /* Custom header */
+      header: headerBar(navigation, false, false)
+    })
+  },
   SettingsScreen: {
     screen: SettingsScreen,
     navigationOptions: ({ navigation }) => ({
-      title: "Flex-Office",
-      headerTintColor: "black",
-      headerStyle: {
-        backgroundColor: "white",
-        borderBottomWidth: 8,
-        borderBottomColor: "#2E89AD",
-        height: 60
-      },
-      headerRight: (
-        <TouchableHighlight
-          onPress={() => {
-            navigation.navigate("SettingsScreen");
-          }}
-        >
-          <Image
-            source={
-              navigation.getParam("photo") &&
-              navigation.getParam("photo") !== ""
-                ? { uri: navigation.getParam("photo") }
-                : profilePicture
-            }
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: 15,
-              margin: 8,
-              resizeMode: "contain"
-            }}
-          />
-        </TouchableHighlight>
-      )
+      /* Custom header */
+      header: headerBar(navigation, true)
     })
   }
 });
