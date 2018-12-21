@@ -4,16 +4,19 @@ import React from "react";
 
 import { AsyncStorage, Image, ScrollView, View, Text } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import QRCodeScanner from "react-native-qrcode-scanner";
 import config from "../../config/api";
 import server from "../../config/server";
 import styles from "./ProfileScreenStyles";
-import picProfile from "../../assets/scan.png";
 import { getPlaces, goTo, sendToServ } from "../../utils/utils";
-
+import Icon from "react-native-vector-icons/FontAwesome";
 import I18n from "../../i18n/i18n";
+
+/**
+ * List of components
+ */
 import ManualInsertionCard from "./components/ManualInsertionCard";
 import HeaderCard from "./components/HeaderCard";
+import QRCodeComponent from './components/QRCodeComponent'
 
 type Historical = {
   place_id: string,
@@ -36,15 +39,13 @@ type Props = {
 };
 
 class ProfileScreen extends React.Component<Props, State> {
-  static navigationOptions = {
-    title: I18n.t("profile.title"),
-    tabBarIcon: () => (
-      <Image
-        source={picProfile}
-        resizeMode="contain"
-        style={{ width: 20, height: 20 }}
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: I18n.t("profile.title"),
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="qrcode" size={23} color={tintColor} />
+      )
+    };
   };
 
   _isMounted = false;
@@ -106,11 +107,6 @@ class ProfileScreen extends React.Component<Props, State> {
     });
   };
 
-  // _handleRemote = async () => {
-  //   await this.setState(prevState => ({ isRemote: !prevState.isRemote }));
-  //   return getPlaces(this, sendToServ);
-  // };
-
   render() {
     const {
       fname,
@@ -121,40 +117,13 @@ class ProfileScreen extends React.Component<Props, State> {
       isWrongFormatPlace
     } = this.state;
 
+    console.log(this.state);
+
     return (
       <ScrollView style={styles.view}>
-        <HeaderCard fname={fname} name={name} id={id} />
-        {/* <CheckBox
-          title={I18n.t("profile.remote")}
-          checked={isRemote}
-          onPress={this._handleRemote}
-          checkedIcon="dot-circle-o"
-          uncheckedIcon="circle-o"
-          checkedColor="#5167A4"
-          center
-        /> */}
-        {/* {!isRemote ? ( */}
+        <HeaderCard fname={fname} name={name} id={id}/>
         <View>
-          {/* <ManualInsertionCard
-              onChangeText={text => this.setState({ place: text })}
-              onPress={() => {
-                if (place !== "" && place.match(PLACE_REGEX) !== null) {
-                  getPlaces(this, sendToServ);
-                } else this.setState({ isWrongFormatPlace: true });
-              }}
-            />
-            {isWrongFormatPlace ? (
-              <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
-            ) : null}
-            <QRCodeCard onPress={() => navigation.navigate("Scan")} /> */}
-          <QRCodeScanner
-            onRead={this.onSuccess}
-            topContent={
-              <Text style={{ marginBottom: 15 }}>
-                {I18n.t("scan.scan_qr_code")}
-              </Text>
-            }
-          />
+          <QRCodeComponent onRead={this.onSuccess}/>
           <View>
             <ManualInsertionCard
               onChangeText={text => this.setState({ place: text })}

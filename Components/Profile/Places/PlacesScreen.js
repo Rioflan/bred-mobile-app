@@ -4,13 +4,12 @@
 import React from "react";
 import {
   ButtonGroup,
-  FormInput,
-  FormLabel,
   List,
   ListItem,
   Text,
-  Button
 } from "react-native-elements";
+
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   ActivityIndicator,
@@ -24,40 +23,14 @@ import { NavigationScreenProp } from "react-navigation";
 import config from "../../../config/api";
 import server from "../../../config/server";
 import styles from "../ProfileScreenStyles";
-import picProfile from "../../../assets/place.png";
 import { getPlaces, goTo } from "../../../utils/utils";
 
 import I18n from "../../../i18n/i18n";
-import ZoneCard from "./components/ZoneCard";
-import FetchPlacesButton from "./components/FetchPlacesButton";
 
-const greenZone = () => (
-  <Button
-    title={`zone verte`}
-    buttonStyle={{
-      backgroundColor: "green"
-    }}
-    containerStyle={{ margin: 20 }}
-  />
-);
-const redZone = () => (
-  <Button
-    title={`zone rouge`}
-    buttonStyle={{
-      backgroundColor: "red"
-    }}
-    containerStyle={{ margin: 20 }}
-  />
-);
-const blueZone = () => (
-  <Button
-    title={`zone bleue`}
-    buttonStyle={{
-      backgroundColor: "blue"
-    }}
-    containerStyle={{ margin: 20 }}
-  />
-);
+/**
+ * List of components
+ */
+import FetchPlacesButton from "./components/FetchPlacesButton";
 
 type Historical = {
   place_id: string,
@@ -80,18 +53,14 @@ type Props = {
 };
 
 class PlacesScreen extends React.Component<Props, State> {
-  static navigationOptions = {
-    title: I18n.t("places.title"),
-    tabBarIcon: () => (
-      <Image
-        source={picProfile}
-        resizeMode="contain"
-        style={{
-          width: 18,
-          height: 18
-        }}
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    console.log(navigation);
+    return {
+      title: I18n.t("places.title"),
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="search" size={20} color={tintColor} />
+      )
+    };
   };
 
   _isMounted = false;
@@ -166,7 +135,8 @@ class PlacesScreen extends React.Component<Props, State> {
       ctx.state.id !== "" &&
       element.id !== ""
     ) {
-      const { name, fname, id, historical, remoteDay } = ctx.state;
+      const { name, fname, id, historical, remoteDay, photo } = ctx.state;
+      console.log("PHOTO", photo);
       ctx = ctx || window;
 
       const payload = {
@@ -175,7 +145,8 @@ class PlacesScreen extends React.Component<Props, State> {
         id_user: id,
         id_place: element.id,
         historical,
-        remoteDay
+        remoteDay,
+        photo
       };
       fetch(server.address, {
         method: "POST",
@@ -198,7 +169,8 @@ class PlacesScreen extends React.Component<Props, State> {
                 place: payload.id_place,
                 debug: ctx.state.debug,
                 historical: ctx.state.historical,
-                remoteDay: ctx.state.remoteDay
+                remoteDay: ctx.state.remoteDay,
+                photo: ctx.state.photo
               })
             );
             goTo(ctx, "Leave");
@@ -267,38 +239,18 @@ class PlacesScreen extends React.Component<Props, State> {
     } = this.state;
     const FloorIndex = ["3ème étage", "4ème étage"];
 
-    const buttonsZone = [
-      { element: greenZone },
-      { element: blueZone },
-      { element: redZone }
-    ];
+    const ZoneIndex = ["Zone verte", "Zone bleue", "Zone rouge"];
+
+    console.log(this.state);
+
+    // if (this.state.historical)
+    //   console.log(
+    //     this.state.historical.slice(
+    //       Math.max(this.state.historical.length - 5, 1)
+    //     )
+    //   );
     return (
       <ScrollView style={styles.view}>
-        {/* <Card>
-          <FormLabel>{I18n.t("places.find")}</FormLabel>
-          <FormInput
-            onChangeText={this.handleSearch}
-            placeholder={I18n.t("places.search_place")}
-          />
-        </Card> */}
-
-        {/* <ZoneCard
-          checked={RERZonechecked}
-          onPress={() => this.setState({ RERZonechecked: !RERZonechecked })}
-          checked1={ForestZonechecked}
-          onPress1={() =>
-            this.setState({ ForestZonechecked: !ForestZonechecked })
-          }
-          checked2={SouthZonechecked}
-          onPress2={() =>
-            this.setState({ SouthZonechecked: !SouthZonechecked })
-          }
-          checked3={MiddleZonechecked}
-          onPress3={() =>
-            this.setState({ MiddleZonechecked: !MiddleZonechecked })
-          }
-        /> */}
-
         <View style={{ margin: 40 }}>
           <Text
             h4
@@ -306,7 +258,8 @@ class PlacesScreen extends React.Component<Props, State> {
               textAlign: "center",
               fontSize: 16,
               fontWeight: "bold",
-              marginBottom: 20
+              marginBottom: 20,
+              fontFamily: "Raleway"
             }}
           >
             {I18n.t("places.floor")}
@@ -314,20 +267,16 @@ class PlacesScreen extends React.Component<Props, State> {
           <ButtonGroup
             onPress={this.updateFloorIndex}
             selectedIndex={selectedFloorIndex}
-            selectedButtonStyle={{
-              backgroundColor: "#2E89AD"
-            }}
             buttonStyle={{
               backgroundColor: "white",
-              borderColor: "#2E89AD",
-              borderWidth: 2,
-              borderRadius: 3
+              borderColor: "#2E89AD"
             }}
             containerStyle={{
-              height: 30
+              height: 30,
+              borderRadius: 5
             }}
-            selectedTextStyle={{ color: "white" }}
-            textStyle={{ color: "black" }}
+            selectedTextStyle={{ color: "#2E89AD", fontWeight: "bold" }}
+            textStyle={{ color: "black", fontFamily: "Raleway" }}
             buttons={FloorIndex}
           />
           <View
@@ -339,24 +288,39 @@ class PlacesScreen extends React.Component<Props, State> {
             }}
           >
             {/* Zone button group */}
-            {/* <ButtonGroup
+            <ButtonGroup
               onPress={this.updateZoneIndex}
+              containerStyle={{
+                height: 30,
+                width: 300,
+                shadowOpacity: 0.4,
+                shadowRadius: 2,
+                shadowColor: "#3662A0",
+                shadowOffset: { height: 1, width: 0 },
+                borderRadius: 5
+              }}
               selectedIndex={selectedZoneIndex}
-              selectedTextStyle={{ color: "white", fontWeight: "bold" }}
-              textStyle={{ color: "white" }}
-              buttons={buttonsZone}
-            /> */}
+              buttonStyle={{
+                backgroundColor: "white",
+                borderColor: "#2E89AD"
+              }}
+              selectedTextStyle={{ color: "#2E89AD", fontWeight: "bold" }}
+              textStyle={{ color: "black", fontFamily: "Raleway" }}
+              buttons={ZoneIndex}
+            />
           </View>
           <FetchPlacesButton
             onPress={() => getPlaces(this, this.setPlaces, null, true)}
           />
+          {/* <GradientBtn /> */}
         </View>
         <Text
           h4
           style={{
             textAlign: "center",
             fontSize: 16,
-            fontWeight: "bold"
+            fontWeight: "bold",
+            fontFamily: "Raleway"
           }}
         >
           Places disponibles
@@ -371,7 +335,14 @@ class PlacesScreen extends React.Component<Props, State> {
                       key={place.id}
                       onPress={() => getPlaces(this, this.getUser, place)}
                     >
-                      <ListItem key={place.id} title={place.id} />
+                      <ListItem
+                        key={place.id}
+                        title={place.id}
+                        fontFamily="Raleway"
+                        rightIcon={
+                          <Icon name="plus" size={20} color="#2E89AD" />
+                        }
+                      />
                     </TouchableOpacity>
                   ) : (
                     "There is no free place for the moment !"

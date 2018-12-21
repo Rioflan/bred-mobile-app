@@ -9,8 +9,6 @@ const ZoneCard = (props: {
   onPress1: () => void,
   checked2: any,
   onPress2: () => void,
-  checked3: any,
-  onPress3: () => void
 }) => {
   const {
     checked,
@@ -19,14 +17,12 @@ const ZoneCard = (props: {
     onPress1,
     checked2,
     onPress2,
-    checked3,
-    onPress3
   } = props;
   return (
     <Card>
       <CheckBox
         center
-        title={I18n.t("places.rer_zone")}
+        title={I18n.t("places.red")}
         checkedIcon="dot-circle-o"
         checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
@@ -35,7 +31,7 @@ const ZoneCard = (props: {
       />
       <CheckBox
         center
-        title={I18n.t("places.forest_zone")}
+        title={I18n.t("places.blue")}
         checkedIcon="dot-circle-o"
         checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
@@ -44,21 +40,12 @@ const ZoneCard = (props: {
       />
       <CheckBox
         center
-        title={I18n.t("places.south_zone")}
+        title={I18n.t("places.green")}
         checkedIcon="dot-circle-o"
         checkedColor="#2E89AD"
         uncheckedIcon="circle-o"
         checked={checked2}
         onPress={onPress2}
-      />
-      <CheckBox
-        center
-        title={I18n.t("places.middle_zone")}
-        checkedIcon="dot-circle-o"
-        checkedColor="#2E89AD"
-        uncheckedIcon="circle-o"
-        checked={checked3}
-        onPress={onPress3}
       />
     </Card>
   );

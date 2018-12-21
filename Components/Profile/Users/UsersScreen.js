@@ -1,7 +1,14 @@
 // @flow
 /* eslint-disable */
 import React from "react";
-import { Card, FormInput, FormLabel, ListItem } from "react-native-elements";
+import {
+  Card,
+  FormInput,
+  FormLabel,
+  ListItem,
+  Button
+} from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   ActivityIndicator,
@@ -9,6 +16,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  TouchableHighlight,
   View
 } from "react-native";
 import { append, filter, omit } from "ramda";
@@ -33,18 +41,14 @@ type Props = {
 };
 
 class UsersScreen extends React.Component<Props, State> {
-  static navigationOptions = {
-    title: I18n.t("users.title"),
-    tabBarIcon: () => (
-      <Image
-        source={picUser}
-        resizeMode="contain"
-        style={{
-          width: 20,
-          height: 20
-        }}
-      />
-    )
+  static navigationOptions = ({ navigation }) => {
+    console.log(navigation);
+    return {
+      title: I18n.t("users.title"),
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="users" size={20} color={tintColor} />
+      )
+    };
   };
 
   _isMounted = false;
@@ -56,17 +60,17 @@ class UsersScreen extends React.Component<Props, State> {
       search: "",
       userName: null,
       loading: false,
-      arrayOfFriends: []
+      arrayOfFriends: [],
+      friendLoading: false,
+      friend: []
     };
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const { id } = this.state;
     const { navigation } = this.props;
-    // this.didFocusListener = navigation.addListener("didFocus", () => {
-    //   this.refreshFriends();
-    // });
-    AsyncStorage.getItem("USER", (err, result) => {
+
+    await AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) {
         goTo(this, "Login");
       } else {
@@ -91,52 +95,47 @@ class UsersScreen extends React.Component<Props, State> {
 
     this._isMounted = true;
     this.getUsers();
-  }
+  };
 
   componentWillUnmount = () => {
     this._isMounted = false;
   };
 
-  // refreshFriends = () => {
-  //   const { users } = this.state;
-  //   const { navigation } = this.props;
-
-  //   const listOfFriends = navigation.getParam("friendBack");
-  //   this.setState({
-  //     users: listOfFriends ? append(listOfFriends, users) : users
-  //   });
-  //   if (listOfFriends) navigation.setParams({ friendBack: null });
-  // };
-
   addFriend = item => {
     const { navigation } = this.props;
-    const payload = {
-      id_user: this.state.id,
-      id: item.id,
-      name: item.name,
-      fname: item.fname,
-      id_place: item.id_place,
-      photo: item.photo
-    };
-
-    fetch(`${server.address}add_friend`, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": config.token
-      }
-    })
-      .then(res => res.json()) // transform data to json
-      .then(friend => {
-        const newListOfUSers = this.state.users.filter(e => e.id !== item.id);
-        this.setState({
-          users: newListOfUSers,
-          friend: append(item, friend.user.friend),
-          arrayOfFriends: append(item, this.state.arrayOfFriends)
-        });
-        AsyncStorage.setItem("USER", JSON.stringify(this.state));
+    if (!this.state.friendLoading) {
+      const newListOfUSers = this.state.users.filter(e => e.id !== item.id);
+      this.setState({
+        users: newListOfUSers,
+        arrayOfFriends: append(item, this.state.arrayOfFriends),
+        friendLoading: true
       });
+      const payload = {
+        id_user: this.state.id,
+        id: item.id,
+        name: item.name,
+        fname: item.fname,
+        id_place: item.id_place,
+        photo: item.photo
+      };
+
+      fetch(`${server.address}add_friend`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": config.token
+        }
+      })
+        .then(res => res.json()) // transform data to json
+        .then(friend => {
+          this.setState({
+            friend: append(item, friend.user.friend)
+          });
+          AsyncStorage.setItem("USER", JSON.stringify(this.state));
+          this.setState({ friendLoading: false });
+        });
+    }
   };
 
   fetchFriends = () => {
@@ -168,8 +167,13 @@ class UsersScreen extends React.Component<Props, State> {
           const filteredUsers = users.filter(
             word => !this.state.friend.find(e => e.id === word.id)
           );
+          // Here we want to refresh the friend list
+          const filteredFriends = users.filter(word =>
+            this.state.friend.find(e => e.id === word.id)
+          );
           this.setState({
-            users: this.state.friend.length > 0 ? filteredUsers : users
+            users: this.state.friend.length > 0 ? filteredUsers : users,
+            arrayOfFriends: filteredFriends
           });
         }
         this.setState({ loading: false });
@@ -178,6 +182,7 @@ class UsersScreen extends React.Component<Props, State> {
 
   _handleSearch = search => {
     this.setState({ search });
+    if (search.length >= 3) this.getUsers();
   };
 
   _handleList = () => {
@@ -187,13 +192,17 @@ class UsersScreen extends React.Component<Props, State> {
         ? users.filter(e => {
             let finalResult = true;
             for (const element in search) {
-              if (search[element] !== e.name[element]) {
+              if (
+                search[element] !== e.name[element] &&
+                search[element] !== e.fname[element]
+              ) {
                 finalResult = false;
               }
             }
             return finalResult;
           })
         : users;
+
     newT.sort((a, b) => {
       if (a.name < b.name) return -1;
       if (a.name > b.name) return 1;
@@ -209,33 +218,37 @@ class UsersScreen extends React.Component<Props, State> {
 
   removeFriend = friend => {
     const { id, arrayOfFriends } = this.state;
-    const { navigation } = this.props;
-    const payload = {
-      id_user: id,
-      id: friend.id
-    };
+    const isRemovedUser = userFriend => userFriend.id !== friend.id;
+    this.setState({
+      arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
+      friend: filter(isRemovedUser, this.state.friend),
+      users: append(friend, this.state.users)
+    });
+    if (!this.state.friendLoading) {
+      this.setState({ friendLoading: true });
+      const { navigation } = this.props;
+      const payload = {
+        id_user: id,
+        id: friend.id
+      };
 
-    fetch(`${server.address}remove_friend`, {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": config.token
-      }
-    })
-      .then(res => res.json()) // transform data to json
-      .then(friendUser => {
-        const isRemovedUser = userFriend => userFriend.id !== friend.id;
-        this.setState({
-          arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
-          friend: filter(isRemovedUser, this.state.friend),
-          users: append(friend, this.state.users)
+      fetch(`${server.address}remove_friend`, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": config.token
+        }
+      })
+        .then(res => res.json()) // transform data to json
+        .then(friendUser => {
+          AsyncStorage.setItem(
+            "USER",
+            JSON.stringify(omit(["arrayOfFriends"], this.state))
+          );
+          this.setState({ friendLoading: false });
         });
-        AsyncStorage.setItem(
-          "USER",
-          JSON.stringify(omit(["arrayOfFriends"], this.state))
-        );
-      });
+    }
   };
 
   render() {
@@ -244,72 +257,116 @@ class UsersScreen extends React.Component<Props, State> {
     return (
       <ScrollView style={styles.view}>
         <View style={{ marginLeft: 40, marginRight: 40 }}>
-          <FindPlacesCard users={() => this.getUsers()} />
-          <FormInput
-            onChangeText={() => this._handleSearch()}
+          <View
             style={{
-              backgroundColor: "white"
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              marginBottom: 10
             }}
-            containerStyle={{ marginTop: 20, marginBottom: 20 }}
-            placeholder={I18n.t("users.search_user")}
-          />
-          <View style={{ marginBottom: -22 }}>
-            {arrayOfFriends.map(friend => {
-              if (friend)
-                return (
-                  <ListItem
-                    onPress={() => this.removeFriend(friend)}
-                    key={friend.id}
-                    title={`${friend.name} / ${friend.fname}`}
-                    subtitle={friend.id_place}
-                    rightIcon={{
-                      name: "star",
-                      color: "#2E89AD"
-                    }}
-                    roundAvatar
-                    avatar={{
-                      uri:
-                        friend.photo === ""
-                          ? "https://www.drupal.org/files/issues/default-avatar.png"
-                          : friend.photo
-                    }}
-                  />
-                );
-              return null;
-            })}
-          </View>
-          {users !== [] && users && !loading ? (
-            <ListPlaces
-              handleList={this._handleList()}
-              prop1={item =>
-                item && `${item.name}/${item.fname}` !== userName ? (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => this.addFriend(item)}
-                  >
-                    <ListItem
-                      onPress={() => this.addFriend(item)}
-                      title={`${item.name} / ${item.fname}`}
-                      subtitle={item.id_place}
-                      roundAvatar
-                      rightIcon={{
-                        name: "star-border",
-                        color: "#2E89AD"
-                      }}
-                      avatar={{
-                        uri:
-                          item.photo === ""
-                            ? "https://www.drupal.org/files/issues/default-avatar.png"
-                            : item.photo
-                      }}
-                    />
-                  </TouchableOpacity>
-                ) : null
-              }
+          >
+            <FormInput
+              onChangeText={search => this._handleSearch(search)}
+              style={{
+                backgroundColor: "white"
+              }}
+              containerStyle={{ marginTop: 20, marginBottom: 20, width: 220 }}
+              placeholder={I18n.t("users.search_user")}
             />
+            <TouchableOpacity
+              onPress={() => this.getUsers()}
+              style={{
+                backgroundColor: "#fff",
+                shadowOpacity: 0.4,
+                shadowRadius: 2,
+                shadowColor: "#3662A0",
+                shadowOffset: { height: 1, width: 0 },
+                borderRadius: 17.5,
+                width: 35,
+                height: 35,
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Icon name="arrow-right" size={15} color="#2E89AD" />
+            </TouchableOpacity>
+          </View>
+          {/* <FindPlacesCard users={() => this.getUsers()} /> */}
+          {!loading ? (
+            <View>
+              <View style={{ marginBottom: -22 }}>
+                {arrayOfFriends.map(friend => {
+                  if (friend)
+                    return (
+                      <ListItem
+                        onPress={() => this.removeFriend(friend)}
+                        key={friend.id}
+                        title={`${friend.name} / ${friend.fname}`}
+                        subtitle={friend.id_place}
+                        fontFamily="Raleway"
+                        rightIcon={{
+                          name: "star",
+                          color: "#2E89AD"
+                        }}
+                        roundAvatar
+                        avatar={
+                          friend.photo !== ""
+                            ? { uri: friend.photo }
+                            : require("../../../assets/profile.png")
+                        }
+                        avatarStyle={{
+                          backgroundColor: "white",
+                          width: 33,
+                          height: 33,
+                          resizeMode: "contain"
+                        }}
+                      />
+                    );
+                  return null;
+                })}
+              </View>
+              {users !== [] && users ? (
+                <ListPlaces
+                  handleList={this._handleList()}
+                  prop1={item =>
+                    item && `${item.name}/${item.fname}` !== userName ? (
+                      <TouchableOpacity
+                        key={item.id}
+                        onPress={() => this.addFriend(item)}
+                      >
+                        <ListItem
+                          onPress={() => this.addFriend(item)}
+                          title={`${item.name} / ${item.fname}`}
+                          subtitle={item.id_place}
+                          fontFamily="Raleway"
+                          roundAvatar
+                          rightIcon={{
+                            name: "star-border",
+                            color: "#2E89AD"
+                          }}
+                          avatar={
+                            item.photo !== ""
+                              ? { uri: item.photo }
+                              : require("../../../assets/profile.png")
+                          }
+                          avatarStyle={{
+                            backgroundColor: "white",
+                            width: 33,
+                            height: 33,
+                            resizeMode: "contain"
+                          }}
+                        />
+                      </TouchableOpacity>
+                    ) : null
+                  }
+                />
+              ) : null}
+            </View>
           ) : (
             <ActivityIndicator
-              style={{ marginTop: 20 }}
+              style={{ marginTop: 40 }}
               size="large"
               color="#2E89AD"
             />
