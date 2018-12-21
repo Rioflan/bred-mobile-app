@@ -6,6 +6,10 @@ import { NavigationScreenProp } from "react-navigation";
 import styles from "./HomeScreenStyles";
 
 import I18n from "../../i18n/i18n";
+
+/**
+ * List of components
+ */
 import HomeButton from "./components/HomeButton";
 
 type Props = {
