@@ -1,23 +1,31 @@
 import React from "react";
-import { Button, Card, Text } from "react-native-elements";
+import { Button } from "react-native-elements";
+import { View } from "react-native";
 import styles from "../LeaveScreenStyles";
 import I18n from "../../../i18n/i18n";
 
 const LeaveButton = (props: { place: any, onPress: () => void }) => {
   const { onPress, place } = props;
   return (
-    <Card style={styles.place_view}>
-      <Text style={styles.place}>Place :{place}</Text>
+    <View style={styles.place_view}>
       <Button
         style={styles.button}
         fontWeight="bold"
-        borderRadius={15}
-        backgroundColor="#2E89AD"
-        color="#fff"
-        title={I18n.t("leave.leave_place")}
+        fontFamily="Raleway"
+        buttonStyle={{
+          borderWidth: 0.5,
+          borderColor: "#fff",
+          width: 200,
+          height: 200
+        }}
+        borderRadius={100}
+        color="white"
+        backgroundColor="transparent"
+        title={`${I18n.t("leave.leave_place")}
+        ${place}`}
         onPress={onPress}
       />
-    </Card>
+    </View>
   );
 };
 

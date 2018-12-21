@@ -11,6 +11,12 @@ import type { Props, State } from "./LeaveScreenType";
 import { goTo } from "../../utils/utils";
 
 import I18n from "../../i18n/i18n";
+
+import LinearGradient from "react-native-linear-gradient";
+
+/**
+ * List of components
+ */
 import LeaveButton from "./components/LeaveButton";
 
 type Historical = {
@@ -29,10 +35,9 @@ type Payload = {
 };
 
 class LeaveScreen extends React.Component<Props, State> {
-  static navigationOptions = {
-    title: I18n.t("leave.title"),
-    headerTintColor: "black"
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: I18n.t("leave.title")
+  });
 
   _isMounted = false;
 
@@ -53,7 +58,6 @@ class LeaveScreen extends React.Component<Props, State> {
         goTo(this, "Login");
       } else {
         if (this._isMounted) this.setState(JSON.parse(result));
-        console.log(JSON.parse(result));
         const userId: string = JSON.parse(result).id;
         fetch(`${server.address}users/${userId}`, {
           method: "GET",
@@ -102,6 +106,7 @@ class LeaveScreen extends React.Component<Props, State> {
         ctx.setState({ debug: "ERROR" });
       })
       .then(data => {
+        console.log(data);
         ctx.state.debug = "";
         ctx.state.place = "";
         ctx.state.isWrongFormatPlace = false;
@@ -114,15 +119,20 @@ class LeaveScreen extends React.Component<Props, State> {
   render() {
     const { fname, name, id, place } = this.state;
     return (
-      <View>
-        <View style={styles.user_view}>
-          <Text style={styles.user}>
-            {fname}
-            {name}[{id}]
-          </Text>
-        </View>
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={["#58C0D0", "#468BB6", "#3662A0"]}
+        style={{
+          width: "100%",
+          height: "100%",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
         <LeaveButton place={place} onPress={() => this.leavePlace(this)} />
-      </View>
+      </LinearGradient>
     );
   }
 }
