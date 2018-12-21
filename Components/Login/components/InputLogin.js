@@ -17,6 +17,7 @@ const InputLogin = (props: {
         style={styles.textInput}
         placeholder={I18n.t("login.name")}
         onChangeText={onChangeText}
+        inputStyle={{ fontFamily: "Raleway" }}
       />
 
       <FormInput
@@ -24,6 +25,7 @@ const InputLogin = (props: {
         style={styles.textInput}
         placeholder={I18n.t("login.surname")}
         onChangeText={onChangeText1}
+        inputStyle={{ fontFamily: "Raleway" }}
       />
 
       <FormInput
@@ -31,6 +33,7 @@ const InputLogin = (props: {
         style={styles.textInput}
         placeholder={I18n.t("login.id")}
         onChangeText={onChangeText2}
+        inputStyle={{ fontFamily: "Raleway" }}
       />
     </View>
   );
