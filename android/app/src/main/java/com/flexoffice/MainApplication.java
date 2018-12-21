@@ -8,6 +8,7 @@ import com.peel.react.TcpSocketsModule;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.peel.react.rnos.RNOSModule;
 import org.reactnative.camera.RNCameraPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.rnfs.RNFSPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RandomBytesPackage(),
             new RNOSModule(),
             new RNCameraPackage(),
+            new LinearGradientPackage(),
             new RNFSPackage(),
             new ImageResizerPackage(),
             new ImagePickerPackage(),
