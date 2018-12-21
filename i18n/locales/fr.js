@@ -20,7 +20,7 @@ export default {
     rer_zone: "Côté RER",
     south_zone: "Côté sud",
     forest_zone: "Côté forêt",
-    free_places: "ENREGISTRER",
+    free_places: "Rechercher",
     search_place: "Chercher une place...",
     floor: "Je recherche une place :",
     zone: "Zone",
@@ -33,7 +33,7 @@ export default {
     find: "RECHERCHE"
   },
   profile: {
-    title: "Scan",
+    title: "Ma place",
     manual_insertion: "Insertion manuelle",
     scan_qr_code: "Scanner le QR Code",
     scan: "Scanner",
