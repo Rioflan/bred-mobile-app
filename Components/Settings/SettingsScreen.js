@@ -2,15 +2,28 @@
 /* eslint-disable */
 
 import React, { Component } from "react";
-import { AsyncStorage, Text, View, Image, ScrollView } from "react-native";
+import {
+  AsyncStorage,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  ActivityIndicator
+} from "react-native";
 
-import { ButtonGroup, Button, ListItem } from "react-native-elements";
-import { assoc, filter, omit } from "ramda";
+import { ButtonGroup } from "react-native-elements";
+import { assoc, omit } from "ramda";
 import PhotoUpload from "react-native-photo-upload";
 import config from "../../config/api";
 import server from "../../config/server";
 import { sendToServ, getPlaces, goTo } from "../../utils/utils";
 import picProfile from "../../assets/profile.png";
+
+import styles from './SettingsScreenStyles';
+
+// import { Calendar } from "react-native-calendars";
+import Modal from "react-native-modal";
+import DeconnectionButton from './components/DeconnectionButton';
 
 const WEEK_DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
@@ -34,6 +47,33 @@ type State = {
 type Props = {
   navigation: NavigationScreenProp<{}>
 };
+
+const ProfileDescription = (props: { name: any, fname: any, id: any }) =>
+  <View style={{ marginLeft: 20 }}>
+    <Text style={{ fontFamily: 'Raleway' }}>
+      <Text style={{ fontWeight: 'bold' }}>Nom : </Text>
+      {props.name}{' '}
+    </Text>
+    <Text style={{ fontFamily: 'Raleway' }}>
+      <Text style={{ fontWeight: 'bold' }}>Prenom : </Text>
+      {props.fname}
+    </Text>
+    <Text style={{ fontFamily: 'Raleway' }}>
+      <Text style={{ fontWeight: 'bold' }}>ID : </Text>
+      {props.id}
+    </Text>
+  </View>
+
+
+const ModalComponent = (props: { visible: any }) =>
+  <Modal
+    isVisible={props.visible}
+    backdropColor="white"
+    animationIn="fadeIn"
+  >
+    <ActivityIndicator size="large" color="#2E89AD"/>
+  </Modal>
+
 
 class SettingsScreen extends Component<Props, State> {
   static navigationOptions = ({ navigation }) => {
@@ -60,7 +100,8 @@ class SettingsScreen extends Component<Props, State> {
       selectedIndex: 0,
       photo: "",
       arrayOfFriends: [],
-      loadingSave: false
+      loadingSave: false,
+      place: ""
     };
   }
 
@@ -71,6 +112,7 @@ class SettingsScreen extends Component<Props, State> {
       if (err || result === null) goTo(this, "Login");
       else {
         this.setState(JSON.parse(result));
+        console.log(JSON.parse(result));
         navigation.setParams(JSON.parse(result));
         this.setState({
           // map Trouve index du jour
@@ -119,7 +161,9 @@ class SettingsScreen extends Component<Props, State> {
         .then(data => {
           AsyncStorage.setItem(
             "USER",
-            JSON.stringify(assoc("photo", data[0].photo, this.state))
+            JSON.stringify(
+              omit(["loadingSave"], assoc("photo", data[0].photo, this.state))
+            )
           );
           this.setState({ loadingSave: false });
         });
@@ -133,57 +177,28 @@ class SettingsScreen extends Component<Props, State> {
       fname,
       id,
       photo,
-      arrayOfFriends,
       loadingSave
     } = this.state;
 
     return (
       <ScrollView
-        style={{
-          flex: 1,
-          flexDirection: "column",
-          backgroundColor: "white"
-        }}
+        style={styles.scrollViewContainer}
       >
         <View
-          style={{
-            backgroundColor: "#F5F5F5",
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            margin: 20,
-            height: 100,
-            borderRadius: 5
-          }}
+          style={styles.viewContainer}
         >
-          <View style={{ marginLeft: 20 }}>
-            <Text>
-              <Text style={{ fontWeight: "bold" }}>Nom : </Text>
-              {name}{" "}
-            </Text>
-            <Text>
-              <Text style={{ fontWeight: "bold" }}>Prenom : </Text>
-              {fname}
-            </Text>
-            <Text>
-              <Text style={{ fontWeight: "bold" }}>ID : </Text>
-              {id}
-            </Text>
-          </View>
+          <ModalComponent visible={loadingSave}/>
+          <ProfileDescription name={name} fname={fname} id={id}/>
           <PhotoUpload
             onPhotoSelect={image => {
               if (image) {
                 this.setState({ photo: image });
+                this.saveRemote();
               }
             }}
           >
             <Image
-              style={{
-                width: 70,
-                height: 70,
-                borderRadius: 35
-              }}
+              style={styles.profileImage}
               resizeMode="cover"
               source={{
                 uri:
@@ -195,76 +210,36 @@ class SettingsScreen extends Component<Props, State> {
           </PhotoUpload>
         </View>
 
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: 40,
-            marginTop: 20
-          }}
+        <Text
+          style={styles.remoteText}
         >
-          <Button
-            title="ME DÉCONNECTER"
-            icon={{
-              name: "power-off",
-              type: "font-awesome",
-              size: 15,
-              color: "white"
-            }}
-            onPress={() => {
-              // LogOut current user
-              const { navigation } = this.props;
-              AsyncStorage.removeItem("USER");
-              navigation.popToTop();
-              navigation.navigate("Login");
-            }}
-            titleStyle={{ fontWeight: "700" }}
-            buttonStyle={{
-              backgroundColor: "#2E89AD",
-              width: 200,
-              height: 45,
-              borderColor: "transparent",
-              marginTop: 10,
-              borderWidth: 0,
-              borderRadius: 5
-            }}
-            containerStyle={{ marginTop: 20 }}
-          />
-        </View>
-
-        <Text style={{ fontWeight: "bold", textAlign: "center", margin: 10 }}>
           Je suis en télétravail :{" "}
         </Text>
         <ButtonGroup
           containerStyle={{ backgroundColor: "#F5F5F5" }}
-          selectedTextStyle={{ color: "#2E89AD", fontWeight: "bold" }}
-          onPress={this.updateIndex}
+          selectedTextStyle={{
+            color: "#2E89AD",
+            fontWeight: "bold"
+          }}
+          textStyle={{ fontFamily: "Raleway" }}
+          onPress={event => {
+            this.updateIndex(event);
+            this.saveRemote();
+          }}
           selectedIndex={selectedIndex}
           buttons={WEEK_DAYS}
         />
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          <Button
-            title="ENREGISTRER"
-            loading={loadingSave}
-            onPress={() => this.saveRemote()}
-            titleStyle={{ fontWeight: "700" }}
-            buttonStyle={{
-              backgroundColor: "#2E89AD",
-              width: 200,
-              height: 45,
-              borderColor: "transparent",
-              marginTop: 10,
-              borderWidth: 0,
-              borderRadius: 5
-            }}
-            containerStyle={{ marginTop: 20 }}
-          />
-        </View>
+
+        {/* For future purpose */}
+        {/* <Calendar /> */}
+
+        <DeconnectionButton onPress={() => {
+          // LogOut current user
+          const { navigation } = this.props;
+          AsyncStorage.removeItem("USER");
+          navigation.popToTop();
+          navigation.navigate("Login");
+        }}/>
       </ScrollView>
     );
   }
