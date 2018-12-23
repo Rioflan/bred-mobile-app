@@ -1,8 +1,8 @@
-import "react-native";
 import "react-native-permissions";
 import React from "react";
-import renderer from "react-test-renderer";
+import { expect } from "chai";
 import Enzyme, { shallow } from "enzyme";
+import { ScrollView } from "react-native";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
 import ProfileScreen from "../../Components/Profile/ProfileScreen";
@@ -15,5 +15,7 @@ jest.mock("react-native-camera", () => mockCamera);
 const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
 
 it("renders correctly", () => {
-  shallow(<ProfileScreen navigation={navigation} />);
+  const wrapper = shallow(<ProfileScreen navigation={navigation} />);
+
+  expect(wrapper.find(ScrollView)).to.have.length(1);
 });
