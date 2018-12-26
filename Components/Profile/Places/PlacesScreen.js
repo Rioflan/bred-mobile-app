@@ -2,12 +2,7 @@
 /* eslint-disable */
 
 import React from "react";
-import {
-  ButtonGroup,
-  List,
-  ListItem,
-  Text,
-} from "react-native-elements";
+import { ButtonGroup, List, ListItem, Text } from "react-native-elements";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -240,8 +235,6 @@ class PlacesScreen extends React.Component<Props, State> {
     const FloorIndex = ["3ème étage", "4ème étage"];
 
     const ZoneIndex = ["Zone verte", "Zone bleue", "Zone rouge"];
-
-    console.log(this.state);
 
     // if (this.state.historical)
     //   console.log(

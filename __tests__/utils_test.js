@@ -1,7 +1,5 @@
 import React from "react";
-import { View } from "react-native";
 import enzyme, { shallow } from "enzyme";
-import { expect } from "chai";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
 import { checkNavigation, goTo, sendToServ } from "../utils/utils";
 

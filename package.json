@@ -14,7 +14,7 @@
     "pretty": "prettier --semi false --print-width 100 --single-quote--trailing-comma all --write \"Components/**/*.js\"",
     "flow": "flow",
     "lint:fix": "eslint Components/ --fix",
-    "coverage": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "jest --coverage --collectCoverageFrom=**/Components/**/*.js --collectCoverageFrom=!**/Components/**/*{Styles,Style,Type}.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "lint-staged": {
     "*.js": [
@@ -41,6 +41,9 @@
     "unmockedModulePathPatterns": [
       "promise",
       "source-map"
+    ],
+    "collectCoverageFrom": [
+      "!**/utils/**"
     ]
   },
   "dependencies": {

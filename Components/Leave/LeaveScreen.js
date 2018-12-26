@@ -2,8 +2,8 @@
 /* eslint-disable */
 import React from "react";
 
-import { AsyncStorage, View } from "react-native";
-import { Text } from "react-native-elements";
+import { AsyncStorage } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import config from "../../config/api";
 import server from "../../config/server";
 import styles from "./LeaveScreenStyles";
@@ -11,8 +11,6 @@ import type { Props, State } from "./LeaveScreenType";
 import { goTo } from "../../utils/utils";
 
 import I18n from "../../i18n/i18n";
-
-import LinearGradient from "react-native-linear-gradient";
 
 /**
  * List of components
@@ -35,7 +33,7 @@ type Payload = {
 };
 
 class LeaveScreen extends React.Component<Props, State> {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = () => ({
     title: I18n.t("leave.title")
   });
 
@@ -44,9 +42,6 @@ class LeaveScreen extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      name: "",
-      fname: "",
-      id: "",
       place: ""
     };
   }
@@ -117,7 +112,7 @@ class LeaveScreen extends React.Component<Props, State> {
   }
 
   render() {
-    const { fname, name, id, place } = this.state;
+    const { place } = this.state;
     return (
       <LinearGradient
         start={{ x: 0, y: 0 }}
