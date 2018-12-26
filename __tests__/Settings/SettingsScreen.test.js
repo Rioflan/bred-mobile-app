@@ -1,5 +1,7 @@
 import "react-native-permissions";
 import React from "react";
+import { ButtonGroup } from "react-native-elements";
+import PhotoUpload from "react-native-photo-upload";
 import { expect } from "chai";
 import Enzyme, { shallow } from "enzyme";
 import { ScrollView } from "react-native";
@@ -15,6 +17,8 @@ const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
 it("renders correctly", () => {
   const wrapper = shallow(<SettingsScreen navigation={navigation} />);
 
+  wrapper.saveRemote = jest.fn();
+
   const onPressEvent = jest.fn();
 
   onPressEvent.mockReturnValue("Link on press invoked");
@@ -26,6 +30,18 @@ it("renders correctly", () => {
     .first()
     .props()
     .onPress();
+
+  wrapper
+    .find(ButtonGroup)
+    .first()
+    .props()
+    .onPress();
+
+  wrapper
+    .find(PhotoUpload)
+    .first()
+    .props()
+    .onPhotoSelect();
 
   expect(wrapper.find(ScrollView)).to.have.length(1);
 });

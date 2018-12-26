@@ -1,6 +1,5 @@
 // @flow
 /* eslint-disable */
-
 import React from "react";
 import { ButtonGroup, List, ListItem, Text } from "react-native-elements";
 
@@ -9,7 +8,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {
   ActivityIndicator,
   AsyncStorage,
-  Image,
   ScrollView,
   TouchableOpacity,
   View
@@ -48,14 +46,11 @@ type Props = {
 };
 
 class PlacesScreen extends React.Component<Props, State> {
-  static navigationOptions = ({ navigation }) => {
-    console.log(navigation);
-    return {
-      title: I18n.t("places.title"),
-      tabBarIcon: ({ tintColor }) => (
-        <Icon name="search" size={20} color={tintColor} />
-      )
-    };
+  static navigationOptions = {
+    title: I18n.t("places.title"),
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name="search" size={20} color={tintColor} />
+    )
   };
 
   _isMounted = false;
@@ -77,7 +72,6 @@ class PlacesScreen extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { id } = this.state;
     this._isMounted = true;
     AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) {
@@ -131,7 +125,7 @@ class PlacesScreen extends React.Component<Props, State> {
       element.id !== ""
     ) {
       const { name, fname, id, historical, remoteDay, photo } = ctx.state;
-      console.log("PHOTO", photo);
+
       ctx = ctx || window;
 
       const payload = {
@@ -153,7 +147,7 @@ class PlacesScreen extends React.Component<Props, State> {
       })
         .then(res => res.json())
         .then(data => {
-          const redirect = !(payload.id_place == element.id && element.using);
+          const redirect = !(payload.id_place === element.id && element.using);
           if (redirect) {
             AsyncStorage.setItem(
               "USER",
@@ -205,11 +199,16 @@ class PlacesScreen extends React.Component<Props, State> {
               finalResult = false;
             }
 
-            for (const element in search) {
+            Object.keys(search).forEach(element => {
               if (search[element] !== e.id[element]) {
                 finalResult = false;
               }
-            }
+            });
+            // for (const element in search) {
+            //   if (search[element] !== e.id[element]) {
+            //     finalResult = false;
+            //   }
+            // }
             return finalResult;
           })
         : debug;
@@ -221,15 +220,10 @@ class PlacesScreen extends React.Component<Props, State> {
   };
 
   render() {
-    const { navigation } = this.props;
     const {
       debug,
       selectedFloorIndex,
       loading,
-      RERZonechecked,
-      ForestZonechecked,
-      SouthZonechecked,
-      MiddleZonechecked,
       selectedZoneIndex
     } = this.state;
     const FloorIndex = ["3ème étage", "4ème étage"];

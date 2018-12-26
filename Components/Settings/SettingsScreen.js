@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable */
 
 import React, { Component } from "react";
 import {
@@ -14,16 +13,16 @@ import {
 import { ButtonGroup } from "react-native-elements";
 import { assoc, omit } from "ramda";
 import PhotoUpload from "react-native-photo-upload";
+import Modal from "react-native-modal";
 import config from "../../config/api";
 import server from "../../config/server";
 import { sendToServ, getPlaces, goTo } from "../../utils/utils";
 import picProfile from "../../assets/profile.png";
 
-import styles from './SettingsScreenStyles';
+import styles from "./SettingsScreenStyles";
 
 // import { Calendar } from "react-native-calendars";
-import Modal from "react-native-modal";
-import DeconnectionButton from './components/DeconnectionButton';
+import DeconnectionButton from "./components/DeconnectionButton";
 
 const WEEK_DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
@@ -48,47 +47,46 @@ type Props = {
   navigation: NavigationScreenProp<{}>
 };
 
-const ProfileDescription = (props: { name: any, fname: any, id: any }) =>
-  <View style={{ marginLeft: 20 }}>
-    <Text style={{ fontFamily: 'Raleway' }}>
-      <Text style={{ fontWeight: 'bold' }}>Nom : </Text>
-      {props.name}{' '}
-    </Text>
-    <Text style={{ fontFamily: 'Raleway' }}>
-      <Text style={{ fontWeight: 'bold' }}>Prenom : </Text>
-      {props.fname}
-    </Text>
-    <Text style={{ fontFamily: 'Raleway' }}>
-      <Text style={{ fontWeight: 'bold' }}>ID : </Text>
-      {props.id}
-    </Text>
-  </View>
+const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
+  const { name, fname, id } = props;
+  return (
+    <View style={{ marginLeft: 20 }}>
+      <Text style={{ fontFamily: "Raleway" }}>
+        <Text style={{ fontWeight: "bold" }}>Nom : </Text>
+        {name}{" "}
+      </Text>
+      <Text style={{ fontFamily: "Raleway" }}>
+        <Text style={{ fontWeight: "bold" }}>Prenom : </Text>
+        {fname}
+      </Text>
+      <Text style={{ fontFamily: "Raleway" }}>
+        <Text style={{ fontWeight: "bold" }}>ID : </Text>
+        {id}
+      </Text>
+    </View>
+  );
+};
 
-
-const ModalComponent = (props: { visible: any }) =>
-  <Modal
-    isVisible={props.visible}
-    backdropColor="white"
-    animationIn="fadeIn"
-  >
-    <ActivityIndicator size="large" color="#2E89AD"/>
-  </Modal>
-
+const ModalComponent = (props: { visible: any }) => {
+  const { visible } = props;
+  return (
+    <Modal isVisible={visible} backdropColor="white" animationIn="fadeIn">
+      <ActivityIndicator size="large" color="#2E89AD" />
+    </Modal>
+  );
+};
 
 class SettingsScreen extends Component<Props, State> {
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    return {
-      title: "Profile",
-      headerTintColor: "black",
-      tabBarIcon: () => (
-        <Image
-          source={picProfile}
-          resizeMode="contain"
-          style={{ width: 20, height: 20 }}
-        />
-      )
-    };
+  static navigationOptions = {
+    title: "Profile",
+    headerTintColor: "black",
+    tabBarIcon: () => (
+      <Image
+        source={picProfile}
+        resizeMode="contain"
+        style={{ width: 20, height: 20 }}
+      />
+    )
   };
 
   constructor() {
@@ -112,7 +110,6 @@ class SettingsScreen extends Component<Props, State> {
       if (err || result === null) goTo(this, "Login");
       else {
         this.setState(JSON.parse(result));
-        console.log(JSON.parse(result));
         navigation.setParams(JSON.parse(result));
         this.setState({
           // map Trouve index du jour
@@ -171,24 +168,13 @@ class SettingsScreen extends Component<Props, State> {
   };
 
   render() {
-    const {
-      selectedIndex,
-      name,
-      fname,
-      id,
-      photo,
-      loadingSave
-    } = this.state;
+    const { selectedIndex, name, fname, id, photo, loadingSave } = this.state;
 
     return (
-      <ScrollView
-        style={styles.scrollViewContainer}
-      >
-        <View
-          style={styles.viewContainer}
-        >
-          <ModalComponent visible={loadingSave}/>
-          <ProfileDescription name={name} fname={fname} id={id}/>
+      <ScrollView style={styles.scrollViewContainer}>
+        <View style={styles.viewContainer}>
+          <ModalComponent visible={loadingSave} />
+          <ProfileDescription name={name} fname={fname} id={id} />
           <PhotoUpload
             onPhotoSelect={image => {
               if (image) {
@@ -210,11 +196,7 @@ class SettingsScreen extends Component<Props, State> {
           </PhotoUpload>
         </View>
 
-        <Text
-          style={styles.remoteText}
-        >
-          Je suis en télétravail :{" "}
-        </Text>
+        <Text style={styles.remoteText}>Je suis en télétravail : </Text>
         <ButtonGroup
           containerStyle={{ backgroundColor: "#F5F5F5" }}
           selectedTextStyle={{
@@ -233,13 +215,15 @@ class SettingsScreen extends Component<Props, State> {
         {/* For future purpose */}
         {/* <Calendar /> */}
 
-        <DeconnectionButton onPress={() => {
-          // LogOut current user
-          const { navigation } = this.props;
-          AsyncStorage.removeItem("USER");
-          navigation.popToTop();
-          navigation.navigate("Login");
-        }}/>
+        <DeconnectionButton
+          onPress={() => {
+            // LogOut current user
+            const { navigation } = this.props;
+            AsyncStorage.removeItem("USER");
+            navigation.popToTop();
+            navigation.navigate("Login");
+          }}
+        />
       </ScrollView>
     );
   }

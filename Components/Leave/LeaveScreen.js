@@ -101,7 +101,6 @@ class LeaveScreen extends React.Component<Props, State> {
         ctx.setState({ debug: "ERROR" });
       })
       .then(data => {
-        console.log(data);
         ctx.state.debug = "";
         ctx.state.place = "";
         ctx.state.isWrongFormatPlace = false;

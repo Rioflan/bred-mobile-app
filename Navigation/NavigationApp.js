@@ -23,7 +23,7 @@ import ProfileImage from "./components/ProfileImage";
 
 const fetchUserPhoto = async () => {
   const userPhoto = await AsyncStorage.getItem("USER");
-  console.log("sdffdfds", JSON.parse(userPhoto).photo);
+
   return JSON.parse(userPhoto).photo;
 };
 

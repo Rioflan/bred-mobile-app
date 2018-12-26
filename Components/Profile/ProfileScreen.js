@@ -2,13 +2,13 @@
 /* eslint-disable */
 import React from "react";
 
-import { AsyncStorage, Image, ScrollView, View, Text } from "react-native";
+import { AsyncStorage, ScrollView, View, Text } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 import config from "../../config/api";
 import server from "../../config/server";
 import styles from "./ProfileScreenStyles";
 import { getPlaces, goTo, sendToServ } from "../../utils/utils";
-import Icon from "react-native-vector-icons/FontAwesome";
 import I18n from "../../i18n/i18n";
 
 /**
@@ -16,7 +16,7 @@ import I18n from "../../i18n/i18n";
  */
 import ManualInsertionCard from "./components/ManualInsertionCard";
 import HeaderCard from "./components/HeaderCard";
-import QRCodeComponent from './components/QRCodeComponent'
+import QRCodeComponent from "./components/QRCodeComponent";
 
 type Historical = {
   place_id: string,
@@ -117,13 +117,11 @@ class ProfileScreen extends React.Component<Props, State> {
       isWrongFormatPlace
     } = this.state;
 
-    console.log(this.state);
-
     return (
       <ScrollView style={styles.view}>
-        <HeaderCard fname={fname} name={name} id={id}/>
+        <HeaderCard fname={fname} name={name} id={id} />
         <View>
-          <QRCodeComponent onRead={this.onSuccess}/>
+          <QRCodeComponent onRead={this.onSuccess} />
           <View>
             <ManualInsertionCard
               onChangeText={text => this.setState({ place: text })}

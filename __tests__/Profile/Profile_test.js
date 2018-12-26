@@ -2,7 +2,7 @@ import "react-native-permissions";
 import React from "react";
 import { expect } from "chai";
 import Enzyme, { shallow } from "enzyme";
-import { ScrollView } from "react-native";
+import { ScrollView, Text } from "react-native";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
 import ProfileScreen from "../../Components/Profile/ProfileScreen";
@@ -30,5 +30,15 @@ it("renders correctly", () => {
     .props()
     .onPress();
 
+  wrapper
+    .find(ManualInsertionCard)
+    .first()
+    .props()
+    .onChangeText();
+
   expect(wrapper.find(ScrollView)).to.have.length(1);
+  expect(wrapper.find(ManualInsertionCard)).to.have.length(1);
+
+  wrapper.setProps({ isWrongFormatPlace: true });
+  expect(wrapper.find(Text)).to.have.length(1);
 });

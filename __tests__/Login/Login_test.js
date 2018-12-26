@@ -6,6 +6,7 @@ import { expect } from "chai";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
 import LoginScreen from "../../Components/Login/LoginScreen";
 import LoginButton from "../../Components/Login/components/LoginButton";
+import InputLogin from "../../Components/Login/components/InputLogin";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
@@ -28,6 +29,24 @@ it("renders correctly", () => {
     .first()
     .props()
     .onPress();
+
+  wrapper
+    .find(InputLogin)
+    .first()
+    .props()
+    .onChangeText();
+
+  wrapper
+    .find(InputLogin)
+    .first()
+    .props()
+    .onChangeText1();
+
+  wrapper
+    .find(InputLogin)
+    .first()
+    .props()
+    .onChangeText2();
 
   expect(wrapper.find(Image)).to.have.length(1);
   expect(wrapper.find(View)).to.have.length(2);

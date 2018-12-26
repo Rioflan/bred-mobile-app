@@ -1,22 +1,14 @@
 // @flow
-/* eslint-disable */
+// /* eslint-disable */
 import React from "react";
-import {
-  Card,
-  FormInput,
-  FormLabel,
-  ListItem,
-  Button
-} from "react-native-elements";
+import { FormInput, ListItem } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
   ActivityIndicator,
   AsyncStorage,
-  Image,
   ScrollView,
   TouchableOpacity,
-  TouchableHighlight,
   View
 } from "react-native";
 import { append, filter, omit } from "ramda";
@@ -25,12 +17,12 @@ import I18n from "react-native-i18n";
 import config from "../../../config/api";
 import server from "../../../config/server";
 import styles from "../ProfileScreenStyles";
-import picUser from "../../../assets/users.png";
 
 import { goTo } from "../../../utils/utils";
 
-import FindPlacesCard from "./components/FindPlacesCard";
 import ListPlaces from "./components/ListPlaces";
+
+import profileDefaultPic from "../../../assets/profile.png";
 
 type State = {
   users: Array<any> | string
@@ -41,14 +33,11 @@ type Props = {
 };
 
 class UsersScreen extends React.Component<Props, State> {
-  static navigationOptions = ({ navigation }) => {
-    console.log(navigation);
-    return {
-      title: I18n.t("users.title"),
-      tabBarIcon: ({ tintColor }) => (
-        <Icon name="users" size={20} color={tintColor} />
-      )
-    };
+  static navigationOptions = {
+    title: I18n.t("users.title"),
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name="users" size={20} color={tintColor} />
+    )
   };
 
   _isMounted = false;
@@ -74,12 +63,10 @@ class UsersScreen extends React.Component<Props, State> {
       if (err || result === null) {
         goTo(this, "Login");
       } else {
+        const { remoteDay, historical, friend, id } = JSON.parse(result);
         const userName = JSON.parse(result).name;
         const userFName = JSON.parse(result).fname;
-        const remoteDay = JSON.parse(result).remoteDay;
-        const historical = JSON.parse(result).historical;
-        const friend = JSON.parse(result).friend;
-        const id = JSON.parse(result).id;
+
         this.setState({
           userName: `${userName}/${userFName}`,
           remoteDay,
@@ -102,16 +89,16 @@ class UsersScreen extends React.Component<Props, State> {
   };
 
   addFriend = item => {
-    const { navigation } = this.props;
-    if (!this.state.friendLoading) {
-      const newListOfUSers = this.state.users.filter(e => e.id !== item.id);
+    const { users, id, arrayOfFriends, friendLoading } = this.state;
+    if (!friendLoading) {
+      const newListOfUSers = users.filter(e => e.id !== item.id);
       this.setState({
         users: newListOfUSers,
-        arrayOfFriends: append(item, this.state.arrayOfFriends),
+        arrayOfFriends: append(item, arrayOfFriends),
         friendLoading: true
       });
       const payload = {
-        id_user: this.state.id,
+        id_user: id,
         id: item.id,
         name: item.name,
         fname: item.fname,
@@ -152,6 +139,7 @@ class UsersScreen extends React.Component<Props, State> {
   };
 
   getUsers = () => {
+    const { friend } = this.state;
     this.setState({ loading: true });
     fetch(`${server.address}users/`, {
       method: "GET",
@@ -165,14 +153,14 @@ class UsersScreen extends React.Component<Props, State> {
         if (this._isMounted) {
           // Here we check if users are in the friend list
           const filteredUsers = users.filter(
-            word => !this.state.friend.find(e => e.id === word.id)
+            word => !friend.find(e => e.id === word.id)
           );
           // Here we want to refresh the friend list
           const filteredFriends = users.filter(word =>
-            this.state.friend.find(e => e.id === word.id)
+            friend.find(e => e.id === word.id)
           );
           this.setState({
-            users: this.state.friend.length > 0 ? filteredUsers : users,
+            users: friend.length > 0 ? filteredUsers : users,
             arrayOfFriends: filteredFriends
           });
         }
@@ -191,14 +179,22 @@ class UsersScreen extends React.Component<Props, State> {
       users !== []
         ? users.filter(e => {
             let finalResult = true;
-            for (const element in search) {
+            Object.keys(search).forEach(element => {
               if (
                 search[element] !== e.name[element] &&
                 search[element] !== e.fname[element]
               ) {
                 finalResult = false;
               }
-            }
+            });
+            // for (const element in search) {
+            //   if (
+            //     search[element] !== e.name[element] &&
+            //     search[element] !== e.fname[element]
+            //   ) {
+            //     finalResult = false;
+            //   }
+            // }
             return finalResult;
           })
         : users;
@@ -216,20 +212,19 @@ class UsersScreen extends React.Component<Props, State> {
     return search === "" ? users : newT;
   };
 
-  removeFriend = friend => {
-    const { id, arrayOfFriends } = this.state;
-    const isRemovedUser = userFriend => userFriend.id !== friend.id;
+  removeFriend = friendToBeRemoved => {
+    const { id, arrayOfFriends, friend, users, friendLoading } = this.state;
+    const isRemovedUser = userFriend => userFriend.id !== friendToBeRemoved.id;
     this.setState({
       arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
-      friend: filter(isRemovedUser, this.state.friend),
-      users: append(friend, this.state.users)
+      friend: filter(isRemovedUser, friend),
+      users: append(friendToBeRemoved, users)
     });
-    if (!this.state.friendLoading) {
+    if (!friendLoading) {
       this.setState({ friendLoading: true });
-      const { navigation } = this.props;
       const payload = {
         id_user: id,
-        id: friend.id
+        id: friendToBeRemoved.id
       };
 
       fetch(`${server.address}remove_friend`, {
@@ -314,7 +309,7 @@ class UsersScreen extends React.Component<Props, State> {
                         avatar={
                           friend.photo !== ""
                             ? { uri: friend.photo }
-                            : require("../../../assets/profile.png")
+                            : profileDefaultPic
                         }
                         avatarStyle={{
                           backgroundColor: "white",
@@ -349,7 +344,7 @@ class UsersScreen extends React.Component<Props, State> {
                           avatar={
                             item.photo !== ""
                               ? { uri: item.photo }
-                              : require("../../../assets/profile.png")
+                              : profileDefaultPic
                           }
                           avatarStyle={{
                             backgroundColor: "white",
