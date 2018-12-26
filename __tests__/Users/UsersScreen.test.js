@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { FormInput, ListItem } from "react-native-elements";
 import React from "react";
 import { expect } from "chai";
@@ -7,7 +7,6 @@ import ReactSixteenAdapter from "enzyme-adapter-react-16";
 import UsersScreen from "../../Components/Profile/Users/UsersScreen";
 import ListPlaces from "../../Components/Profile/Users/components/ListPlaces";
 import "isomorphic-fetch";
-jest.useFakeTimers();
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
@@ -30,7 +29,7 @@ it("renders correctly", () => {
       photo: ""
     }
   ];
-  wrapper.setState({ users });
+  wrapper.setState({ arrayOfFriends: users, loading: false });
 
   wrapper.getUsers = jest.fn();
 
@@ -48,31 +47,38 @@ it("renders correctly", () => {
 
   wrapper.componentDidMount = jest.fn();
 
-  // wrapper
-  //   .find(FormInput)
-  //   .first()
-  //   .props()
-  //   .onChangeText();
+  if (wrapper.state().loading === true) {
+    expect(wrapper.find(ActivityIndicator).exists()).to.equal(true);
+  }
 
-  // wrapper
-  //   .find(ListItem)
-  //   .first()
-  //   .props()
-  //   .onChangeText();
+  wrapper
+    .find(FormInput)
+    .first()
+    .props()
+    .onChangeText("test");
 
-  // wrapper
-  //   .find(ListPlaces)
-  //   .first()
-  //   .props()
-  //   .handleList();
+  wrapper.setState({ users, arrayOfFriends: users, loading: false });
+  expect(wrapper.state().loading).to.equal(false);
 
-  // wrapper
-  //   .find(ListPlaces)
-  //   .first()
-  //   .props()
-  //   .prop1();
+  wrapper
+    .find(ListItem)
+    .at(0)
+    .props()
+    .onPress();
 
-  expect(wrapper.find(ListPlaces).exists()).to.equal(false);
+  wrapper
+    .find(ListPlaces)
+    .first()
+    .props()
+    .handleList();
+
+  wrapper
+    .find(ListPlaces)
+    .first()
+    .props()
+    .prop1();
+
+  expect(wrapper.find(ListPlaces).exists()).to.equal(true);
 
   expect(wrapper.find(ScrollView)).to.have.length(1);
   expect(wrapper.find(TouchableOpacity)).to.have.length(1);
