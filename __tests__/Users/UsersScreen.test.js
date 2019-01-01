@@ -69,8 +69,7 @@ it("renders correctly", () => {
   wrapper
     .find(ListPlaces)
     .first()
-    .props()
-    .handleList();
+    .props().handleList;
 
   wrapper
     .find(ListPlaces)
