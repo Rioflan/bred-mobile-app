@@ -187,14 +187,6 @@ class UsersScreen extends React.Component<Props, State> {
                 finalResult = false;
               }
             });
-            // for (const element in search) {
-            //   if (
-            //     search[element] !== e.name[element] &&
-            //     search[element] !== e.fname[element]
-            //   ) {
-            //     finalResult = false;
-            //   }
-            // }
             return finalResult;
           })
         : users;
@@ -324,7 +316,7 @@ class UsersScreen extends React.Component<Props, State> {
               </View>
               {users !== [] && users ? (
                 <ListPlaces
-                  handleList={() => this._handleList()}
+                  handleList={this._handleList()}
                   prop1={item =>
                     item && `${item.name}/${item.fname}` !== userName ? (
                       <TouchableOpacity

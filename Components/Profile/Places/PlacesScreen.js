@@ -204,11 +204,6 @@ class PlacesScreen extends React.Component<Props, State> {
                 finalResult = false;
               }
             });
-            // for (const element in search) {
-            //   if (search[element] !== e.id[element]) {
-            //     finalResult = false;
-            //   }
-            // }
             return finalResult;
           })
         : debug;
