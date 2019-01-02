@@ -292,7 +292,7 @@ class PlacesScreen extends React.Component<Props, State> {
             />
           </View>
           <FetchPlacesButton
-            onPress={() => getPlaces(this, this.setPlaces, null, true)}
+          // onPress={() => getPlaces(this, this.setPlaces, null, true)}
           />
           {/* <GradientBtn /> */}
         </View>
@@ -315,7 +315,7 @@ class PlacesScreen extends React.Component<Props, State> {
                   place ? (
                     <TouchableOpacity
                       key={place.id}
-                      onPress={() => getPlaces(this, this.getUser, place)}
+                      // onPress={() => getPlaces(this, this.getUser, place)}
                     >
                       <ListItem
                         key={place.id}

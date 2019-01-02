@@ -147,7 +147,8 @@ class LoginScreen extends React.Component<Props, State> {
               this.setState({
                 remoteDay: data.user.remoteDay,
                 photo: data.user.photo,
-                friend: data.user.friend
+                friend: data.user.friend,
+                place: data.user.id_place
               });
             else this.setState({ friend: [] });
             AsyncStorage.setItem(

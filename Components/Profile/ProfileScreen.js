@@ -1,14 +1,16 @@
 // @flow
-/* eslint-disable */
+// /* eslint-disable */
 import React from "react";
 
 import { AsyncStorage, ScrollView, View, Text } from "react-native";
+
+import LinearGradient from "react-native-linear-gradient";
 import { NavigationScreenProp } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import config from "../../config/api";
 import server from "../../config/server";
 import styles from "./ProfileScreenStyles";
-import { getPlaces, goTo, sendToServ } from "../../utils/utils";
+import { getPlaces, goTo, sendToServ, leavePlace } from "../../utils/utils";
 import I18n from "../../i18n/i18n";
 
 /**
@@ -17,6 +19,7 @@ import I18n from "../../i18n/i18n";
 import ManualInsertionCard from "./components/ManualInsertionCard";
 import HeaderCard from "./components/HeaderCard";
 import QRCodeComponent from "./components/QRCodeComponent";
+import LeaveButton from "../Leave/components/LeaveButton";
 
 type Historical = {
   place_id: string,
@@ -31,7 +34,8 @@ type State = {
   place: string,
   historical: Array<Historical>,
   debug: Array<any> | string,
-  isWrongFormatPlace: boolean
+  isWrongFormatPlace: boolean,
+  placeTaken: boolean
 };
 
 type Props = {
@@ -57,7 +61,8 @@ class ProfileScreen extends React.Component<Props, State> {
       fname: "",
       id: "",
       place: "",
-      isWrongFormatPlace: false
+      isWrongFormatPlace: false,
+      placeTaken: false
     };
   }
 
@@ -71,6 +76,9 @@ class ProfileScreen extends React.Component<Props, State> {
       else {
         if (this._isMounted) {
           this.setState(JSON.parse(result));
+          this.setState({
+            placeTaken: JSON.parse(result).place !== ""
+          });
           navigation.setParams(JSON.parse(result));
         }
         const userId = JSON.parse(result).id;
@@ -95,7 +103,7 @@ class ProfileScreen extends React.Component<Props, State> {
     this._isMounted = false;
   }
 
-  onSuccess = e => {
+  onSuccess = async e => {
     this.setState({ place: e.data });
     getPlaces(this, sendToServ);
   };
@@ -107,16 +115,16 @@ class ProfileScreen extends React.Component<Props, State> {
     });
   };
 
-  render() {
+  DefaultComponent = () => {
     const {
       fname,
       name,
       id,
       place,
       PLACE_REGEX,
-      isWrongFormatPlace
+      isWrongFormatPlace,
+      placeTaken
     } = this.state;
-
     return (
       <ScrollView style={styles.view}>
         <HeaderCard fname={fname} name={name} id={id} />
@@ -125,9 +133,13 @@ class ProfileScreen extends React.Component<Props, State> {
           <View>
             <ManualInsertionCard
               onChangeText={text => this.setState({ place: text })}
-              onPress={() => {
+              onPress={async () => {
                 if (place !== "" && place.match(PLACE_REGEX) !== null) {
-                  getPlaces(this, sendToServ);
+                  // getPlaces(this, sendToServ);
+                  await getPlaces(this, sendToServ);
+                  this.setState({
+                    placeTaken: placeTaken || false
+                  });
                 } else this.setState({ isWrongFormatPlace: true });
               }}
             />
@@ -136,9 +148,92 @@ class ProfileScreen extends React.Component<Props, State> {
             ) : null}
           </View>
         </View>
-        {/* ) : null} */}
       </ScrollView>
     );
+  };
+
+  LeaveComponent = () => {
+    const { place } = this.state;
+    return (
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        colors={["#58C0D0", "#468BB6", "#3662A0"]}
+        style={{
+          width: "100%",
+          height: "100%",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <LeaveButton place={place} onPress={() => this.leavePlace(this)} />
+      </LinearGradient>
+    );
+  };
+
+  Content = ({ place }) => {
+    if (!place) {
+      return <this.DefaultComponent />;
+    }
+    return <this.LeaveComponent />;
+  };
+
+  async leavePlace(ctx) {
+    const { id } = this.state;
+    ctx = ctx || window;
+    await fetch(`${server.address}users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json()) // transform data to json
+      .then(data => {
+        ctx.setState({ historical: data[0].historical });
+      });
+
+    const { name, fname, place, historical, remoteDay } = this.state;
+
+    const payload: Payload = {
+      name,
+      fname,
+      id_user: id,
+      id_place: place,
+      historical,
+      remoteDay
+    };
+
+    await fetch(server.address, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        ctx.setState({ debug: "ERROR" });
+      })
+      .then(data => {
+        ctx.setState({
+          placeTaken: false,
+          isWrongFormatPlace: false,
+          place: "",
+          debug: ""
+        });
+        AsyncStorage.setItem("USER", JSON.stringify(this.state));
+      });
+  }
+
+  render() {
+    const { placeTaken } = this.state;
+
+    return <this.Content place={placeTaken} />;
   }
 }
 
