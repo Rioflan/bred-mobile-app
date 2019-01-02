@@ -6,6 +6,12 @@ import {
   Text,
   AsyncStorage
 } from "react-native";
+
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+
+import devToolsEnhancer from "remote-redux-devtools";
+
 import { createStackNavigator, createTabNavigator } from "react-navigation";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -21,8 +27,14 @@ import logo from "../assets/logo.png";
 import ProfileImage from "./components/ProfileImage";
 // import LocationNotice from "../utils/LocationNotice";
 
+import reducer, { fetchPhoto } from "./components/reducer";
+
+const store = createStore(reducer, devToolsEnhancer());
+
 const fetchUserPhoto = async () => {
   const userPhoto = await AsyncStorage.getItem("USER");
+
+  fetchPhoto(userPhoto);
 
   return JSON.parse(userPhoto).photo;
 };
@@ -139,13 +151,13 @@ const NavigationApp = createStackNavigator({
       header: headerBar(navigation)
     })
   },
-  Leave: {
-    screen: LeaveScreen,
-    navigationOptions: ({ navigation }) => ({
-      /* Custom header */
-      header: headerBar(navigation, false, false)
-    })
-  },
+  // Leave: {
+  //   screen: LeaveScreen,
+  //   navigationOptions: ({ navigation }) => ({
+  //     /* Custom header */
+  //     header: headerBar(navigation, false, false)
+  //   })
+  // },
   SettingsScreen: {
     screen: SettingsScreen,
     navigationOptions: ({ navigation }) => ({
@@ -156,11 +168,13 @@ const NavigationApp = createStackNavigator({
 });
 
 const NetInfoWrapper = () => (
-  <View style={{ flex: 1 }}>
-    <OfflineNotice />
-    <NavigationApp />
-    {/* <LocationNotice /> */}
-  </View>
+  <Provider store={store}>
+    <View style={{ flex: 1 }}>
+      <OfflineNotice />
+      <NavigationApp />
+      {/* <LocationNotice /> */}
+    </View>
+  </Provider>
 );
 
 export default NetInfoWrapper;

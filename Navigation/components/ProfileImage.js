@@ -3,12 +3,12 @@
 import React, { Component } from "react";
 import { Image, AsyncStorage } from "react-native";
 
+import { fetchPhoto } from "./reducer";
+import { connect } from "react-redux";
+
 class ProfileImage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      photoURI: ""
-    };
   }
 
   componentWillMount() {
@@ -17,19 +17,20 @@ class ProfileImage extends Component {
 
   fetchUserPhoto = async () => {
     const userPhoto = await AsyncStorage.getItem("USER");
-    this.setState({ photoURI: JSON.parse(userPhoto).photo || "" });
+
+    this.props.fetchPhoto(JSON.parse(userPhoto).photo || "");
   };
 
   render() {
-    const { photoURI } = this.state;
+    const { photo } = this.props;
 
     return (
       <Image
         source={
-          photoURI === ""
+          photo === ""
             ? require("../../assets/profile.png")
             : {
-                uri: photoURI
+                uri: photo
               }
         }
         style={{
@@ -43,4 +44,17 @@ class ProfileImage extends Component {
   }
 }
 
-export default ProfileImage;
+const mapStateToProps = state => {
+  return {
+    photo: state.photo
+  };
+};
+
+const mapDispatchToProps = {
+  fetchPhoto
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileImage);

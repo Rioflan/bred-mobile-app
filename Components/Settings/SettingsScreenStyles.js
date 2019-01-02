@@ -27,7 +27,11 @@ export default StyleSheet.create({
     backgroundColor: "white"
   },
   viewContainer: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#fff",
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
+    shadowColor: "#3662A0",
+    shadowOffset: { height: 1, width: 0 },
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",

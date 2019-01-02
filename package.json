@@ -87,7 +87,9 @@
     "react-native-udp": "^2.3.1",
     "react-native-vector-icons": "^6.0.2",
     "react-navigation": "^2.12.1",
+    "react-redux": "^6.0.0",
     "readable-stream": "^3.0.6",
+    "redux": "^4.0.1",
     "stream-browserify": "^2.0.1",
     "string_decoder": "^1.1.1",
     "timers-browserify": "^2.0.10",
@@ -129,6 +131,7 @@
     "prettier": "^1.14.3",
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "16.5.2",
+    "remote-redux-devtools": "^0.5.16",
     "rn-nodeify": "github:tradle/rn-nodeify",
     "schedule": "0.4.0"
   },

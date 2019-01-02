@@ -11,6 +11,7 @@ import {
 } from "react-native";
 
 import { ButtonGroup } from "react-native-elements";
+import { connect } from "react-redux";
 import { assoc, omit } from "ramda";
 import PhotoUpload from "react-native-photo-upload";
 import Modal from "react-native-modal";
@@ -23,6 +24,8 @@ import styles from "./SettingsScreenStyles";
 
 // import { Calendar } from "react-native-calendars";
 import DeconnectionButton from "./components/DeconnectionButton";
+
+import { fetchPhoto, logOut } from "../../Navigation/components/reducer";
 
 const WEEK_DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi"];
 
@@ -142,6 +145,7 @@ class SettingsScreen extends Component<Props, State> {
 
   saveRemote = async () => {
     const { id } = this.state;
+
     this.setState({ loadingSave: true });
     await getPlaces(this, sendToServ);
 
@@ -156,12 +160,14 @@ class SettingsScreen extends Component<Props, State> {
       })
         .then(res => res.json())
         .then(data => {
+          this.props.fetchPhoto(data[0].photo);
           AsyncStorage.setItem(
             "USER",
             JSON.stringify(
               omit(["loadingSave"], assoc("photo", data[0].photo, this.state))
             )
           );
+
           this.setState({ loadingSave: false });
         });
     }, 3000);
@@ -199,6 +205,9 @@ class SettingsScreen extends Component<Props, State> {
         <Text style={styles.remoteText}>Je suis en télétravail : </Text>
         <ButtonGroup
           containerStyle={{ backgroundColor: "#F5F5F5" }}
+          buttonStyle={{
+            backgroundColor: "white"
+          }}
           selectedTextStyle={{
             color: "#2E89AD",
             fontWeight: "bold"
@@ -219,6 +228,7 @@ class SettingsScreen extends Component<Props, State> {
           onPress={() => {
             // LogOut current user
             const { navigation } = this.props;
+            this.props.logOut("");
             AsyncStorage.removeItem("USER");
             navigation.popToTop();
             navigation.navigate("Login");
@@ -229,4 +239,18 @@ class SettingsScreen extends Component<Props, State> {
   }
 }
 
-export default SettingsScreen;
+const mapStateToProps = state => {
+  return {
+    photo: state.photo
+  };
+};
+
+const mapDispatchToProps = {
+  fetchPhoto,
+  logOut
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsScreen);
