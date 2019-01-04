@@ -1,5 +1,5 @@
 // @flow
-// /* eslint-disable */
+/* eslint-disable */
 import React from "react";
 
 import { AsyncStorage, ScrollView, View, Text } from "react-native";
@@ -12,6 +12,8 @@ import server from "../../config/server";
 import styles from "./ProfileScreenStyles";
 import { getPlaces, goTo, sendToServ, leavePlace } from "../../utils/utils";
 import I18n from "../../i18n/i18n";
+
+import LottieView from "lottie-react-native";
 
 /**
  * List of components
@@ -155,20 +157,17 @@ class ProfileScreen extends React.Component<Props, State> {
   LeaveComponent = () => {
     const { place } = this.state;
     return (
-      <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        colors={["#58C0D0", "#468BB6", "#3662A0"]}
+      <View
         style={{
-          width: "100%",
-          height: "100%",
+          backgroundColor: "white",
           flex: 1,
-          alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          alignItems: "center"
         }}
       >
+        <LottieView source={require("./animation.json")} autoPlay loop />
         <LeaveButton place={place} onPress={() => this.leavePlace(this)} />
-      </LinearGradient>
+      </View>
     );
   };
 

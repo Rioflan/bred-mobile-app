@@ -13,14 +13,17 @@ const LeaveButton = (props: { place: any, onPress: () => void }) => {
         fontWeight="bold"
         fontFamily="Raleway"
         buttonStyle={{
-          borderWidth: 0.5,
-          borderColor: "#fff",
           width: 200,
-          height: 200
+          height: 200,
+          backgroundColor: "#fff",
+          shadowOpacity: 0.4,
+          shadowRadius: 2,
+          shadowColor: "#3662A0",
+          shadowOffset: { height: 1, width: 0 }
         }}
         borderRadius={100}
-        color="white"
-        backgroundColor="transparent"
+        color="#468BB6"
+        backgroundColor="#fff"
         title={`${I18n.t("leave.leave_place")}
         ${place}`}
         onPress={onPress}

@@ -57,6 +57,7 @@
     "domain-browser": "^1.2.0",
     "events": "^3.0.0",
     "https-browserify": "1.0.0",
+    "lottie-react-native": "^2.5.11",
     "path-browserify": "1.0.0",
     "process": "^0.11.10",
     "punycode": "^2.1.1",

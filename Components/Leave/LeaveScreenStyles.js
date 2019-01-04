@@ -4,8 +4,7 @@ export default StyleSheet.create({
   place_view: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 100
+    alignItems: "center"
   },
   user_view: {
     // backgroundColor: "white",
@@ -27,8 +26,5 @@ export default StyleSheet.create({
     textAlign: "center",
     color: "#fff",
     fontSize: 15
-  },
-  button: {
-    marginTop: 20
   }
 });
