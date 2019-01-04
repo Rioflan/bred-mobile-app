@@ -1,5 +1,5 @@
 // @flow
-// /* eslint-disable */
+/* eslint-disable */
 import React from "react";
 import { ButtonGroup, List, ListItem, Text, Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
