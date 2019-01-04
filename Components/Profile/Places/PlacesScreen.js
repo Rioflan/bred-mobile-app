@@ -1,8 +1,7 @@
 // @flow
-/* eslint-disable */
+// /* eslint-disable */
 import React from "react";
-import { ButtonGroup, List, ListItem, Text } from "react-native-elements";
-
+import { ButtonGroup, List, ListItem, Text, Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
@@ -10,7 +9,8 @@ import {
   AsyncStorage,
   ScrollView,
   TouchableOpacity,
-  View
+  View,
+  FlatList
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import config from "../../../config/api";
@@ -233,19 +233,18 @@ class PlacesScreen extends React.Component<Props, State> {
     //   );
     return (
       <ScrollView style={styles.view}>
-        <View style={{ margin: 40 }}>
-          <Text
-            h4
-            style={{
-              textAlign: "center",
-              fontSize: 16,
-              fontWeight: "bold",
-              marginBottom: 20,
-              fontFamily: "Raleway"
-            }}
-          >
-            {I18n.t("places.floor")}
-          </Text>
+        <View
+          style={{
+            padding: 25,
+            borderRadius: 10,
+            backgroundColor: "white",
+            margin: 20,
+            shadowOpacity: 0.4,
+            shadowRadius: 2,
+            shadowColor: "#3662A0",
+            shadowOffset: { height: 1, width: 0 }
+          }}
+        >
           <ButtonGroup
             onPress={this.updateFloorIndex}
             selectedIndex={selectedFloorIndex}
@@ -291,12 +290,21 @@ class PlacesScreen extends React.Component<Props, State> {
               buttons={ZoneIndex}
             />
           </View>
-          <FetchPlacesButton
-          // onPress={() => getPlaces(this, this.setPlaces, null, true)}
-          />
           {/* <GradientBtn /> */}
         </View>
-        <Text
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row"
+          }}
+        >
+          <FetchPlacesButton
+            onPress={() => getPlaces(this, this.setPlaces, null, true)}
+          />
+        </View>
+        {/* <Text
           h4
           style={{
             textAlign: "center",
@@ -306,31 +314,57 @@ class PlacesScreen extends React.Component<Props, State> {
           }}
         >
           Places disponibles
-        </Text>
-        <View style={{ margin: 40 }}>
+        </Text> */}
+        <View style={{ marginTop: 5, marginLeft: 35, marginRight: 35 }}>
           {debug !== "" && debug && !loading ? (
-            <List containerStyle={{ marginBottom: 20 }}>
-              {this.handleList().map(
-                place =>
-                  place ? (
-                    <TouchableOpacity
-                      key={place.id}
-                      // onPress={() => getPlaces(this, this.getUser, place)}
+            <FlatList
+              data={this.handleList()}
+              contentContainerStyle={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: 300
+              }}
+              style={{
+                marginBottom: 20
+              }}
+              numColumns={3}
+              // columnWrapperStyle={{ width: 200 }}
+              renderItem={place =>
+                place ? (
+                  <TouchableOpacity
+                    key={place.item.id}
+                    // onPress={() => getPlaces(this, this.getUser, place)}
+                  >
+                    <Card
+                      key={place.item.id}
+                      title={place.item.id}
+                      fontFamily="Raleway"
+                      containerStyle={{
+                        borderRadius: 10,
+                        height: 70
+                      }}
+                      dividerStyle={{ display: "none" }}
+                      // rightIcon={<Icon name="plus" size={20} color="#2E89AD" />}
                     >
-                      <ListItem
-                        key={place.id}
-                        title={place.id}
-                        fontFamily="Raleway"
-                        rightIcon={
-                          <Icon name="plus" size={20} color="#2E89AD" />
+                      <Icon
+                        styl={{ textAlign: "center" }}
+                        name="circle"
+                        size={15}
+                        color={
+                          place.item.id[1] === "1"
+                            ? "green"
+                            : place.item.id[1] === "3"
+                              ? "blue"
+                              : "red"
                         }
                       />
-                    </TouchableOpacity>
-                  ) : (
-                    "There is no free place for the moment !"
-                  )
-              )}
-            </List>
+                    </Card>
+                  </TouchableOpacity>
+                ) : (
+                  "There is no free place for the moment !"
+                )
+              }
+            />
           ) : (
             <ActivityIndicator
               style={{ marginTop: 20 }}
