@@ -23,7 +23,7 @@ export const checkNavigation = (ctx, str) => {
       ) {
         navigate("Profile");
       } else {
-        navigate("Leave");
+        navigate("Profile");
       }
     }
   });
@@ -78,7 +78,7 @@ export const sendToServ = (ctx, json) => {
                 : null
           );
           if (redirect) {
-            goTo(ctx, "Leave");
+            ctx.setState({ placeTaken: true });
           }
         }
         AsyncStorage.setItem("USER", JSON.stringify(ctx.state));
