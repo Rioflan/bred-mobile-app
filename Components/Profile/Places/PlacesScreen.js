@@ -19,6 +19,7 @@ import styles from "../ProfileScreenStyles";
 import { getPlaces, goTo } from "../../../utils/utils";
 
 import I18n from "../../../i18n/i18n";
+import LottieView from "lottie-react-native";
 
 /**
  * List of components
@@ -319,6 +320,7 @@ class PlacesScreen extends React.Component<Props, State> {
           {debug !== "" && debug && !loading ? (
             <FlatList
               data={this.handleList()}
+              keyExtractor={(item, index) => index.toString()}
               contentContainerStyle={{
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -366,11 +368,27 @@ class PlacesScreen extends React.Component<Props, State> {
               }
             />
           ) : (
-            <ActivityIndicator
-              style={{ marginTop: 20 }}
-              size="large"
-              color="#2E89AD"
-            />
+            // <ActivityIndicator
+            //   style={{ marginTop: 20 }}
+            //   size="large"
+            //   color="#2E89AD"
+            // />
+            <View
+              style={{
+                backgroundColor: "white",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              {" "}
+              <LottieView
+                style={{ height: 80, width: 80, marginTop: 30 }}
+                source={require("../../../assets/loading.json")}
+                autoPlay
+                loop
+              />
+            </View>
           )}
         </View>
       </ScrollView>

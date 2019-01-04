@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable */
 import React from "react";
-import { FormInput, ListItem } from "react-native-elements";
+import { FormInput, ListItem, Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
@@ -24,6 +24,7 @@ import ListPlaces from "./components/ListPlaces";
 
 import profileDefaultPic from "../../../assets/profile.png";
 import { NavigationEvents } from "react-navigation";
+import LottieView from "lottie-react-native";
 
 type State = {
   users: Array<any> | string
@@ -295,29 +296,33 @@ class UsersScreen extends React.Component<Props, State> {
                 {arrayOfFriends.map(friend => {
                   if (friend)
                     return (
-                      <ListItem
-                        onPress={() => this.removeFriend(friend)}
+                      <TouchableOpacity
                         key={friend.id}
-                        title={`${friend.name} / ${friend.fname}`}
-                        subtitle={friend.id_place}
-                        fontFamily="Raleway"
-                        rightIcon={{
-                          name: "star",
-                          color: "#2E89AD"
-                        }}
-                        roundAvatar
-                        avatar={
-                          friend.photo !== ""
-                            ? { uri: friend.photo }
-                            : profileDefaultPic
-                        }
-                        avatarStyle={{
-                          backgroundColor: "white",
-                          width: 33,
-                          height: 33,
-                          resizeMode: "contain"
-                        }}
-                      />
+                        onPress={() => this.removeFriend(friend)}
+                      >
+                        <ListItem
+                          key={friend.id}
+                          title={`${friend.name} / ${friend.fname}`}
+                          subtitle={friend.id_place}
+                          fontFamily="Raleway"
+                          rightIcon={{
+                            name: "star",
+                            color: "#2E89AD"
+                          }}
+                          roundAvatar
+                          avatar={
+                            friend.photo !== ""
+                              ? { uri: friend.photo }
+                              : profileDefaultPic
+                          }
+                          avatarStyle={{
+                            backgroundColor: "white",
+                            width: 33,
+                            height: 33,
+                            resizeMode: "contain"
+                          }}
+                        />
+                      </TouchableOpacity>
                     );
                   return null;
                 })}
@@ -331,28 +336,29 @@ class UsersScreen extends React.Component<Props, State> {
                         key={item.id}
                         onPress={() => this.addFriend(item)}
                       >
-                        <ListItem
-                          onPress={() => this.addFriend(item)}
-                          title={`${item.name} / ${item.fname}`}
-                          subtitle={item.id_place}
-                          fontFamily="Raleway"
-                          roundAvatar
-                          rightIcon={{
-                            name: "star-border",
-                            color: "#2E89AD"
-                          }}
-                          avatar={
-                            item.photo !== ""
-                              ? { uri: item.photo }
-                              : profileDefaultPic
-                          }
-                          avatarStyle={{
-                            backgroundColor: "white",
-                            width: 33,
-                            height: 33,
-                            resizeMode: "contain"
-                          }}
-                        />
+                        <Card containerStyle={{ borderRadius: 10 }}>
+                          <ListItem
+                            title={`${item.name} / ${item.fname}`}
+                            subtitle={item.id_place}
+                            fontFamily="Raleway"
+                            roundAvatar
+                            rightIcon={{
+                              name: "star-border",
+                              color: "#2E89AD"
+                            }}
+                            avatar={
+                              item.photo !== ""
+                                ? { uri: item.photo }
+                                : profileDefaultPic
+                            }
+                            avatarStyle={{
+                              backgroundColor: "white",
+                              width: 33,
+                              height: 33,
+                              resizeMode: "contain"
+                            }}
+                          />
+                        </Card>
                       </TouchableOpacity>
                     ) : null
                   }
@@ -360,11 +366,27 @@ class UsersScreen extends React.Component<Props, State> {
               ) : null}
             </View>
           ) : (
-            <ActivityIndicator
-              style={{ marginTop: 40 }}
-              size="large"
-              color="#2E89AD"
-            />
+            // <ActivityIndicator
+            //   style={{ marginTop: 40 }}
+            //   size="large"
+            //   color="#2E89AD"
+            // />
+            <View
+              style={{
+                backgroundColor: "white",
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              {" "}
+              <LottieView
+                style={{ height: 80, width: 80, marginTop: 10 }}
+                source={require("../../../assets/loading.json")}
+                autoPlay
+                loop
+              />
+            </View>
           )}
         </View>
       </ScrollView>
