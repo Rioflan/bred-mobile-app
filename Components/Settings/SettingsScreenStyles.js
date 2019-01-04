@@ -54,11 +54,6 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 5
   },
-  profileImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 35
-  },
   remoteText: {
     fontWeight: "bold",
     textAlign: "center",

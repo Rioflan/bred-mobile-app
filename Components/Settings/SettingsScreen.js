@@ -19,6 +19,7 @@ import config from "../../config/api";
 import server from "../../config/server";
 import { sendToServ, getPlaces, goTo } from "../../utils/utils";
 import picProfile from "../../assets/profile.png";
+import LottieView from "lottie-react-native";
 
 import styles from "./SettingsScreenStyles";
 
@@ -73,8 +74,29 @@ const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
 const ModalComponent = (props: { visible: any }) => {
   const { visible } = props;
   return (
-    <Modal isVisible={visible} backdropColor="white" animationIn="fadeIn">
-      <ActivityIndicator size="large" color="#2E89AD" />
+    <Modal
+      isVisible={visible}
+      backdropColor="white"
+      animationIn="fadeIn"
+      animationOut="fadeOut"
+    >
+      {/* <ActivityIndicator size="large" color="#2E89AD" /> */}
+      <View
+        style={{
+          backgroundColor: "transparent",
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        {" "}
+        <LottieView
+          style={{ height: 80, width: 80, marginTop: 10 }}
+          source={require("../../assets/loading.json")}
+          autoPlay
+          loop
+        />
+      </View>
     </Modal>
   );
 };
@@ -213,21 +235,33 @@ class SettingsScreen extends Component<Props, State> {
             }}
           >
             <Image
-              style={styles.profileImage}
-              resizeMode="cover"
-              source={{
-                uri:
-                  photo === ""
-                    ? "https://www.drupal.org/files/issues/default-avatar.png"
-                    : photo
-              }}
+              style={
+                photo === ""
+                  ? {
+                      width: 70,
+                      height: 70
+                    }
+                  : {
+                      width: 70,
+                      height: 70,
+                      borderRadius: 35
+                    }
+              }
+              resizeMode={photo === "" ? "contain" : "cover"}
+              source={
+                photo === ""
+                  ? require("../../assets/profile.png")
+                  : {
+                      uri: photo
+                    }
+              }
             />
           </PhotoUpload>
         </View>
         <View style={styles.viewContainerRemote}>
-          <Text style={styles.remoteText}>Je suis en télétravail : </Text>
+          <Text style={styles.remoteText}>Jour de télétravail </Text>
           <ButtonGroup
-            containerStyle={{ backgroundColor: "#F5F5F5" }}
+            containerStyle={{ backgroundColor: "#F5F5F5", marginBottom: 10 }}
             buttonStyle={{
               backgroundColor: "white"
             }}

@@ -33,12 +33,22 @@ class ProfileImage extends Component {
                 uri: photo
               }
         }
-        style={{
-          width: 30,
-          height: 30,
-          borderRadius: 15,
-          margin: 8
-        }}
+        style={
+          photo === ""
+            ? {
+                width: 30,
+                height: 30,
+                margin: 8,
+                resizeMode: "contain"
+              }
+            : {
+                width: 30,
+                height: 30,
+                borderRadius: 15,
+                margin: 8,
+                resizeMode: "cover"
+              }
+        }
       />
     );
   }
