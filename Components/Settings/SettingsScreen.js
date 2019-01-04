@@ -101,8 +101,7 @@ class SettingsScreen extends Component<Props, State> {
       selectedIndex: 0,
       photo: "",
       arrayOfFriends: [],
-      loadingSave: false,
-      place: ""
+      loadingSave: false
     };
   }
 
@@ -118,7 +117,8 @@ class SettingsScreen extends Component<Props, State> {
           // map Trouve index du jour
           selectedIndex: WEEK_DAYS.findIndex(
             e => e === JSON.parse(result).remoteDay
-          )
+          ),
+          place: ""
         });
         const userId = JSON.parse(result).id;
         fetch(`${server.address}users/${userId}`, {
@@ -144,10 +144,29 @@ class SettingsScreen extends Component<Props, State> {
   };
 
   saveRemote = async () => {
-    const { id } = this.state;
-
+    const { id, photo, remoteDay } = this.state;
     this.setState({ loadingSave: true });
-    await getPlaces(this, sendToServ);
+
+    const payload = {
+      id_user: id,
+      photo,
+      remoteDay
+    };
+
+    await fetch(`${server.address}settings_user`, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": config.token
+      }
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
+
+    // await getPlaces(this, sendToServ);
 
     // Wait until the photo is uploaded to Cloudinary and the link is provided to perform request
     setTimeout(async () => {
@@ -164,7 +183,11 @@ class SettingsScreen extends Component<Props, State> {
           AsyncStorage.setItem(
             "USER",
             JSON.stringify(
-              omit(["loadingSave"], assoc("photo", data[0].photo, this.state))
+              assoc(
+                "place",
+                data[0].id_place,
+                omit(["loadingSave"], assoc("photo", data[0].photo, this.state))
+              )
             )
           );
 
@@ -201,25 +224,26 @@ class SettingsScreen extends Component<Props, State> {
             />
           </PhotoUpload>
         </View>
-
-        <Text style={styles.remoteText}>Je suis en télétravail : </Text>
-        <ButtonGroup
-          containerStyle={{ backgroundColor: "#F5F5F5" }}
-          buttonStyle={{
-            backgroundColor: "white"
-          }}
-          selectedTextStyle={{
-            color: "#2E89AD",
-            fontWeight: "bold"
-          }}
-          textStyle={{ fontFamily: "Raleway" }}
-          onPress={event => {
-            this.updateIndex(event);
-            this.saveRemote();
-          }}
-          selectedIndex={selectedIndex}
-          buttons={WEEK_DAYS}
-        />
+        <View style={styles.viewContainerRemote}>
+          <Text style={styles.remoteText}>Je suis en télétravail : </Text>
+          <ButtonGroup
+            containerStyle={{ backgroundColor: "#F5F5F5" }}
+            buttonStyle={{
+              backgroundColor: "white"
+            }}
+            selectedTextStyle={{
+              color: "#2E89AD",
+              fontWeight: "bold"
+            }}
+            textStyle={{ fontFamily: "Raleway", fontSize: 13 }}
+            onPress={async event => {
+              await this.updateIndex(event);
+              this.saveRemote();
+            }}
+            selectedIndex={selectedIndex}
+            buttons={WEEK_DAYS}
+          />
+        </View>
 
         {/* For future purpose */}
         {/* <Calendar /> */}

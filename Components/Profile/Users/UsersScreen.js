@@ -23,6 +23,7 @@ import { goTo } from "../../../utils/utils";
 import ListPlaces from "./components/ListPlaces";
 
 import profileDefaultPic from "../../../assets/profile.png";
+import { NavigationEvents } from "react-navigation";
 
 type State = {
   users: Array<any> | string
@@ -55,23 +56,22 @@ class UsersScreen extends React.Component<Props, State> {
     };
   }
 
-  componentDidMount = async () => {
-    const { id } = this.state;
-    const { navigation } = this.props;
-
-    await AsyncStorage.getItem("USER", (err, result) => {
+  getAsyncStorageUser = () => {
+    AsyncStorage.getItem("USER", (err, result) => {
       if (err || result === null) {
         goTo(this, "Login");
       } else {
         const { remoteDay, historical, friend, id } = JSON.parse(result);
         const userName = JSON.parse(result).name;
         const userFName = JSON.parse(result).fname;
+        const place = JSON.parse(result).place;
 
         this.setState({
           userName: `${userName}/${userFName}`,
           remoteDay,
           name: JSON.parse(result).name,
           fname: JSON.parse(result).fname,
+          place,
           historical,
           id,
           friend
@@ -79,6 +79,13 @@ class UsersScreen extends React.Component<Props, State> {
         this.fetchFriends();
       }
     });
+  };
+
+  componentDidMount = async () => {
+    const { id } = this.state;
+    const { navigation } = this.props;
+
+    await this.getAsyncStorageUser();
 
     this._isMounted = true;
     this.getUsers();
@@ -243,6 +250,7 @@ class UsersScreen extends React.Component<Props, State> {
 
     return (
       <ScrollView style={styles.view}>
+        <NavigationEvents onWillFocus={payload => this.getAsyncStorageUser()} />
         <View style={{ marginLeft: 40, marginRight: 40 }}>
           <View
             style={{

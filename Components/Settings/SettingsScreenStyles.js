@@ -40,6 +40,20 @@ export default StyleSheet.create({
     height: 100,
     borderRadius: 5
   },
+  viewContainerRemote: {
+    backgroundColor: "#fff",
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
+    shadowColor: "#3662A0",
+    shadowOffset: { height: 1, width: 0 },
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: 20,
+    height: 100,
+    borderRadius: 5
+  },
   profileImage: {
     width: 70,
     height: 70,

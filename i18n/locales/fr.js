@@ -22,7 +22,7 @@ export default {
     forest_zone: "Côté forêt",
     free_places: "Rechercher",
     search_place: "Chercher une place...",
-    floor: "Je recherche une place :",
+    floor: "Je recherche une place",
     zone: "Zone",
     find: "RECHERCHE"
   },
