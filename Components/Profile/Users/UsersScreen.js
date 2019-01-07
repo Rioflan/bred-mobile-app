@@ -23,7 +23,7 @@ import { goTo } from "../../../utils/utils";
 import ListPlaces from "./components/ListPlaces";
 
 import profileDefaultPic from "../../../assets/profile.png";
-import { NavigationEvents } from "react-navigation";
+// import { NavigationEvents } from "react-navigation";
 import LottieView from "lottie-react-native";
 
 type State = {
@@ -251,7 +251,7 @@ class UsersScreen extends React.Component<Props, State> {
 
     return (
       <ScrollView style={styles.view}>
-        <NavigationEvents onWillFocus={payload => this.getAsyncStorageUser()} />
+        {/* <NavigationEvents onWillFocus={payload => this.getAsyncStorageUser()} /> */}
         <View style={{ marginLeft: 40, marginRight: 40 }}>
           <View
             style={{
