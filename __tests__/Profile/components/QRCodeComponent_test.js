@@ -1,3 +1,5 @@
+jest.useFakeTimers();
+
 import React from "react";
 import QRCodeScanner from "react-native-qrcode-scanner";
 import enzyme, { shallow } from "enzyme";

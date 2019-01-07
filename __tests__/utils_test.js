@@ -1,3 +1,5 @@
+jest.useFakeTimers();
+
 import React from "react";
 import enzyme, { shallow } from "enzyme";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";

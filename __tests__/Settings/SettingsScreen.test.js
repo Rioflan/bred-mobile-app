@@ -36,10 +36,10 @@ it("renders correctly", () => {
     .props()
     .onPress();
 
-  wrapper
-    .find(ModalComponent)
-    .first()
-    .props().visible;
+  // wrapper
+  //   .find(ModalComponent)
+  //   .first()
+  //   .props().visible;
 
   wrapper
     .find(ButtonGroup)
