@@ -71,7 +71,7 @@ const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
   );
 };
 
-const ModalComponent = (props: { visible: any }) => {
+export const ModalComponent = (props: { visible: any }) => {
   const { visible } = props;
   return (
     <Modal
@@ -101,7 +101,7 @@ const ModalComponent = (props: { visible: any }) => {
   );
 };
 
-class SettingsScreen extends Component<Props, State> {
+export class SettingsScreen extends Component<Props, State> {
   static navigationOptions = {
     title: "Profile",
     headerTintColor: "black",
