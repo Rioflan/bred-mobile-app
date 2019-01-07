@@ -26,6 +26,8 @@ import LottieView from "lottie-react-native";
  */
 import FetchPlacesButton from "./components/FetchPlacesButton";
 
+const ZoneIndex = ["Zone verte", "Zone bleue", "Zone rouge"];
+
 type Historical = {
   place_id: string,
   begin: string,
@@ -170,15 +172,7 @@ class PlacesScreen extends React.Component<Props, State> {
   };
 
   handleList = () => {
-    const {
-      debug,
-      search,
-      selectedFloorIndex,
-      RERZonechecked,
-      ForestZonechecked,
-      MiddleZonechecked,
-      SouthZonechecked
-    } = this.state;
+    const { debug, search, selectedFloorIndex, selectedZoneIndex } = this.state;
 
     const floor = selectedFloorIndex === 0 ? 3 : 4;
 
@@ -189,15 +183,16 @@ class PlacesScreen extends React.Component<Props, State> {
 
             // Check the current selected floor
             if (e.id[0] != floor) finalResult = false;
-
-            // Check the current selected zone
-            if (
-              (RERZonechecked && e.id[1] != 3) ||
-              (ForestZonechecked && e.id[1] != 1) ||
-              (MiddleZonechecked && e.id[1] != 5) ||
-              (SouthZonechecked && e.id[1] != 4)
-            ) {
-              finalResult = false;
+            console.log(selectedZoneIndex, ZoneIndex[selectedZoneIndex]);
+            switch (ZoneIndex[selectedZoneIndex]) {
+              case "Zone rouge":
+                if (e.id[2] !== "R") finalResult = false;
+                break;
+              case "Zone verte":
+                if (e.id[2] !== "V") finalResult = false;
+                break;
+              case "Zone bleue":
+                if (e.id[2] !== "B") finalResult = false;
             }
 
             Object.keys(search).forEach(element => {
@@ -222,9 +217,8 @@ class PlacesScreen extends React.Component<Props, State> {
       loading,
       selectedZoneIndex
     } = this.state;
-    const FloorIndex = ["3ème étage", "4ème étage"];
 
-    const ZoneIndex = ["Zone verte", "Zone bleue", "Zone rouge"];
+    const FloorIndex = ["3ème étage", "4ème étage"];
 
     // if (this.state.historical)
     //   console.log(
@@ -329,7 +323,7 @@ class PlacesScreen extends React.Component<Props, State> {
               style={{
                 marginBottom: 20
               }}
-              numColumns={3}
+              numColumns={2}
               // columnWrapperStyle={{ width: 200 }}
               renderItem={place =>
                 place ? (
@@ -353,9 +347,9 @@ class PlacesScreen extends React.Component<Props, State> {
                         name="circle"
                         size={15}
                         color={
-                          place.item.id[1] === "1"
+                          place.item.id[2] === "V"
                             ? "green"
-                            : place.item.id[1] === "3"
+                            : place.item.id[2] === "B"
                               ? "blue"
                               : "red"
                         }
