@@ -37,7 +37,7 @@ export default {
     manual_insertion: "Insertion manuelle",
     scan_qr_code: "Scanner le QR Code",
     scan: "Scanner",
-    send: "Envoyer",
+    send: "Réserver",
     place: "Place",
     format: "Mauvais format de place",
     remote: "Je suis en télétravail :"
