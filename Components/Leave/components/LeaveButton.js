@@ -24,8 +24,8 @@ const LeaveButton = (props: { place: any, onPress: () => void }) => {
         borderRadius={100}
         color="#468BB6"
         backgroundColor="#fff"
-        title={`${I18n.t("leave.leave_place")}
-        ${place}`}
+        textStyle={{ textAlign: "center" }}
+        title={`${I18n.t("leave.leave_place")}\n${place}`}
         onPress={onPress}
       />
     </View>
