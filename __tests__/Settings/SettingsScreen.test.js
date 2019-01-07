@@ -7,7 +7,10 @@ import Enzyme, { shallow } from "enzyme";
 import { ScrollView } from "react-native";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
-import SettingsScreen from "../../Components/Settings/SettingsScreen";
+import {
+  SettingsScreen,
+  ModalComponent
+} from "../../Components/Settings/SettingsScreen";
 import DeconnectionButton from "../../Components/Settings/components/DeconnectionButton";
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -15,7 +18,9 @@ Enzyme.configure({ adapter: new Adapter() });
 const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
 
 it("renders correctly", () => {
-  const wrapper = shallow(<SettingsScreen navigation={navigation} />);
+  const wrapper = shallow(
+    <SettingsScreen navigation={navigation} logOut={jest.fn()} />
+  );
 
   wrapper.saveRemote = jest.fn();
 
@@ -32,10 +37,21 @@ it("renders correctly", () => {
     .onPress();
 
   wrapper
+    .find(ModalComponent)
+    .first()
+    .props().visible;
+
+  wrapper
     .find(ButtonGroup)
     .first()
     .props()
     .onPress();
+
+  wrapper
+    .find(PhotoUpload)
+    .first()
+    .props()
+    .onPhotoSelect();
 
   wrapper
     .find(PhotoUpload)

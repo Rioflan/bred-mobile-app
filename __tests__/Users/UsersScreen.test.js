@@ -1,5 +1,6 @@
-import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { FormInput, ListItem } from "react-native-elements";
+import LottieView from "lottie-react-native";
 import React from "react";
 import { expect } from "chai";
 import enzyme, { shallow } from "enzyme";
@@ -7,6 +8,15 @@ import ReactSixteenAdapter from "enzyme-adapter-react-16";
 import UsersScreen from "../../Components/Profile/Users/UsersScreen";
 import ListPlaces from "../../Components/Profile/Users/components/ListPlaces";
 import "isomorphic-fetch";
+
+jest.mock("../../Navigation/NavigationApp", () => ({
+  NavigationApp: {
+    router: {
+      getStateForAction: jest.fn(),
+      getActionForPathAndParams: jest.fn()
+    }
+  }
+}));
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
@@ -48,7 +58,7 @@ it("renders correctly", () => {
   wrapper.componentDidMount = jest.fn();
 
   if (wrapper.state().loading === true) {
-    expect(wrapper.find(ActivityIndicator).exists()).to.equal(true);
+    expect(wrapper.find(LottieView).exists()).to.equal(true);
   }
 
   wrapper
@@ -60,16 +70,18 @@ it("renders correctly", () => {
   wrapper.setState({ users, arrayOfFriends: users, loading: false });
   expect(wrapper.state().loading).to.equal(false);
 
-  wrapper
-    .find(ListItem)
-    .at(0)
-    .props()
-    .onPress();
+  // wrapper
+  //   .find(TouchableOpacity)
+  //   .first()
+  //   .props()
+  //   .onPress();
 
-  wrapper
-    .find(ListPlaces)
-    .first()
-    .props().handleList;
+  expect(wrapper.find(ListItem)).to.have.length(2);
+
+  // wrapper
+  //   .find(ListPlaces)
+  //   .first()
+  //   .props().handleList;
 
   wrapper
     .find(ListPlaces)
@@ -80,5 +92,5 @@ it("renders correctly", () => {
   expect(wrapper.find(ListPlaces).exists()).to.equal(true);
 
   expect(wrapper.find(ScrollView)).to.have.length(1);
-  expect(wrapper.find(TouchableOpacity)).to.have.length(1);
+  expect(wrapper.find(TouchableOpacity)).to.have.length(3);
 });

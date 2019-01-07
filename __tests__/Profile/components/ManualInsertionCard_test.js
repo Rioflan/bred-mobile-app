@@ -1,3 +1,5 @@
+jest.useFakeTimers();
+
 import React from "react";
 import { View } from "react-native";
 import enzyme, { shallow } from "enzyme";
