@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { append, filter, omit } from "ramda";
+import { append, filter, omit, reject, contains, __ } from "ramda";
 import { NavigationScreenProp } from "react-navigation";
 import I18n from "react-native-i18n";
 import config from "../../../config/api";
@@ -182,7 +182,8 @@ class UsersScreen extends React.Component<Props, State> {
   };
 
   _handleList = () => {
-    const { users, search } = this.state;
+    const { users, search, arrayOfFriends, friend } = this.state;
+    console.log(arrayOfFriends, friend);
     const newT: string | Array<object> =
       users !== []
         ? users.filter(e => {
@@ -209,7 +210,9 @@ class UsersScreen extends React.Component<Props, State> {
       if (a.name > b.name) return 1;
       return 0;
     });
-    return search === "" ? users : newT;
+    return search === ""
+      ? reject(contains(__, arrayOfFriends), users)
+      : reject(contains(__, arrayOfFriends), newT);
   };
 
   removeFriend = friendToBeRemoved => {
@@ -217,8 +220,7 @@ class UsersScreen extends React.Component<Props, State> {
     const isRemovedUser = userFriend => userFriend.id !== friendToBeRemoved.id;
     this.setState({
       arrayOfFriends: filter(isRemovedUser, arrayOfFriends),
-      friend: filter(isRemovedUser, friend),
-      users: append(friendToBeRemoved, users)
+      friend: filter(isRemovedUser, friend)
     });
     if (!friendLoading) {
       this.setState({ friendLoading: true });
@@ -248,7 +250,7 @@ class UsersScreen extends React.Component<Props, State> {
 
   render() {
     const { users, loading, userName, arrayOfFriends } = this.state;
-
+    console.log(this.state);
     return (
       <ScrollView style={styles.view}>
         {/* <NavigationEvents onWillFocus={payload => this.getAsyncStorageUser()} /> */}
@@ -273,6 +275,7 @@ class UsersScreen extends React.Component<Props, State> {
             <TouchableOpacity
               onPress={() => this.getUsers()}
               style={{
+                elevation: 2,
                 backgroundColor: "#fff",
                 shadowOpacity: 0.4,
                 shadowRadius: 2,
@@ -309,7 +312,6 @@ class UsersScreen extends React.Component<Props, State> {
                             name: "star",
                             color: "#2E89AD"
                           }}
-                          roundAvatar
                           avatar={
                             friend.photo !== ""
                               ? { uri: friend.photo }
@@ -317,8 +319,6 @@ class UsersScreen extends React.Component<Props, State> {
                           }
                           avatarStyle={{
                             backgroundColor: "white",
-                            width: 33,
-                            height: 33,
                             resizeMode: "contain"
                           }}
                         />
@@ -327,7 +327,7 @@ class UsersScreen extends React.Component<Props, State> {
                   return null;
                 })}
               </View>
-              {users !== [] && users ? (
+              {users !== [] && users.length > 0 ? (
                 <ListPlaces
                   handleList={this._handleList()}
                   prop1={item =>
@@ -336,29 +336,27 @@ class UsersScreen extends React.Component<Props, State> {
                         key={item.id}
                         onPress={() => this.addFriend(item)}
                       >
-                        <Card containerStyle={{ borderRadius: 10 }}>
-                          <ListItem
-                            title={`${item.name} / ${item.fname}`}
-                            subtitle={item.id_place}
-                            fontFamily="Raleway"
-                            roundAvatar
-                            rightIcon={{
-                              name: "star-border",
-                              color: "#2E89AD"
-                            }}
-                            avatar={
-                              item.photo !== ""
-                                ? { uri: item.photo }
-                                : profileDefaultPic
-                            }
-                            avatarStyle={{
-                              backgroundColor: "white",
-                              width: 33,
-                              height: 33,
-                              resizeMode: "contain"
-                            }}
-                          />
-                        </Card>
+                        {/* <Card containerStyle={{ borderRadius: 10 }}> */}
+                        <ListItem
+                          title={`${item.name} / ${item.fname}`}
+                          containerStyle={{ margin: 0, padding: 0 }}
+                          subtitle={item.id_place}
+                          fontFamily="Raleway"
+                          rightIcon={{
+                            name: "star-border",
+                            color: "#2E89AD"
+                          }}
+                          avatar={
+                            item.photo !== ""
+                              ? { uri: item.photo }
+                              : profileDefaultPic
+                          }
+                          avatarStyle={{
+                            backgroundColor: "white",
+                            resizeMode: "contain"
+                          }}
+                        />
+                        {/* </Card> */}
                       </TouchableOpacity>
                     ) : null
                   }
@@ -366,11 +364,6 @@ class UsersScreen extends React.Component<Props, State> {
               ) : null}
             </View>
           ) : (
-            // <ActivityIndicator
-            //   style={{ marginTop: 40 }}
-            //   size="large"
-            //   color="#2E89AD"
-            // />
             <View
               style={{
                 backgroundColor: "white",
@@ -379,12 +372,10 @@ class UsersScreen extends React.Component<Props, State> {
                 alignItems: "center"
               }}
             >
-              {" "}
-              <LottieView
-                style={{ height: 80, width: 80, marginTop: 10 }}
-                source={require("../../../assets/loading.json")}
-                autoPlay
-                loop
+              <ActivityIndicator
+                style={{ marginTop: 40 }}
+                size="large"
+                color="#2E89AD"
               />
             </View>
           )}

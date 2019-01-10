@@ -183,7 +183,7 @@ class PlacesScreen extends React.Component<Props, State> {
 
             // Check the current selected floor
             if (e.id[0] != floor) finalResult = false;
-            console.log(selectedZoneIndex, ZoneIndex[selectedZoneIndex]);
+
             switch (ZoneIndex[selectedZoneIndex]) {
               case "Zone rouge":
                 if (e.id[2] !== "R") finalResult = false;
@@ -230,6 +230,7 @@ class PlacesScreen extends React.Component<Props, State> {
       <ScrollView style={styles.view}>
         <View
           style={{
+            elevation: 2,
             padding: 25,
             borderRadius: 10,
             backgroundColor: "white",
@@ -323,10 +324,15 @@ class PlacesScreen extends React.Component<Props, State> {
               style={{
                 marginBottom: 20
               }}
+              contentContainerStyle={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
               numColumns={2}
               // columnWrapperStyle={{ width: 200 }}
               renderItem={place =>
-                place ? (
+                place.item ? (
                   <TouchableOpacity
                     key={place.item.id}
                     // onPress={() => getPlaces(this, this.getUser, place)}
@@ -337,7 +343,7 @@ class PlacesScreen extends React.Component<Props, State> {
                       fontFamily="Raleway"
                       containerStyle={{
                         borderRadius: 10,
-                        height: 70
+                        height: 80
                       }}
                       dividerStyle={{ display: "none" }}
                       // rightIcon={<Icon name="plus" size={20} color="#2E89AD" />}
@@ -350,8 +356,8 @@ class PlacesScreen extends React.Component<Props, State> {
                           place.item.id[2] === "V"
                             ? "green"
                             : place.item.id[2] === "B"
-                              ? "blue"
-                              : "red"
+                            ? "blue"
+                            : "red"
                         }
                       />
                     </Card>
@@ -375,12 +381,10 @@ class PlacesScreen extends React.Component<Props, State> {
                 alignItems: "center"
               }}
             >
-              {" "}
-              <LottieView
-                style={{ height: 80, width: 80, marginTop: 30 }}
-                source={require("../../../assets/loading.json")}
-                autoPlay
-                loop
+              <ActivityIndicator
+                style={{ marginTop: 20 }}
+                size="large"
+                color="#2E89AD"
               />
             </View>
           )}

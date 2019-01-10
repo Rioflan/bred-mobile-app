@@ -21,6 +21,7 @@ const ManualInsertionCard = (props: {
         fontWeight="bold"
         fontFamily="Raleway"
         buttonStyle={{
+          elevation: 2,
           borderRadius: 15,
           backgroundColor: "#fff",
           shadowOpacity: 0.4,

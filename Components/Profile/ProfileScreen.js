@@ -5,7 +5,7 @@ import React from "react";
 import { AsyncStorage, ScrollView, View, Text } from "react-native";
 
 import LinearGradient from "react-native-linear-gradient";
-import { NavigationScreenProp } from "react-navigation";
+import { NavigationScreenProp, NavigationEvents } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import config from "../../config/api";
 import server from "../../config/server";
@@ -65,6 +65,7 @@ class ProfileScreen extends React.Component<Props, State> {
       place: "",
       isWrongFormatPlace: false,
       placeTaken: false
+      // progress: new Animated.Value(0),
     };
   }
 
@@ -106,8 +107,11 @@ class ProfileScreen extends React.Component<Props, State> {
   }
 
   onSuccess = async e => {
-    this.setState({ place: e.data });
-    getPlaces(this, sendToServ);
+    const { PLACE_REGEX } = this.state;
+    if (e.data.match(PLACE_REGEX) !== null) {
+      this.setState({ place: e.data });
+      getPlaces(this, sendToServ);
+    }
   };
 
   fetchAppMode = async () => {
@@ -156,6 +160,11 @@ class ProfileScreen extends React.Component<Props, State> {
 
   LeaveComponent = () => {
     const { place } = this.state;
+    // Animated.timing(this.state.progress, {
+    //   toValue: 1,
+    //   duration: 7000
+    // }).start();
+
     return (
       <View
         style={{
@@ -165,7 +174,10 @@ class ProfileScreen extends React.Component<Props, State> {
           alignItems: "center"
         }}
       >
-        <LottieView source={require("./animation.json")} autoPlay loop />
+        {/* <LottieView
+          source={require("./animation.json")}
+          progress={this.state.progress}
+        /> */}
         <LeaveButton place={place} onPress={() => this.leavePlace(this)} />
       </View>
     );

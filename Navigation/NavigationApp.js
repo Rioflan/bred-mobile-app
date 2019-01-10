@@ -4,7 +4,8 @@ import {
   TouchableHighlight,
   View,
   Text,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from "react-native";
 
 import { createStore } from "redux";
@@ -12,10 +13,7 @@ import { Provider } from "react-redux";
 
 import devToolsEnhancer from "remote-redux-devtools";
 
-import {
-  createStackNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createStackNavigator, createTabNavigator } from "react-navigation";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LoginScreen from "../Components/Login/LoginScreen";
@@ -42,11 +40,18 @@ const fetchUserPhoto = async () => {
 
 export const headerBar = (navigation, goBack = false, rightElement = true) => (
   <View
-    style={{
-      paddingTop: 20 /* only for IOS to give StatusBar Space */,
-      backgroundColor: "white",
-      height: 80
-    }}
+    style={
+      Platform.OS === "ios"
+        ? {
+            paddingTop: 20 /* only for IOS to give StatusBar Space */,
+            backgroundColor: "white",
+            height: 80
+          }
+        : {
+            backgroundColor: "white",
+            height: 80
+          }
+    }
   >
     <View
       style={{
@@ -113,7 +118,7 @@ export const headerBar = (navigation, goBack = false, rightElement = true) => (
 const NavigationApp = createStackNavigator({
   Login: { screen: LoginScreen },
   Profile: {
-    screen: createBottomTabNavigator(
+    screen: createTabNavigator(
       {
         ProfileScreen,
         PlacesScreen,

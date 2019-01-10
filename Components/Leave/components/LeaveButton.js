@@ -12,9 +12,12 @@ const LeaveButton = (props: { place: any, onPress: () => void }) => {
         style={styles.button}
         fontWeight="bold"
         fontFamily="Raleway"
+        containerStyle={{ elevation: 1 }}
         buttonStyle={{
           width: 180,
           height: 180,
+          borderWidth: 1,
+          borderColor: "#3662A0",
           backgroundColor: "#fff",
           shadowOpacity: 0.4,
           shadowRadius: 2,

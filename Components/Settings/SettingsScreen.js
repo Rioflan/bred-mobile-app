@@ -7,6 +7,7 @@ import {
   View,
   Image,
   ScrollView,
+  Animated,
   ActivityIndicator
 } from "react-native";
 
@@ -57,7 +58,7 @@ const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
     <View style={{ marginLeft: 20 }}>
       <Text style={{ fontFamily: "Raleway" }}>
         <Text style={{ fontWeight: "bold" }}>Nom : </Text>
-        {name}{" "}
+        {name}
       </Text>
       <Text style={{ fontFamily: "Raleway" }}>
         <Text style={{ fontWeight: "bold" }}>Prenom : </Text>
@@ -71,8 +72,12 @@ const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
   );
 };
 
-export const ModalComponent = (props: { visible: any }) => {
-  const { visible } = props;
+export const ModalComponent = (props: { visible: any, ctx: any }) => {
+  const { visible, ctx } = props;
+  // Animated.timing(ctx.state.progress, {
+  //   toValue: 1,
+  //   duration: 3500
+  // }).start();
   return (
     <Modal
       isVisible={visible}
@@ -89,13 +94,13 @@ export const ModalComponent = (props: { visible: any }) => {
           alignItems: "center"
         }}
       >
-        {" "}
-        <LottieView
+        {/* Used with lottie-react-native purpose */}
+        {/* <LottieView
           style={{ height: 80, width: 80, marginTop: 10 }}
           source={require("../../assets/loading.json")}
-          autoPlay
-          loop
-        />
+          progress={ctx.state.progress}
+        /> */}
+        <ActivityIndicator size="large" color="#2E89AD" />
       </View>
     </Modal>
   );
@@ -123,7 +128,8 @@ export class SettingsScreen extends Component<Props, State> {
       selectedIndex: 0,
       photo: "",
       arrayOfFriends: [],
-      loadingSave: false
+      loadingSave: false,
+      progress: new Animated.Value(0)
     };
   }
 
@@ -224,7 +230,7 @@ export class SettingsScreen extends Component<Props, State> {
     return (
       <ScrollView style={styles.scrollViewContainer}>
         <View style={styles.viewContainer}>
-          <ModalComponent visible={loadingSave} />
+          <ModalComponent visible={loadingSave} ctx={this} />
           <ProfileDescription name={name} fname={fname} id={id} />
           <PhotoUpload
             onPhotoSelect={image => {
