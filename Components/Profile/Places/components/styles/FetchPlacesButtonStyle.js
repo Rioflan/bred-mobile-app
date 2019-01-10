@@ -9,6 +9,7 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
   container: {
+    elevation: 2,
     backgroundColor: "#fff",
     shadowOpacity: 0.4,
     shadowRadius: 2,

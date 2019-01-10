@@ -28,6 +28,7 @@ export default StyleSheet.create({
   },
   viewContainer: {
     backgroundColor: "#fff",
+    elevation: 2,
     shadowOpacity: 0.4,
     shadowRadius: 2,
     shadowColor: "#3662A0",
@@ -42,6 +43,7 @@ export default StyleSheet.create({
   },
   viewContainerRemote: {
     backgroundColor: "#fff",
+    elevation: 2,
     shadowOpacity: 0.4,
     shadowRadius: 2,
     shadowColor: "#3662A0",
