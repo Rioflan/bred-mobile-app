@@ -19,8 +19,6 @@ import com.ocetnik.timer.BackgroundTimerPackage;
 import com.showlocationservicesdialogbox.LocationServicesDialogBoxPackage;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import org.reactnative.camera.RNCameraPackage;
-import com.bitgo.randombytes.RandomBytesPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -56,9 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
             new BackgroundTimerPackage(),
             new LocationServicesDialogBoxPackage(),
             new RNI18nPackage(),
-            new VectorIconsPackage(),
-            new RNCameraPackage(),
-            new RandomBytesPackage()
+            new VectorIconsPackage()
       );
     }
 
