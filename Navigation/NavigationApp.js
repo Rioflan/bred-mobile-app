@@ -16,11 +16,11 @@ import devToolsEnhancer from "remote-redux-devtools";
 import { createStackNavigator, createTabNavigator } from "react-navigation";
 import LinearGradient from "react-native-linear-gradient";
 import Icon from "react-native-vector-icons/FontAwesome";
-import LoginScreen from "../Components/Login/LoginScreen";
-import ProfileScreen from "../Components/Profile/ProfileScreen";
-import SettingsScreen from "../Components/Settings/SettingsScreen";
-import PlacesScreen from "../Components/Profile/Places/PlacesScreen";
-import UsersScreen from "../Components/Profile/Users/UsersScreen";
+import LoginScreen from "../views/Login/LoginScreen";
+import ProfileScreen from "../views/Profile/ProfileScreen";
+import SettingsScreen from "../views/Settings/SettingsScreen";
+import PlacesScreen from "../views/Places/PlacesScreen";
+import UsersScreen from "../views/Users/UsersScreen";
 import OfflineNotice from "../utils/OfflineNotice";
 import logo from "../assets/logo.png";
 import ProfileImage from "./components/ProfileImage";
@@ -63,7 +63,10 @@ export const headerBar = (navigation, goBack = false, rightElement = true) => (
     >
       {/* Header Left */}
       {goBack ? (
-        <TouchableHighlight onPress={() => navigation.goBack()}>
+        <TouchableHighlight
+          activeOpacity={0.1}
+          onPress={() => navigation.goBack()}
+        >
           <Icon
             style={{ marginLeft: 20 }}
             name="angle-left"
@@ -96,6 +99,7 @@ export const headerBar = (navigation, goBack = false, rightElement = true) => (
 
       {/* Header Right */}
       <TouchableHighlight
+        activeOpacity={0.1}
         onPress={() => {
           if (rightElement) {
             navigation.navigate("SettingsScreen");

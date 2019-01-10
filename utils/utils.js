@@ -69,16 +69,18 @@ export const sendToServ = (ctx, json) => {
       .then(data => {
         if (ctx.state.place !== "") {
           let redirect = true;
-          if (data.body)
+          if (data.body) {
             Alert.alert(
               `Place déjà utilisée`,
               `Place utilisée par : ${data.body}`
             );
-          json.map(
-            element =>
-              payload.id_place == element.id && element.using
-                ? (redirect = false)
-                : null
+            return;
+          }
+
+          json.map(element =>
+            payload.id_place == element.id && element.using
+              ? (redirect = false)
+              : null
           );
           if (redirect) {
             ctx.setState({ placeTaken: true });

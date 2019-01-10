@@ -25,7 +25,7 @@ import LottieView from "lottie-react-native";
 import styles from "./SettingsScreenStyles";
 
 // import { Calendar } from "react-native-calendars";
-import DeconnectionButton from "./components/DeconnectionButton";
+import DeconnectionButton from "@components/Settings/DeconnectionButton";
 
 import { fetchPhoto, logOut } from "../../Navigation/components/reducer";
 

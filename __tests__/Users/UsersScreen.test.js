@@ -4,8 +4,8 @@ import React from "react";
 import { expect } from "chai";
 import enzyme, { shallow } from "enzyme";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import UsersScreen from "../../Components/Profile/Users/UsersScreen";
-import ListPlaces from "../../Components/Profile/Users/components/ListPlaces";
+import UsersScreen from "../../views/Users/UsersScreen";
+import ListPlaces from "../../Components/Users/ListPlaces";
 import "isomorphic-fetch";
 
 jest.mock("../../Navigation/NavigationApp", () => ({

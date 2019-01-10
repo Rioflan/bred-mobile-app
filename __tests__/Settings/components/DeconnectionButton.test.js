@@ -5,7 +5,7 @@ import { expect } from "chai";
 import Enzyme, { shallow } from "enzyme";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
-import DeconnectionButton from "../../../Components/Settings/components/DeconnectionButton";
+import DeconnectionButton from "../../../Components/Settings/DeconnectionButton";
 
 Enzyme.configure({ adapter: new Adapter() });
 

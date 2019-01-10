@@ -4,7 +4,7 @@ import { View } from "react-native";
 import React from "react";
 import enzyme, { shallow } from "enzyme";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import FetchPlacesButton from "../../../Components/Profile/Places/components/FetchPlacesButton";
+import FetchPlacesButton from "../../../Components/Places/FetchPlacesButton";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 

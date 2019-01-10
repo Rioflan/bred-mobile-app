@@ -1,8 +1,8 @@
 import React from "react";
 import { Button } from "react-native-elements";
 import { View } from "react-native";
-import styles from "../LeaveScreenStyles";
-import I18n from "../../../i18n/i18n";
+import styles from "../../views/Leave/LeaveScreenStyles";
+import I18n from "../../i18n/i18n";
 
 const LeaveButton = (props: { place: any, onPress: () => void }) => {
   const { onPress, place } = props;

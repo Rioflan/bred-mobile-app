@@ -15,7 +15,7 @@ import I18n from "../../i18n/i18n";
 /**
  * List of components
  */
-import LeaveButton from "./components/LeaveButton";
+import LeaveButton from "@components/Leave/LeaveButton";
 
 type Historical = {
   place_id: string,

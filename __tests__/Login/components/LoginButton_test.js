@@ -3,7 +3,7 @@ import { View } from "react-native";
 import enzyme, { shallow } from "enzyme";
 import { expect } from "chai";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import LoginButton from "../../../Components/Login/components/LoginButton";
+import LoginButton from "../../../Components/Login/LoginButton";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 

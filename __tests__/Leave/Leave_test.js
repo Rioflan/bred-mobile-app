@@ -5,8 +5,8 @@ import { expect } from "chai";
 import LinearGradient from "react-native-linear-gradient";
 import * as enzyme from "enzyme";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import LeaveScreen from "../../Components/Leave/LeaveScreen";
-import LeaveButton from "../../Components/Leave/components/LeaveButton";
+import LeaveScreen from "../../views/Leave/LeaveScreen";
+import LeaveButton from "../../Components/Leave/LeaveButton";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 

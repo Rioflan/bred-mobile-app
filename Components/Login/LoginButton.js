@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import { Button } from "react-native-elements";
 import React from "react";
-import styles from "../LoginScreenStyles";
-import I18n from "../../../i18n/i18n";
+import styles from "../../views/Login/LoginScreenStyles";
+import I18n from "../../i18n/i18n";
 
 const LoginButton = (props: { onPress: () => void }) => {
   const { onPress } = props;

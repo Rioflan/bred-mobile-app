@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import * as enzyme from "enzyme";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import ListPlaces from "../../../Components/Profile/Users/components/ListPlaces";
+import ListPlaces from "../../../Components/Users/ListPlaces";
 
 jest.useFakeTimers();
 enzyme.configure({ adapter: new ReactSixteenAdapter() });

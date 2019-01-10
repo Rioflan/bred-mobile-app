@@ -19,8 +19,10 @@ import { checkNavigation } from "../../utils/utils";
 /**
  * List of components
  */
-import LoginButton from "./components/LoginButton";
-import InputLogin from "./components/InputLogin";
+// eslint-disable-next-line
+import LoginButton from "@components/Login/LoginButton";
+// eslint-disable-next-line
+import InputLogin from "@components/Login/InputLogin";
 
 const fetchData = function fetchEnvironment() {
   fetch(`${server.address}environment`, {

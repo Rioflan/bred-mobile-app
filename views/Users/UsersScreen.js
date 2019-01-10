@@ -14,15 +14,15 @@ import {
 import { append, filter, omit, reject, contains, __ } from "ramda";
 import { NavigationScreenProp } from "react-navigation";
 import I18n from "react-native-i18n";
-import config from "../../../config/api";
-import server from "../../../config/server";
-import styles from "../ProfileScreenStyles";
+import config from "../../config/api";
+import server from "../../config/server";
+import styles from "../Profile/ProfileScreenStyles";
 
-import { goTo } from "../../../utils/utils";
+import { goTo } from "../../utils/utils";
 
-import ListPlaces from "./components/ListPlaces";
+import ListPlaces from "@components/Users/ListPlaces";
 
-import profileDefaultPic from "../../../assets/profile.png";
+import profileDefaultPic from "../../assets/profile.png";
 // import { NavigationEvents } from "react-navigation";
 import LottieView from "lottie-react-native";
 
@@ -101,7 +101,6 @@ class UsersScreen extends React.Component<Props, State> {
     if (!friendLoading) {
       const newListOfUSers = users.filter(e => e.id !== item.id);
       this.setState({
-        users: newListOfUSers,
         arrayOfFriends: append(item, arrayOfFriends),
         friendLoading: true
       });
@@ -183,7 +182,7 @@ class UsersScreen extends React.Component<Props, State> {
 
   _handleList = () => {
     const { users, search, arrayOfFriends, friend } = this.state;
-    console.log(arrayOfFriends, friend);
+    console.log("Handle List", arrayOfFriends, friend, users);
     const newT: string | Array<object> =
       users !== []
         ? users.filter(e => {
@@ -273,6 +272,7 @@ class UsersScreen extends React.Component<Props, State> {
               placeholder={I18n.t("users.search_user")}
             />
             <TouchableOpacity
+              activeOpacity={0.1}
               onPress={() => this.getUsers()}
               style={{
                 elevation: 2,
@@ -300,6 +300,7 @@ class UsersScreen extends React.Component<Props, State> {
                   if (friend)
                     return (
                       <TouchableOpacity
+                        activeOpacity={0.1}
                         key={friend.id}
                         onPress={() => this.removeFriend(friend)}
                       >
@@ -333,6 +334,7 @@ class UsersScreen extends React.Component<Props, State> {
                   prop1={item =>
                     item && `${item.name}/${item.fname}` !== userName ? (
                       <TouchableOpacity
+                        activeOpacity={0.1}
                         key={item.id}
                         onPress={() => this.addFriend(item)}
                       >

@@ -13,18 +13,18 @@ import {
   FlatList
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import config from "../../../config/api";
-import server from "../../../config/server";
-import styles from "../ProfileScreenStyles";
-import { getPlaces, goTo } from "../../../utils/utils";
+import config from "../../config/api";
+import server from "../../config/server";
+import styles from "../Profile/ProfileScreenStyles";
+import { getPlaces, goTo } from "../../utils/utils";
 
-import I18n from "../../../i18n/i18n";
+import I18n from "../../i18n/i18n";
 import LottieView from "lottie-react-native";
 
 /**
  * List of components
  */
-import FetchPlacesButton from "./components/FetchPlacesButton";
+import FetchPlacesButton from "@components/Places/FetchPlacesButton";
 
 const ZoneIndex = ["Zone verte", "Zone bleue", "Zone rouge"];
 
@@ -334,6 +334,7 @@ class PlacesScreen extends React.Component<Props, State> {
               renderItem={place =>
                 place.item ? (
                   <TouchableOpacity
+                    activeOpacity={0.1}
                     key={place.item.id}
                     // onPress={() => getPlaces(this, this.getUser, place)}
                   >

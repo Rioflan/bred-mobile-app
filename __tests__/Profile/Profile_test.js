@@ -5,10 +5,10 @@ import Enzyme, { shallow } from "enzyme";
 import { ScrollView, Text, ActivityIndicator } from "react-native";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
-import ProfileScreen from "../../Components/Profile/ProfileScreen";
+import ProfileScreen from "../../views/Profile/ProfileScreen";
 import * as mockCamera from "../../__mocks__/react-native-camera";
 import ManualInsertionCard from "../../Components/Profile/components/ManualInsertionCard";
-import LeaveButton from "../../Components/Leave/components/LeaveButton";
+import LeaveButton from "../../Components/Leave/LeaveButton";
 import QRCodeComponent from "../../Components/Profile/components/QRCodeComponent";
 import HeaderCard from "../../Components/Profile/components/HeaderCard";
 

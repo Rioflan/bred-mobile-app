@@ -18,10 +18,10 @@ import LottieView from "lottie-react-native";
 /**
  * List of components
  */
-import ManualInsertionCard from "./components/ManualInsertionCard";
-import HeaderCard from "./components/HeaderCard";
-import QRCodeComponent from "./components/QRCodeComponent";
-import LeaveButton from "../Leave/components/LeaveButton";
+import ManualInsertionCard from "@components/Profile/components/ManualInsertionCard";
+import HeaderCard from "@components/Profile/components/HeaderCard";
+import QRCodeComponent from "@components/Profile/components/QRCodeComponent";
+import LeaveButton from "@components/Leave/LeaveButton";
 
 type Historical = {
   place_id: string,
@@ -111,6 +111,8 @@ class ProfileScreen extends React.Component<Props, State> {
     if (e.data.match(PLACE_REGEX) !== null) {
       this.setState({ place: e.data });
       getPlaces(this, sendToServ);
+    } else {
+      this.setState({ isWrongFormatPlace: true });
     }
   };
 

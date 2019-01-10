@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import * as enzyme from "enzyme";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import ZoneCard from "../../../Components/Profile/Places/components/ZoneCard";
+import ZoneCard from "../../../Components/Places/ZoneCard";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 

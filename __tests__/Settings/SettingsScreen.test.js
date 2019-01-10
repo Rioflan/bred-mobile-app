@@ -10,8 +10,8 @@ import Adapter from "enzyme-adapter-react-16";
 import {
   SettingsScreen,
   ModalComponent
-} from "../../Components/Settings/SettingsScreen";
-import DeconnectionButton from "../../Components/Settings/components/DeconnectionButton";
+} from "../../views/Settings/SettingsScreen";
+import DeconnectionButton from "../../Components/Settings/DeconnectionButton";
 
 Enzyme.configure({ adapter: new Adapter() });
 
