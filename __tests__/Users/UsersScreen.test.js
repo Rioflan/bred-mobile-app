@@ -1,6 +1,5 @@
-import { ScrollView, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { FormInput, ListItem } from "react-native-elements";
-import LottieView from "lottie-react-native";
 import React from "react";
 import { expect } from "chai";
 import enzyme, { shallow } from "enzyme";
@@ -58,7 +57,7 @@ it("renders correctly", () => {
   wrapper.componentDidMount = jest.fn();
 
   if (wrapper.state().loading === true) {
-    expect(wrapper.find(LottieView).exists()).to.equal(true);
+    expect(wrapper.find(ActivityIndicator).exists()).to.equal(true);
   }
 
   wrapper

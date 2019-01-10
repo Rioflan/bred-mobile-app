@@ -1,6 +1,5 @@
 import "isomorphic-fetch";
-import { ScrollView } from "react-native";
-import LottieView from "lottie-react-native";
+import { ScrollView, ActivityIndicator } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 import React from "react";
 import { expect } from "chai";
@@ -48,5 +47,5 @@ it("should render loading component", () => {
   const wrapper = shallow(<PlacesScreen navigation={navigation} />);
   wrapper.setProps({ loading: true });
 
-  expect(wrapper.find(LottieView)).to.have.length(1);
+  expect(wrapper.find(ActivityIndicator)).to.have.length(1);
 });
