@@ -13,17 +13,11 @@ class QRCodeComponent extends React.Component<Props> {
 
   render() {
     const { onRead } = this.props;
-    // if (reactivate && !this.reactivateOnce) {
-    //   this.scanner.reactivate();
-    //   this.reactivateOnce = true;
-    // }
     return (
       <QRCodeScanner
         onRead={onRead}
         showMarker
-        ref={node => {
-          this.scanner = node;
-        }}
+        cameraProps={{ captureAudio: false }}
         markerStyle={{
           height: 250,
           width: 250,
