@@ -1,7 +1,7 @@
 // @flow
 /* eslint-disable */
 import React from "react";
-import { ButtonGroup, List, ListItem, Text, Card } from "react-native-elements";
+import { ButtonGroup, Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
@@ -19,7 +19,6 @@ import styles from "../Profile/ProfileScreenStyles";
 import { getPlaces, goTo } from "../../utils/utils";
 
 import I18n from "../../i18n/i18n";
-import LottieView from "lottie-react-native";
 
 /**
  * List of components
@@ -39,7 +38,6 @@ type State = {
   fname: string,
   id: string,
   place: string,
-  search?: string,
   historical: Array<Historical>,
   debug: Array<any> | string
 };
@@ -63,11 +61,6 @@ class PlacesScreen extends React.Component<Props, State> {
     this.state = {
       id: "",
       debug: "",
-      search: "",
-      RERZonechecked: false,
-      ForestZonechecked: false,
-      MiddleZonechecked: false,
-      SouthZonechecked: false,
       selectedFloorIndex: 0,
       loading: false,
       selectedZoneIndex: 0
@@ -165,14 +158,13 @@ class PlacesScreen extends React.Component<Props, State> {
                 photo: ctx.state.photo
               })
             );
-            goTo(ctx, "Leave");
           }
         });
     }
   };
 
   handleList = () => {
-    const { debug, search, selectedFloorIndex, selectedZoneIndex } = this.state;
+    const { debug, selectedFloorIndex, selectedZoneIndex } = this.state;
 
     const floor = selectedFloorIndex === 0 ? 3 : 4;
 
@@ -194,20 +186,10 @@ class PlacesScreen extends React.Component<Props, State> {
               case "Zone bleue":
                 if (e.id[2] !== "B") finalResult = false;
             }
-
-            Object.keys(search).forEach(element => {
-              if (search[element] !== e.id[element]) {
-                finalResult = false;
-              }
-            });
             return finalResult;
           })
         : debug;
     return newT;
-  };
-
-  handleSearch = search => {
-    this.setState({ search });
   };
 
   render() {
@@ -220,12 +202,6 @@ class PlacesScreen extends React.Component<Props, State> {
 
     const FloorIndex = ["3ème étage", "4ème étage"];
 
-    // if (this.state.historical)
-    //   console.log(
-    //     this.state.historical.slice(
-    //       Math.max(this.state.historical.length - 5, 1)
-    //     )
-    //   );
     return (
       <ScrollView style={styles.view}>
         <View
@@ -317,17 +293,13 @@ class PlacesScreen extends React.Component<Props, State> {
               data={this.handleList()}
               keyExtractor={(item, index) => index.toString()}
               contentContainerStyle={{
-                justifyContent: "space-between",
+                flex: 1,
+                justifyContent: "center",
                 alignItems: "center",
                 width: 300
               }}
               style={{
                 marginBottom: 20
-              }}
-              contentContainerStyle={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center"
               }}
               numColumns={2}
               // columnWrapperStyle={{ width: 200 }}

@@ -187,14 +187,22 @@ class UsersScreen extends React.Component<Props, State> {
       users !== []
         ? users.filter(e => {
             let finalResult = true;
-            Object.keys(search).forEach(element => {
+            // Object.keys(search).forEach(element => {
+            //   if (
+            //     search[element] !== e.name[element] &&
+            //     search[element] !== e.fname[element]
+            //   ) {
+            //     finalResult = false;
+            //   }
+            // });
+            for (let element in search) {
               if (
                 search[element] !== e.name[element] &&
                 search[element] !== e.fname[element]
               ) {
                 finalResult = false;
               }
-            });
+            }
             return finalResult;
           })
         : users;
