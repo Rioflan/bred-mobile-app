@@ -182,7 +182,7 @@ class UsersScreen extends React.Component<Props, State> {
 
   _handleList = () => {
     const { users, search, arrayOfFriends, friend } = this.state;
-    console.log("Handle List", arrayOfFriends, friend, users);
+
     const newT: string | Array<object> =
       users !== []
         ? users.filter(e => {
@@ -249,7 +249,7 @@ class UsersScreen extends React.Component<Props, State> {
 
   render() {
     const { users, loading, userName, arrayOfFriends } = this.state;
-    console.log(this.state);
+
     return (
       <ScrollView style={styles.view}>
         {/* <NavigationEvents onWillFocus={payload => this.getAsyncStorageUser()} /> */}
