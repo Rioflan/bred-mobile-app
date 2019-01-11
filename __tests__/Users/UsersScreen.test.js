@@ -1,3 +1,5 @@
+jest.useFakeTimers();
+
 import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { FormInput, ListItem } from "react-native-elements";
 import React from "react";
