@@ -19,7 +19,7 @@ import { View } from "react-native";
 import enzyme, { shallow } from "enzyme";
 import { expect } from "chai";
 import ReactSixteenAdapter from "enzyme-adapter-react-16";
-import LeaveButton from "../../../Components/Leave/LeaveButton";
+import LeaveButton from "../../../Components/Profile/components/LeaveButton";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
