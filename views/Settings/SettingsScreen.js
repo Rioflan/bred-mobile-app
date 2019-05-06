@@ -36,6 +36,7 @@ import server from "../../config/server";
 import { goTo } from "../../utils/utils";
 import picProfile from "../../assets/profile.png";
 import LottieView from "lottie-react-native";
+import { NavigationActions, StackActions } from "react-navigation";
 
 import styles from "./SettingsScreenStyles";
 
@@ -67,7 +68,7 @@ type Props = {
   navigation: NavigationScreenProp<{}>
 };
 
-const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
+export const ProfileDescription = (props: { name: any, fname: any, id: any }) => {
   const { name, fname, id } = props;
   return (
     <View style={{ marginLeft: 20 }}>
@@ -282,6 +283,9 @@ export class SettingsScreen extends Component<Props, State> {
               color: "#2E89AD",
               fontWeight: "bold"
             }}
+            selectedButtonStyle={{
+              backgroundColor: "white"
+            }}
             textStyle={{ fontFamily: "Raleway", fontSize: 13 }}
             onPress={async event => {
               await this.updateIndex(event);
@@ -301,8 +305,11 @@ export class SettingsScreen extends Component<Props, State> {
             const { navigation } = this.props;
             this.props.logOut("");
             AsyncStorage.removeItem("USER");
-            navigation.popToTop();
-            navigation.navigate("Login");
+            const resetAction = StackActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({ routeName: "Login" })]
+            });
+            navigation.dispatch(resetAction);
           }}
         />
       </ScrollView>

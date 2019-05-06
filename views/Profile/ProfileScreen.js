@@ -43,8 +43,7 @@ type State = {
   id: string,
   place: string,
   debug: Array<any> | string,
-  isWrongFormatPlace: boolean,
-  placeTaken: boolean
+  isWrongFormatPlace: boolean
 };
 
 type Props = {
@@ -72,7 +71,7 @@ class ProfileScreen extends React.Component<Props, State> {
       id: "",
       place: "",
       isWrongFormatPlace: false,
-      placeTaken: false
+      focusedScreen: true
     };
   }
 
@@ -82,12 +81,18 @@ class ProfileScreen extends React.Component<Props, State> {
       if (err || result === null) goTo(this, "Login");
       else {
         result = JSON.parse(result);
-        if (result.placeTaken)
-          this.socket.emit('checkPlace', result.place);
+        if (result.place || result.pool)
+          this.socket.emit('checkPlace', result.id, result.place, config._id);
         this.setState(result);
         navigation.setParams(result);
       }
     });
+    navigation.addListener('willFocus', () =>
+     this.setState({ focusedScreen: true })
+   );
+   navigation.addListener('willBlur', () =>
+     this.setState({ focusedScreen: false })
+   );
   };
 
   DefaultComponent = () => {
@@ -96,6 +101,7 @@ class ProfileScreen extends React.Component<Props, State> {
       name,
       id,
       isWrongFormatPlace,
+      focusedScreen
     } = this.state;
 
     insertPlace = (placeText) => {
@@ -105,7 +111,7 @@ class ProfileScreen extends React.Component<Props, State> {
           id_place: placeText
         };
 
-        fetch(`${server.address}/take_place`, {
+        fetch(`${server.address}take_place`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -117,14 +123,13 @@ class ProfileScreen extends React.Component<Props, State> {
             if (res.status === 200) {
               this.setState({
                 place: placeText,
-                placeTaken: true,
                 isWrongFormatPlace: false
               });
               this.socket.emit('joinRoom', placeText);
               AsyncStorage.setItem("USER", JSON.stringify(this.state))
             }
             else if (res.status === 500) {
-              res.text().then(user => {
+              res.json().then(user => {
                 Alert.alert("Impossible", `Place déjà utilisée par : ${user.fname} ${user.name}`);
               })
             }
@@ -139,20 +144,18 @@ class ProfileScreen extends React.Component<Props, State> {
 
     return (
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? "padding" : null} enabled>
-        <ScrollView style={styles.view}>
+        <ScrollView style={styles.view} keyboardShouldPersistTaps="handled">
           <HeaderCard fname={fname} name={name} id={id} />
           <View>
-            <QRCodeComponent onRead={onSuccess} />
-            <View>
-              <ManualInsertionCard
-                onChangeText={text => this.placeInput = text.toUpperCase()}
-                onSubmitEditing={() => insertPlace(this.placeInput)}
-                onPress={() => insertPlace(this.placeInput)}
-              />
-              {isWrongFormatPlace ? (
-                <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
-              ) : null}
-            </View>
+            { focusedScreen ? <QRCodeComponent onRead={onSuccess} /> : <View />}
+            <ManualInsertionCard
+              onChangeText={text => this.placeInput = text.toUpperCase().trim()}
+              onSubmitEditing={() => insertPlace(this.placeInput)}
+              onPress={() => insertPlace(this.placeInput)}
+            />
+            {isWrongFormatPlace ? (
+              <Text style={styles.debug}>{I18n.t("profile.format")}</Text>
+            ) : null}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -202,20 +205,21 @@ class ProfileScreen extends React.Component<Props, State> {
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            placeTaken: false,
             place: ""
           });
           AsyncStorage.setItem("USER", JSON.stringify(this.state));
           this.socket.emit('leaveRoom', place);
         }
-        else if (res.status === 400) res.text().then(message => console.log(message));
+        else if (res.status === 400) {
+          res.text().then(message => console.log(message));
+        }
       });
   }
 
   render() {
-    const { placeTaken } = this.state;
+    const { place } = this.state;
 
-    return <this.Content place={placeTaken} />;
+    return <this.Content place={place} />;
   }
 }
 

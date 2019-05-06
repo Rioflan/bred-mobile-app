@@ -26,7 +26,7 @@ import InputLogin from "../../Components/Login/InputLogin";
 
 enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
-const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
+const navigation = { navigate: jest.fn(), popToTop: jest.fn(), dispatch: jest.fn() };
 
 it("renders correctly", () => {
   const wrapper = shallow(<LoginScreen navigation={navigation} />);
@@ -50,20 +50,40 @@ it("renders correctly", () => {
     .find(InputLogin)
     .first()
     .props()
-    .onChangeText();
+    .onSubmitEditing();
 
   wrapper
     .find(InputLogin)
     .first()
     .props()
-    .onChangeText1();
+    .onChangeText("a");
 
   wrapper
     .find(InputLogin)
     .first()
     .props()
-    .onChangeText2();
+    .onChangeText1("b");
+
+  wrapper
+    .find(InputLogin)
+    .first()
+    .props()
+    .onChangeText2("AA00000");
+
+  const json = jest.fn(() => { return { then: resolve => resolve("test") }});
+  const text = jest.fn(() => { return { then: resolve => resolve("test") }});
+  fetch = jest.fn(() => { return { then: resolve => resolve({status: 200, json, text }) }});
+
+  wrapper
+    .instance()
+    .logIn();
+
+  fetch = jest.fn(() => { return { then: jest.fn(resolve => resolve({status: 400, json, text })) }});
+
+  wrapper
+    .instance()
+    .logIn();
 
   expect(wrapper.find(Image)).to.have.length(1);
-  expect(wrapper.find(View)).to.have.length(2);
+  // expect(wrapper.find(View)).to.have.length(2);
 });

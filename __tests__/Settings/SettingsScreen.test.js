@@ -19,22 +19,28 @@ import { ButtonGroup } from "react-native-elements";
 import PhotoUpload from "react-native-photo-upload";
 import { expect } from "chai";
 import Enzyme, { shallow } from "enzyme";
-import { ScrollView } from "react-native";
+import { ScrollView, AsyncStorage } from "react-native";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
 import {
   SettingsScreen,
-  ModalComponent
+  ModalComponent,
+  ProfileDescription
 } from "../../views/Settings/SettingsScreen";
 import DeconnectionButton from "../../Components/Settings/DeconnectionButton";
+import reducer, { fetchPhoto, logOut } from "../../Navigation/components/reducer";
+
+jest.useFakeTimers();
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
+const navigation = { navigate: jest.fn(), popToTop: jest.fn(), dispatch: jest.fn(), setParams: jest.fn() };
 
-it("renders correctly", () => {
+it("renders correctly", async () => {
+  AsyncStorage.getItem = jest.fn((_, f) => f(null, "{ \"test\": \"test\"}"));
+  fetch = jest.fn(() => { return { then: f => f({ json: () => { return { then: f => f({ test: "test"}) } } }) } });
   const wrapper = shallow(
-    <SettingsScreen navigation={navigation} logOut={jest.fn()} />
+    <SettingsScreen navigation={navigation} fetchPhoto={fetchPhoto} logOut={logOut} />
   );
 
   wrapper.saveRemote = jest.fn();
@@ -45,11 +51,16 @@ it("renders correctly", () => {
 
   // Simulate onPress event on ManualInsertionCard component
 
+  AsyncStorage.removeItem = jest.fn();
+
   wrapper
     .find(DeconnectionButton)
     .first()
     .props()
     .onPress();
+
+  expect(AsyncStorage.removeItem.mock.calls).to.have.length(1);
+  expect(AsyncStorage.removeItem.mock.calls[0][0]).to.equal("USER");
 
   // wrapper
   //   .find(ModalComponent)
@@ -68,11 +79,62 @@ it("renders correctly", () => {
     .props()
     .onPhotoSelect();
 
+
   wrapper
     .find(PhotoUpload)
     .first()
     .props()
-    .onPhotoSelect();
+    .onPhotoSelect("test");
+
+  wrapper
+    .find(ModalComponent)
+    .first()
+    .dive()
+
+  wrapper
+    .find(ProfileDescription)
+    .first()
+    .dive()
 
   expect(wrapper.find(ScrollView)).to.have.length(1);
+
+  const data = {
+    photo: "photo",
+    id_place: "id_place"
+  };
+  fetch = jest.fn(function(url) {
+    if (url.indexOf("users") != -1) {
+      return {
+        then: (resolve => {
+          return resolve({
+          json: jest.fn(() => {
+            return {
+            then: (resolve => {
+              return resolve(data)})
+          }})
+        })})
+      };
+    } else {
+      return new Promise(resolve => resolve({ json: jest.fn(() => new Promise(resolve => resolve(data))) }));
+    }
+  })
+  AsyncStorage.setItem = jest.fn();
+  // wrapper.setProps({ fetchPhoto: jest.fn() });
+
+  await wrapper
+    .instance()
+    .saveRemote()
+
+  jest.runAllTimers();
+
+  expect(fetch.mock.calls).to.have.length(5);
+  expect(AsyncStorage.setItem.mock.calls).to.have.length(3);
+  expect(AsyncStorage.setItem.mock.calls[0][0]).to.equal("USER");
 });
+
+it('abc', () => {
+  const payload = { photo: "test" };
+  expect(reducer({ photo: "test" }, { type: "flex-office/photo/FETCH", payload })).to.deep.equal({ photo: "test" });
+  expect(reducer({ photo: "test" }, { type: "flex-office/user/LOGOUT", payload })).to.deep.equal({ photo: "test" });
+  expect(reducer({ photo: "test" }, { type: "test", payload })).to.deep.equal({ photo: "test" });
+})

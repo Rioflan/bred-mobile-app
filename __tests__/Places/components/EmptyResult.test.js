@@ -13,14 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { StyleSheet } from "react-native";
 
-export default StyleSheet.create({
-  view: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    margin: 15
-  }
+import "isomorphic-fetch";
+import { expect } from "chai";
+import { Text } from "react-native";
+import React from "react";
+import enzyme, { shallow } from "enzyme";
+import ReactSixteenAdapter from "enzyme-adapter-react-16";
+import EmptyResult from "../../../Components/Places/EmptyResult";
+
+enzyme.configure({ adapter: new ReactSixteenAdapter() });
+
+const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
+
+it("renders correctly", () => {
+  const wrapper = shallow(<EmptyResult navigation={navigation} />);
+
+  expect(wrapper.find(Text)).to.have.length(1);
 });

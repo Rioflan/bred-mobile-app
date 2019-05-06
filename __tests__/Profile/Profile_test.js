@@ -17,7 +17,7 @@ import "react-native-permissions";
 import React from "react";
 import { expect } from "chai";
 import Enzyme, { shallow } from "enzyme";
-import { ScrollView, Text, ActivityIndicator } from "react-native";
+import { ScrollView, Text, ActivityIndicator, AsyncStorage } from "react-native";
 import "react-native-qrcode-scanner";
 import Adapter from "enzyme-adapter-react-16";
 import ProfileScreen from "../../views/Profile/ProfileScreen";
@@ -31,12 +31,15 @@ Enzyme.configure({ adapter: new Adapter() });
 
 jest.mock("react-native-camera", () => mockCamera);
 
-const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
+const navigation = { navigate: jest.fn(), popToTop: jest.fn(), setParams: jest.fn(), addListener: jest.fn() };
 
-it("renders correctly", () => {
-  const wrapper = shallow(<ProfileScreen navigation={navigation} />);
+it("renders correctly", async () => {
+  fetch = jest.fn(() => { return { then: resolve => resolve({ status: 200 }) } });
+  AsyncStorage.setItem = jest.fn();
+  AsyncStorage.getItem = jest.fn((_, f) => f(null, "{ \"place\": \"test\" }"));
+  let wrapper = shallow(<ProfileScreen navigation={navigation} />);
 
-  wrapper.setState({ placeTaken: "3-R-RER29" });
+  wrapper.setState({ placeTaken: "3-R-RER29", place: true });
 
   const onPressEvent = jest.fn();
 
@@ -51,6 +54,17 @@ it("renders correctly", () => {
     .first()
     .props()
     .onPress();
+
+  expect(AsyncStorage.setItem.mock.calls).to.have.length(1);
+  expect(AsyncStorage.setItem.mock.calls[0][0]).to.equal("USER");
+
+  wrapper = shallow(<ProfileScreen navigation={navigation} />);
+
+  wrapper.setState({ placeTaken: "3-R-RER29", place: true });
+
+  fetch = jest.fn(() => new Promise(resolve => resolve()));
+
+  wrapper.setState({ place: false });
 
   // expect(
   //   wrapper
@@ -82,7 +96,25 @@ it("renders correctly", () => {
     .find(ManualInsertionCard)
     .first()
     .props()
-    .onChangeText();
+    .onChangeText("");
+
+  fetch = jest.fn(() => { return { then: resolve => resolve({ status: 200 }) } });
+
+  wrapper
+    .dive()
+    .dive()
+    .find(ManualInsertionCard)
+    .first()
+    .props()
+    .onSubmitEditing();
+
+  wrapper
+    .dive()
+    .dive()
+    .find(ManualInsertionCard)
+    .first()
+    .props()
+    .onPress();
 
   wrapper
     .dive()
@@ -90,7 +122,34 @@ it("renders correctly", () => {
     .find(QRCodeComponent)
     .first()
     .props()
-    .onRead();
+    .onRead({ data: "abc"});
+
+  fetch = jest.fn(() => { return { then: resolve => resolve({ status: 400, text }) } });
+
+  const text = jest.fn(() => { return { then: () => undefined } });
+
+  wrapper
+    .dive()
+    .dive()
+    .find(LeaveButton)
+    .first()
+    .props()
+    .onPress();
+
+  expect(text.mock.calls).to.have.length(1);
+
+  const json = jest.fn(() => { return { then: f => f({ fname: "a a", name: "a" })}})
+  fetch = jest.fn(() => { return { then: resolve => resolve({ status: 500, json }) } });
+
+  await wrapper.setState({ place: "", isWrongFormatPlace: true });
+
+  wrapper
+    .dive()
+    .dive()
+    .find(QRCodeComponent)
+    .first()
+    .props()
+    .onRead({ data: "abc"});
 
   expect(
     wrapper

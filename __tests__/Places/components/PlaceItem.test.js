@@ -13,14 +13,21 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-import { View } from "react-native";
+
+import "isomorphic-fetch";
+import { expect } from "chai";
+import { TouchableOpacity } from "react-native";
 import React from "react";
+import enzyme, { shallow } from "enzyme";
+import ReactSixteenAdapter from "enzyme-adapter-react-16";
+import PlaceItem from "../../../Components/Places/PlaceItem";
 
-const ListPlaces = (props: { handleList: any, prop1: any => null }) => {
-  const { handleList, prop1 } = props;
-  return (
-    <View style={{ marginBottom: 20 }}>{handleList.map(prop1)}</View>
-  );
-};
+enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
-export default ListPlaces;
+const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
+
+it("renders correctly", () => {
+  const wrapper = shallow(<PlaceItem navigation={navigation} place={{ id: "3-R-RER29"}} />);
+
+  expect(wrapper.find(TouchableOpacity)).to.have.length(1);
+});

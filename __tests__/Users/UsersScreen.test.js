@@ -15,8 +15,8 @@ limitations under the License.
 */
 jest.useFakeTimers();
 
-import { ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
-import { FormInput, ListItem } from "react-native-elements";
+import { ScrollView, TouchableOpacity, ActivityIndicator, AsyncStorage } from "react-native";
+import { Input, ListItem } from "react-native-elements";
 import React from "react";
 import { expect } from "chai";
 import enzyme, { shallow } from "enzyme";
@@ -38,8 +38,7 @@ enzyme.configure({ adapter: new ReactSixteenAdapter() });
 
 const navigation = { navigate: jest.fn(), popToTop: jest.fn() };
 
-it("renders correctly", () => {
-  const wrapper = shallow(<UsersScreen navigation={navigation} />);
+it("renders correctly", async () => {
 
   const users = [
     {
@@ -53,9 +52,30 @@ it("renders correctly", () => {
       fname: "Test2",
       id_place: "TestID2",
       photo: ""
-    }
+    },
+    {
+      name: "Abjaiov",
+      fname: "fjeqwiop",
+      id_place: "fjqweipoj",
+      photo: ""
+    },
+    {
+      name: "Wjfieqwpo",
+      fname: "vifjqpowe",
+      id_place: "jfipeqwnic",
+      photo: ""
+    },
+    {
+      name: "Test",
+      fname: "Test B",
+      id_place: "TestIDB",
+      photo: ""
+    },
   ];
-  wrapper.setState({ arrayOfFriends: users, loading: false });
+  AsyncStorage.getItem = jest.fn((_, f) => f(null, JSON.stringify(users[0])));
+  fetch = jest.fn(() => { return { then: f => f({ json: () => { return { then: f => f(users) } } }) } });
+  const wrapper = shallow(<UsersScreen navigation={navigation} />);
+  wrapper.setState({ users, arrayOfFriends: users, loading: false });
 
   wrapper.getUsers = jest.fn();
 
@@ -65,11 +85,15 @@ it("renders correctly", () => {
 
   // Simulate onPress event on TouchableOpacity component
 
+  await wrapper.setState({friend: users});
+
   wrapper
     .find(TouchableOpacity)
     .at(0)
     .props()
     .onPress();
+
+  await wrapper.setState({friend: []});
 
   wrapper.componentDidMount = jest.fn();
 
@@ -78,7 +102,7 @@ it("renders correctly", () => {
   }
 
   wrapper
-    .find(FormInput)
+    .find(Input)
     .first()
     .props()
     .onChangeText("test");
@@ -86,13 +110,7 @@ it("renders correctly", () => {
   wrapper.setState({ users, arrayOfFriends: users, loading: false });
   expect(wrapper.state().loading).to.equal(false);
 
-  // wrapper
-  //   .find(TouchableOpacity)
-  //   .first()
-  //   .props()
-  //   .onPress();
-
-  expect(wrapper.find(ListItem)).to.have.length(2);
+  expect(wrapper.find(ListItem)).to.have.length(5);
 
   // wrapper
   //   .find(ListPlaces)
@@ -108,5 +126,42 @@ it("renders correctly", () => {
   expect(wrapper.find(ListPlaces).exists()).to.equal(true);
 
   expect(wrapper.find(ScrollView)).to.have.length(1);
-  expect(wrapper.find(TouchableOpacity)).to.have.length(3);
+  expect(wrapper.find(TouchableOpacity)).to.have.length(6);
+
+  const friend = { user: { friend: "" } };
+  fetch = jest.fn(() => { return { then: f => f({ json: () => { return { then: f => f(friend) } } }) } });
+  AsyncStorage.setItem = jest.fn();
+
+  const users2 = [{
+      name: "Test3",
+      fname: "Test3",
+      id_place: "TestID3",
+      photo: ""
+  }];
+  await wrapper.setState({ users: users2, search: "" });
+  await wrapper.setState({ loading: false, search: "" });
+  await wrapper
+    .find(ListPlaces)
+    .first()
+    .dive()
+    .find(TouchableOpacity)
+    .first()
+    .props()
+    .onPress();
+
+  expect(fetch.mock.calls).to.have.length(1);
+  expect(AsyncStorage.setItem.mock.calls).to.have.length(1);
+  expect(AsyncStorage.setItem.mock.calls[0][0]).to.equal("USER");
+
+  wrapper
+    .find(TouchableOpacity)
+    .at(1)
+    .props()
+    .onPress();
+
+  expect(fetch.mock.calls).to.have.length(2);
+  expect(AsyncStorage.setItem.mock.calls).to.have.length(2);
+  expect(AsyncStorage.setItem.mock.calls[1][0]).to.equal("USER");
+
+  wrapper.unmount();
 });

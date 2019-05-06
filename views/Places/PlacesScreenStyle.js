@@ -16,11 +16,23 @@ limitations under the License.
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  view: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    margin: 15
-  }
+  selectorContainer: {
+    elevation: 2,
+    padding: 15,
+    margin: 20,
+    marginBottom: 0,
+    borderRadius: 10,
+    shadowOpacity: 0.4,
+    shadowRadius: 2,
+    shadowColor: "#3662A0",
+    shadowOffset: { height: 1, width: 0 }
+	},
+	label: {
+		textAlign: "center",
+		fontSize: 18,
+		fontFamily: "Raleway",
+		color: "black",
+		fontWeight: "bold",
+		marginBottom: 10
+	}
 });
