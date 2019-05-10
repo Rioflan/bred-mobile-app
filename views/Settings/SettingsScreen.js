@@ -189,7 +189,7 @@ export class SettingsScreen extends Component<Props, State> {
 
   saveRemote = async () => {
     const { id, photo, remoteDay } = this.state;
-    this.setState({ loadingSave: true });
+    // this.setState({ loadingSave: true });
 
     const payload = {
       id_user: id,
@@ -197,7 +197,7 @@ export class SettingsScreen extends Component<Props, State> {
       remoteDay
     };
 
-    await fetch(`${server.address}settings_user`, {
+    fetch(`${server.address}settings_user`, {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {
