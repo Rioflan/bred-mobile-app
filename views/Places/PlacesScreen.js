@@ -18,6 +18,8 @@ limitations under the License.
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+import moment from "moment"
+
 import {
   ActivityIndicator,
   AsyncStorage,
@@ -82,18 +84,20 @@ class PlacesScreen extends React.Component<Props, State> {
     });
   }
 
+  placeIsAllowed = place => place.start_date && place.end_date && moment().isBetween(place.start_date, place.end_date)
+
   getPlaces = () => {
     this.setState({ loading: true });
     fetch(`${server.address}places/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "x-access-token": config.token
+        "authorization": `Bearer ${config.token}`
       }
     })
       .then(res => res.json())
       .then(data => {
-        const result = data.filter(place => place.using === false);
+        const result = data.filter(place => !place.using && (!place.semi_flex || this.placeIsAllowed(place)));
         this.setState({
           places: result,
           loading: false

@@ -124,7 +124,7 @@ class LoginScreen extends React.Component<Props, State> {
         body: JSON.stringify(payload),
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": config.token
+          "authorization": `Bearer ${config.token}`
         }
       })
         .then(res => {
@@ -148,6 +148,10 @@ class LoginScreen extends React.Component<Props, State> {
             });
           }
           else if (res.status === 400) {
+            this.setState({ debugField: I18n.t("login.debug") });
+            res.text().then(message => console.log(message));
+          }
+          else if (res.status === 500) {
             this.setState({ debugField: I18n.t("login.debug") });
             res.text().then(message => console.log(message));
           }

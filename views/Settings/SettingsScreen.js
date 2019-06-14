@@ -23,10 +23,12 @@ import {
   Image,
   ScrollView,
   Animated,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput,
+  TouchableOpacity
 } from "react-native";
 
-import { ButtonGroup } from "react-native-elements";
+import { ButtonGroup, Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { assoc, omit } from "ramda";
 import PhotoUpload from "react-native-photo-upload";
@@ -37,6 +39,8 @@ import { goTo } from "../../utils/utils";
 import picProfile from "../../assets/profile.png";
 import LottieView from "lottie-react-native";
 import { NavigationActions, StackActions } from "react-navigation";
+
+import moment from "moment"
 
 import styles from "./SettingsScreenStyles";
 
@@ -145,7 +149,10 @@ export class SettingsScreen extends Component<Props, State> {
       photo: "",
       arrayOfFriends: [],
       loadingSave: false,
-      progress: new Animated.Value(0)
+      progress: new Animated.Value(0),
+      userPlace: null,
+      startDate: "",
+      endDate: ""
     };
   }
 
@@ -169,7 +176,7 @@ export class SettingsScreen extends Component<Props, State> {
           method: "GET",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            "x-access-token": config.token
+            "authorization": `Bearer ${config.token}`
           }
         })
           .then(res => res.json()) // transform data to json
@@ -178,9 +185,30 @@ export class SettingsScreen extends Component<Props, State> {
               historical: data.historical,
               loadingSave: false
             });
+            this.getUserPlace(userId)
           });
       }
     });
+  }
+
+  getUserPlace = userId => {
+    fetch(`${server.address}users/${userId}/place`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "authorization": `Bearer ${config.token}`
+      }
+    })
+      .then(res => res.json()) // transform data to json
+      .then(data => {
+        console.log("data")
+        console.log(data)
+        this.setState({
+          userPlace: data,
+          startDate: moment(data.start_date).format("DD/MM/YYYY"),
+          endDate: moment(data.end_date).format("DD/MM/YYYY")
+        });
+      });
   }
 
   updateIndex = selectedIndex => {
@@ -188,13 +216,15 @@ export class SettingsScreen extends Component<Props, State> {
   };
 
   saveRemote = async () => {
-    const { id, photo, remoteDay } = this.state;
+    const { id, photo, remoteDay, startDate, endDate } = this.state;
     // this.setState({ loadingSave: true });
 
     const payload = {
       id_user: id,
       photo,
-      remoteDay
+      remoteDay,
+      startDate,
+      endDate
     };
 
     fetch(`${server.address}settings_user`, {
@@ -202,7 +232,7 @@ export class SettingsScreen extends Component<Props, State> {
       body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": config.token
+        "authorization": `Bearer ${config.token}`
       }
     })
       .then(res => res.json())
@@ -216,7 +246,7 @@ export class SettingsScreen extends Component<Props, State> {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": config.token
+          "authorization": `Bearer ${config.token}`
         }
       })
         .then(res => res.json())
@@ -239,7 +269,7 @@ export class SettingsScreen extends Component<Props, State> {
   };
 
   render() {
-    const { selectedIndex, name, fname, id, photo, loadingSave } = this.state;
+    const { selectedIndex, name, fname, id, photo, loadingSave, userPlace, startDate, endDate } = this.state;
 
     return (
       <ScrollView style={styles.scrollViewContainer}>
@@ -295,6 +325,33 @@ export class SettingsScreen extends Component<Props, State> {
             buttons={WEEK_DAYS}
           />
         </View>
+
+        { userPlace ? (
+          <View style={styles.viewContainerSemiFlex}>
+            <Text style={styles.semiFlexText}>Je suis absent.e entre</Text>
+            <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-start'}}>
+              <TextInput
+                style={styles.input}
+                underlineColorAndroid={'#DBE2EA'}
+                onChangeText={text => this.setState({ startDate: text })}
+                value={startDate}
+              />
+              <Text style={styles.regularText}>et</Text>
+              <TextInput
+                style={styles.input}
+                underlineColorAndroid={'#DBE2EA'}
+                onChangeText={text => this.setState({ endDate: text })}
+                value={endDate}
+              />
+            </View>
+            <TouchableOpacity
+              style={{ maxHeight: 40, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1094F6', marginRight: 50, marginLeft: 50, marginTop: 0, marginBottom: 2, borderRadius: 5, flex: 1 }}
+              onPress={() => this.saveRemote()}
+            >
+              <Text style={{ textAlign: 'center', textAlignVertical: 'center', alignSelf: 'center', color: 'white', fontWeight: 'bold' }}>Confirmer</Text>
+            </TouchableOpacity>
+          </View>
+        ) : null }
 
         {/* For future purpose */}
         {/* <Calendar /> */}
