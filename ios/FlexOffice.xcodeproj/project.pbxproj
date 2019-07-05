@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -17,6 +18,7 @@
 		03AA9E5B21AD4BA4002A107C /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03AA9E5A21AD4BA4002A107C /* ExternalAccessory.framework */; };
 		0C47CA34A2E045059FB3F51F /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C22B606FD90143919165F262 /* FontAwesome5_Solid.ttf */; };
 		0C851EA808054FC3B437E68C /* Raleway-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBF311DFA91A4B5A9E3B496E /* Raleway-SemiBoldItalic.ttf */; };
+		0D31581386A54DBB98DB977A /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 903AD460B1D6488094C34AB0 /* libLottie.a */; };
 		0D78ECC89B6C4ECC9DC94561 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D847DCAAC504104A0DCCACC /* libRNCamera.a */; };
 		0EFA8BA8FF4A4633A8001D83 /* Raleway-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0659B9AFFB3144EDA13AA390 /* Raleway-MediumItalic.ttf */; };
 		1194C58B9206414CA0A5AB86 /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA1563166CA4A478E12A4A7 /* Raleway-ExtraBold.ttf */; };
@@ -27,6 +29,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		155CC1B7B6BA4985AA4E62CE /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CF499487BD45ADA630AB8A /* libRNDeviceInfo.a */; };
 		1573696F20DB4DF4943B0104 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5070A6170C946D5A759E736 /* Raleway-Bold.ttf */; };
 		1A9A03AB47EF457EA017F1F3 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 470B01EF51F845518F4C70A2 /* Zocial.ttf */; };
 		1ADDB6DE801A4E09ABA95F19 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A4C6FFF00EC4BA890EC47DC /* Foundation.ttf */; };
@@ -50,6 +53,7 @@
 		679DF4B65A4544BC9C52E238 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9170F4191924A06BAF00C2C /* Octicons.ttf */; };
 		6A3366DD609947F3B8CE115D /* libUdpSockets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FBA18ACE2964ED081689839 /* libUdpSockets.a */; };
 		6C9B3D862A1A482E993B2B8E /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7A65D639B1C346978C136E94 /* FontAwesome5_Brands.ttf */; };
+		6E12BC7C1B324C74978C61FF /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEEC6749881E419EA9B9C385 /* Lottie.framework */; };
 		73EC40A0E8764DFBB0B192B8 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 671C2C8376E749538A953AFF /* libRNFS.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		83D8728CA94F4D23B69F8690 /* (null) in Resources */ = {isa = PBXBuildFile; };
@@ -62,6 +66,7 @@
 		B787839A71244FBFB9B615AC /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7897887FE9B4CD9B281932C /* FontAwesome.ttf */; };
 		BD5542B4543847F7942CF4DD /* Raleway-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F36DFA9409B4BA5AEFD6B0F /* Raleway-BoldItalic.ttf */; };
 		BDA088C865B44ADD9E9DA0F9 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 148C89ACF0904D16AB8CA8D1 /* Entypo.ttf */; };
+		C01F2E2553134597A3274E39 /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B6CCE488E54F86A26CA649 /* libLottieReactNative.a */; };
 		C5B2E1B82F7D47459B93B357 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DAB2584CDB324DE18E03F193 /* AntDesign.ttf */; };
 		D060E63289CA4F8E991433E7 /* libRNNetworkInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EE50B19FFBB493F97007BFD /* libRNNetworkInfo.a */; };
 		DCC9A5E130494B1CA9190BFF /* Raleway-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D26035C6840241EEBE4F99E5 /* Raleway-ThinItalic.ttf */; };
@@ -69,7 +74,6 @@
 		E4EAB67C4AFB4D24858BBD89 /* Raleway-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0BFCD3AB4D54C93AA6D50BF /* Raleway-BlackItalic.ttf */; };
 		F3E43FAEFBFE4FEC91F73E86 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAE1AF9A50BF40DDB1CFF946 /* SimpleLineIcons.ttf */; };
 		F760004CAAA84B998D67AF7F /* Raleway-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9CD0522F9D549A182B05C46 /* Raleway-SemiBold.ttf */; };
-		155CC1B7B6BA4985AA4E62CE /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13CF499487BD45ADA630AB8A /* libRNDeviceInfo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -472,6 +476,62 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		8721EDAB22CE3D4500D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21E94D2F698F4911B9EF1250 /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DA5891D81BA9A9FC002B4DB2;
+			remoteInfo = RNDeviceInfo;
+		};
+		8721EDAD22CE3D4500D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21E94D2F698F4911B9EF1250 /* RNDeviceInfo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E72EC1401F7ABB5A0001BC90;
+			remoteInfo = "RNDeviceInfo-tvOS";
+		};
+		8721EE1D22CE3EF900D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B7DF2E92C54746DE87220A1C /* LottieReactNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
+			remoteInfo = LottieReactNative;
+		};
+		8721EE8622CE4F8C00D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 62CA59B81E3C173B002D7188;
+			remoteInfo = Lottie_iOS;
+		};
+		8721EE8822CE4F8C00D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAE1F7E61E428CBE002E0974;
+			remoteInfo = Lottie_macOS;
+		};
+		8721EE8A22CE4F8C00D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8C5379761FB471D100C1BC65;
+			remoteInfo = Lottie_tvOS;
+		};
+		8721EE8C22CE4F8C00D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84FE12EF1E4C1485009B157C;
+			remoteInfo = LottieLibraryIOS;
+		};
+		8721EE8E22CE514C00D2D2EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6C827D74BF3742E5B8B079ED /* Lottie.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 84FE12EE1E4C1485009B157C;
+			remoteInfo = LottieLibraryIOS;
+		};
 		8760B1C021C11F9400E1E98E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6001BCED7A954CD5936161D0 /* RNFS.xcodeproj */;
@@ -557,6 +617,7 @@
 		03AA9E5A21AD4BA4002A107C /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		03AF2AC2219DB0140023762D /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		0659B9AFFB3144EDA13AA390 /* Raleway-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-MediumItalic.ttf"; path = "../assets/fonts/Raleway/Raleway-MediumItalic.ttf"; sourceTree = "<group>"; };
+		07B6CCE488E54F86A26CA649 /* libLottieReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottieReactNative.a; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* FlexOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlexOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -565,12 +626,15 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FlexOffice/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FlexOffice/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FlexOffice/main.m; sourceTree = "<group>"; };
+		13CF499487BD45ADA630AB8A /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		148C89ACF0904D16AB8CA8D1 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		1A4C6FFF00EC4BA890EC47DC /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		1CA70E21EE5E4AA0AC1E136E /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		1D72143EB4A94B3992C51696 /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
 		1E0E340D6C974DC0BF897D26 /* libTcpSockets.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libTcpSockets.a; sourceTree = "<group>"; };
+		21E94D2F698F4911B9EF1250 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		273D6091A5124ED1BC459BAD /* TcpSockets.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TcpSockets.xcodeproj; path = "../node_modules/react-native-tcp/ios/TcpSockets.xcodeproj"; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D847DCAAC504104A0DCCACC /* libRNCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCamera.a; sourceTree = "<group>"; };
@@ -634,12 +698,14 @@
 		8A4F248BB7A64641AA931361 /* libRNOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNOS.a; sourceTree = "<group>"; };
 		8D8C4368B3104306A55AAE3C /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		8FBA18ACE2964ED081689839 /* libUdpSockets.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libUdpSockets.a; sourceTree = "<group>"; };
+		903AD460B1D6488094C34AB0 /* libLottie.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottie.a; sourceTree = "<group>"; };
 		982898866FB2439AAD0AC662 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		9F36DFA9409B4BA5AEFD6B0F /* Raleway-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-BoldItalic.ttf"; path = "../assets/fonts/Raleway/Raleway-BoldItalic.ttf"; sourceTree = "<group>"; };
 		9FE73E988E88424B91602499 /* Raleway-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-ExtraLight.ttf"; path = "../assets/fonts/Raleway/Raleway-ExtraLight.ttf"; sourceTree = "<group>"; };
 		A93B55DD923F4D989F805F73 /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B620BB765F684D65A22A0F01 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		B7DF2E92C54746DE87220A1C /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
 		BDC06FD6C2274C1389CDED05 /* RNOS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNOS.xcodeproj; path = "../node_modules/react-native-os/ios/RNOS.xcodeproj"; sourceTree = "<group>"; };
 		C22B606FD90143919165F262 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		C3D6BBAB27504C98B9F9D506 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
@@ -660,8 +726,7 @@
 		F2B72C09D086479CB0179D4B /* libRNI18n.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNI18n.a; sourceTree = "<group>"; };
 		F7897887FE9B4CD9B281932C /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		F9CD0522F9D549A182B05C46 /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Raleway-SemiBold.ttf"; path = "../assets/fonts/Raleway/Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
-		21E94D2F698F4911B9EF1250 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		13CF499487BD45ADA630AB8A /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		FEEC6749881E419EA9B9C385 /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = System/Library/Frameworks/Lottie.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -697,6 +762,9 @@
 				6A3366DD609947F3B8CE115D /* libUdpSockets.a in Frameworks */,
 				73EC40A0E8764DFBB0B192B8 /* libRNFS.a in Frameworks */,
 				155CC1B7B6BA4985AA4E62CE /* libRNDeviceInfo.a in Frameworks */,
+				C01F2E2553134597A3274E39 /* libLottieReactNative.a in Frameworks */,
+				6E12BC7C1B324C74978C61FF /* Lottie.framework in Frameworks */,
+				0D31581386A54DBB98DB977A /* libLottie.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,6 +917,10 @@
 				1E0E340D6C974DC0BF897D26 /* libTcpSockets.a */,
 				8FBA18ACE2964ED081689839 /* libUdpSockets.a */,
 				671C2C8376E749538A953AFF /* libRNFS.a */,
+				13CF499487BD45ADA630AB8A /* libRNDeviceInfo.a */,
+				07B6CCE488E54F86A26CA649 /* libLottieReactNative.a */,
+				FEEC6749881E419EA9B9C385 /* Lottie.framework */,
+				903AD460B1D6488094C34AB0 /* libLottie.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1049,6 +1121,8 @@
 				6001BCED7A954CD5936161D0 /* RNFS.xcodeproj */,
 				5695473D81C8464F90A5F971 /* BVLinearGradient.xcodeproj */,
 				21E94D2F698F4911B9EF1250 /* RNDeviceInfo.xcodeproj */,
+				B7DF2E92C54746DE87220A1C /* LottieReactNative.xcodeproj */,
+				24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1083,6 +1157,34 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* FlexOffice.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8721ED8B22CE3D4400D2D2EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8721EDAC22CE3D4500D2D2EC /* libRNDeviceInfo.a */,
+				8721EDAE22CE3D4500D2D2EC /* libRNDeviceInfo-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8721EE1A22CE3EF900D2D2EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8721EE1E22CE3EF900D2D2EC /* libLottieReactNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8721EE8022CE4F8B00D2D2EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8721EE8722CE4F8C00D2D2EC /* Lottie.framework */,
+				8721EE8922CE4F8C00D2D2EC /* Lottie.framework */,
+				8721EE8B22CE4F8C00D2D2EC /* Lottie.framework */,
+				8721EE8D22CE4F8C00D2D2EC /* libLottie.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1204,6 +1306,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				8721EE8F22CE514C00D2D2EC /* PBXTargetDependency */,
 				879C1CF521EB6F4900878366 /* PBXTargetDependency */,
 				877B5C6421E906DE00DDDE73 /* PBXTargetDependency */,
 			);
@@ -1260,8 +1363,16 @@
 					ProjectRef = 6C827D74BF3742E5B8B079ED /* Lottie.xcodeproj */;
 				},
 				{
+					ProductGroup = 8721EE8022CE4F8B00D2D2EC /* Products */;
+					ProjectRef = 24F8460E0CCE4F54B92B0325 /* Lottie.xcodeproj */;
+				},
+				{
 					ProductGroup = 0339CAD921E8D0180008E8F6 /* Products */;
 					ProjectRef = A93B55DD923F4D989F805F73 /* LottieReactNative.xcodeproj */;
+				},
+				{
+					ProductGroup = 8721EE1A22CE3EF900D2D2EC /* Products */;
+					ProjectRef = B7DF2E92C54746DE87220A1C /* LottieReactNative.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -1330,6 +1441,10 @@
 				{
 					ProductGroup = 03B10E2B219B0FEB00AF0893 /* Products */;
 					ProjectRef = D005D640A71148F6A8206529 /* RNCamera.xcodeproj */;
+				},
+				{
+					ProductGroup = 8721ED8B22CE3D4400D2D2EC /* Products */;
+					ProjectRef = 21E94D2F698F4911B9EF1250 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
 					ProductGroup = 8760B1BC21C11F9400E1E98E /* Products */;
@@ -1771,6 +1886,55 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8721EDAC22CE3D4500D2D2EC /* libRNDeviceInfo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNDeviceInfo.a;
+			remoteRef = 8721EDAB22CE3D4500D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8721EDAE22CE3D4500D2D2EC /* libRNDeviceInfo-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNDeviceInfo-tvOS.a";
+			remoteRef = 8721EDAD22CE3D4500D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8721EE1E22CE3EF900D2D2EC /* libLottieReactNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottieReactNative.a;
+			remoteRef = 8721EE1D22CE3EF900D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8721EE8722CE4F8C00D2D2EC /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = 8721EE8622CE4F8C00D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8721EE8922CE4F8C00D2D2EC /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = 8721EE8822CE4F8C00D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8721EE8B22CE4F8C00D2D2EC /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = 8721EE8A22CE4F8C00D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8721EE8D22CE4F8C00D2D2EC /* libLottie.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottie.a;
+			remoteRef = 8721EE8C22CE4F8C00D2D2EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8760B1C121C11F9400E1E98E /* libRNFS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1904,6 +2068,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8721EE8F22CE514C00D2D2EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LottieLibraryIOS;
+			targetProxy = 8721EE8E22CE514C00D2D2EC /* PBXContainerItemProxy */;
+		};
 		877B5C6421E906DE00DDDE73 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LottieReactNative;
@@ -1922,7 +2091,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FlexOffice/FlexOffice.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Can ATAC (93Z9872VR9)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1944,9 +2113,18 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 				);
 				INFOPLIST_FILE = FlexOffice/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlexOffice\"",
+					"\"$(SRCROOT)/FlexOffice\"",
+					"\"$(SRCROOT)/FlexOffice/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/FlexOffice\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1954,12 +2132,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.bredfactory.flexoffice;
 				PRODUCT_NAME = FlexOffice;
-				PROVISIONING_PROFILE_SPECIFIER = FlexOffice_Profile;
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc fr.bredfactory.flexoffice";
 				VERSIONING_SYSTEM = "apple-generic";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/FlexOffice\"",
-				);
 			};
 			name = Debug;
 		};
@@ -1968,7 +2142,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FlexOffice/FlexOffice.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Can ATAC (E449Q2SF5F)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E449Q2SF5F;
@@ -1989,9 +2163,18 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 				);
 				INFOPLIST_FILE = FlexOffice/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlexOffice\"",
+					"\"$(SRCROOT)/FlexOffice\"",
+					"\"$(SRCROOT)/FlexOffice/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/FlexOffice\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1999,12 +2182,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fr.bredfactory.flexoffice;
 				PRODUCT_NAME = FlexOffice;
-				PROVISIONING_PROFILE_SPECIFIER = BredFactory_Store;
+				PROVISIONING_PROFILE_SPECIFIER = "match AdHoc fr.bredfactory.flexoffice";
 				VERSIONING_SYSTEM = "apple-generic";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/FlexOffice\"",
-				);
 			};
 			name = Release;
 		};
@@ -2066,7 +2245,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
