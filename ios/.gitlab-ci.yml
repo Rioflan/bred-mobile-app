@@ -1,0 +1,20 @@
+stages:
+  - appaloosa_build
+
+variables:
+  LC_ALL: "en_US.UTF-8"
+  LANG: "en_US.UTF-8"
+
+before_script:
+  - gem install bundler
+  - bundle install
+
+appaloosa_build:
+  dependencies: []
+  stage: appaloosa
+  script:
+    - fastlane beta
+  tags:
+    - ios
+  only:
+     - master
