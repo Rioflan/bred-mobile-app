@@ -1,8 +1,4 @@
-# Uncomment the line if you want fastlane to automatically update itself
-#update_fastlane
-
 fastlane_require 'dotenv'
-puts "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
 
 #default_platform(:ios)
 puts "GET Devices in #{ENV['ios_project_home']}/fastlane/devices.txt"
@@ -15,9 +11,8 @@ lane :beta do
   # After registering the new devices, we'll make sure to update the provisioning profile if necessary
   # Note how we make sure to pass "adhoc" to get and use a provisioning profile for Ad Hoc distribution
     sync_code_signing(force_for_new_devices: true, type: "adhoc")
-  #build_app
-  build_app(
-    xcargs: "-UseModernBuildSystem=NO"
-  )
-  # ...
+  
+    build_app(
+      xcargs: "-UseModernBuildSystem=NO"
+    )
 end
