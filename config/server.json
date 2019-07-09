@@ -1,0 +1,4 @@
+{
+  "address": $API_ADDRESS,
+  "sockets": $SOCKETS_URL
+}
