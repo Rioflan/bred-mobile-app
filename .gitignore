@@ -1,6 +1,6 @@
 # Security
-config/
-archive/
+config/*
+archive/*
 
 # OSX
 .DS_Store
