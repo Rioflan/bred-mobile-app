@@ -1,0 +1,18 @@
+fastlane_require 'dotenv'
+
+#default_platform(:ios)
+puts "GET Devices in #{ENV['ios_project_home']}/fastlane/devices.txt"
+
+lane :beta do
+  #  puts "GET Devices in  `#{ENV['ios_project_home']/fastlane/devices.txt}`"
+  # Before calling match, we make sure all our devices are registered on the Apple Developer Portal
+  register_devices(devices_file: "#{ENV['ios_project_home']}/fastlane/devices.txt")
+
+  # After registering the new devices, we'll make sure to update the provisioning profile if necessary
+  # Note how we make sure to pass "adhoc" to get and use a provisioning profile for Ad Hoc distribution
+    sync_code_signing(force_for_new_devices: true, type: "adhoc")
+  
+    build_app(
+      xcargs: "-UseModernBuildSystem=NO"
+    )
+end

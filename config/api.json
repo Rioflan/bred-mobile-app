@@ -1,0 +1,6 @@
+{
+    "email": $FLEX_EMAIL,
+    "password": $FLEX_PASSWORD,
+    "token": $FLEX_TOKEN,
+    "_id": $FLEX_ID
+}

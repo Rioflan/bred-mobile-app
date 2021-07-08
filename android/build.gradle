@@ -30,21 +30,29 @@ allprojects {
     }
 }
 
- subprojects {
-  project.configurations.all {
-     resolutionStrategy.eachDependency { details ->
-        if (details.requested.group == 'com.android.support'
-              && !details.requested.name.contains('multidex') ) {
-           details.useVersion "26.1.0"
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex') ) {
+                details.useVersion "26.1.0"
+            }
         }
+    }
+    afterEvaluate { 
+         project -> if (project.hasProperty("android")) { 
+             android { 
+                compileSdkVersion 28 
+                buildToolsVersion "26.1.0"
+             } 
+         } 
      }
-  }
-}   
+} 
 
 ext {
     buildToolsVersion = "26.0.3"
     minSdkVersion = 16
-    compileSdkVersion = 26
+    compileSdkVersion = 28
     targetSdkVersion = 26
     supportLibVersion = "26.1.0"
 }
